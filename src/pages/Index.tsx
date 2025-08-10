@@ -46,7 +46,7 @@ const Index = () => {
               <p className="text-muted-foreground mt-1">Escoge lo que acelera tu crecimiento hoy.</p>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="hero" size="xl">Quiero closers elite AHORA</Button>
+              <a href="/solicitud"><Button variant="hero" size="xl">Quiero closers elite AHORA</Button></a>
               <a href="/calculadora" className="story-link text-sm text-muted-foreground">Prefiero seguir quemando cash en nómina</a>
             </div>
           </div>
