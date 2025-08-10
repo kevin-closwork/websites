@@ -46,8 +46,8 @@ const Index = () => {
               <p className="text-muted-foreground mt-1">Escoge lo que acelera tu crecimiento hoy.</p>
             </div>
             <div className="flex items-center gap-4">
-              <a href="/solicitud"><Button variant="hero" size="xl">Quiero closers elite AHORA</Button></a>
-              <a href="/calculadora" className="story-link text-sm text-muted-foreground">Prefiero seguir quemando cash en nómina</a>
+              <a href="/solicitud?type=empresa"><Button variant="hero" size="xl">Soy Empresa</Button></a>
+              <a href="/solicitud?type=closer"><Button variant="neon" size="xl">Soy Closer</Button></a>
             </div>
           </div>
           <div className="mt-10">
@@ -55,6 +55,19 @@ const Index = () => {
           </div>
         </section>
       </main>
+
+      {/* Sticky dual-CTA for conversion */}
+      <div className="fixed inset-x-0 bottom-4 z-40">
+        <div className="container">
+          <div className="mx-auto max-w-3xl rounded-xl bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border border-border shadow-glow p-3 flex items-center justify-between gap-3">
+            <span className="text-sm hidden sm:inline text-muted-foreground">Activa tu crecimiento:</span>
+            <div className="flex items-center gap-3">
+              <a href="/solicitud?type=empresa"><Button variant="hero" size="lg">Empresa</Button></a>
+              <a href="/solicitud?type=closer"><Button variant="neon" size="lg">Closer</Button></a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <footer className="border-t border-border py-10">
         <div className="container text-center text-sm text-muted-foreground">

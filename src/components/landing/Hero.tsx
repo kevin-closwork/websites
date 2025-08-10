@@ -36,9 +36,16 @@ const Hero = () => {
             Closwork conecta tu empresa con closers elite que solo cobran por resultados. Punto.
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <Button variant="hero" size="xl" className="hover-scale" aria-label="Activar ventas B2B sin riesgos">
-              Activar mi botón mágico
-            </Button>
+            <a href="/solicitud?type=empresa">
+              <Button variant="hero" size="xl" className="hover-scale" aria-label="Soy empresa: activar ventas B2B sin riesgos">
+                Soy Empresa
+              </Button>
+            </a>
+            <a href="/solicitud?type=closer">
+              <Button variant="neon" size="xl" className="hover-scale" aria-label="Soy closer: unirme a la elite de Closwork">
+                Soy Closer
+              </Button>
+            </a>
             <span className="text-sm text-muted-foreground">Sin salarios. Sin riesgos. Solo cierres.</span>
           </div>
           <div className="mt-10">

@@ -12,6 +12,7 @@ const Solicitud = () => {
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const email = params.get("email") || "";
   const success = params.get("success") === "1" || params.get("submitted") === "1";
+  const initialTab = params.get("type") === "closer" ? "closer" : "empresa";
 
   const share = async () => {
     const url = `${window.location.origin}/?ref=${encodeURIComponent(email || "vip")}`;
@@ -51,7 +52,7 @@ const Solicitud = () => {
             <p className="text-muted-foreground mt-1">Elige tu camino y completa el formulario. Toma 2 minutos.</p>
           </header>
 
-          <Tabs defaultValue="empresa" className="w-full">
+          <Tabs defaultValue={initialTab} className="w-full">
             <TabsList className="grid grid-cols-2 w-full max-w-md">
               <TabsTrigger value="empresa">Empresas</TabsTrigger>
               <TabsTrigger value="closer">Closers</TabsTrigger>
