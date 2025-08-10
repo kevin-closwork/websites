@@ -20,7 +20,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         // Custom beautiful variants using our design tokens
         hero:
-          "bg-gradient-to-r from-brand to-neon text-foreground shadow-glow hover:opacity-90 animate-heartbeat",
+          "bg-gradient-to-r from-brand to-neon text-primary-foreground shadow-glow hover:opacity-90 animate-heartbeat",
         neon:
           "bg-transparent border border-neon/40 text-foreground hover:bg-neon/10 hover:border-neon"
       },

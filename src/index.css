@@ -2,62 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System — all tokens live here. All colors are HSL. */
+/* Design System — startup friendly palette (light by default). All colors are HSL. */
 
 @layer base {
   :root {
-    /* Core Surfaces */
-    --background: 240 10% 6%; /* matte black */
-    --foreground: 210 40% 96%;
+    /* Core Surfaces (light) */
+    --background: 210 20% 98%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    --card: 240 8% 8%;
-    --card-foreground: 210 40% 96%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
     /* Brand */
-    --brand: 262 48% 52%; /* #6B46C1 */
-    --neon: 152 100% 50%; /* #00FF88 */
+    --brand: 254 85% 60%; /* vibrant indigo */
+    --neon: 162 72% 45%; /* friendly teal */
 
     --primary: var(--brand);
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 240 8% 12%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 240 8% 18%;
-    --muted-foreground: 215 20% 70%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
     --accent: var(--neon);
-    --accent-foreground: 240 10% 6%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: var(--neon);
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: var(--brand);
 
     --radius: 0.75rem;
 
     /* Sidebar (kept for components that use it) */
-    --sidebar-background: 240 10% 6%;
-    --sidebar-foreground: 210 40% 96%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 222.2 47.4% 11.2%;
     --sidebar-primary: var(--brand);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 8% 12%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 240 6% 20%;
-    --sidebar-ring: var(--neon);
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: var(--brand);
 
     /* Effects */
-    --shadow-glow: 0 0 40px hsl(var(--neon) / 0.4), 0 0 10px hsl(var(--brand) / 0.3);
+    --shadow-glow: 0 0 30px hsl(var(--brand) / 0.25), 0 0 10px hsl(var(--neon) / 0.25);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    /* Keep parity for explicit dark mode if used */
+    /* Dark parity */
     --background: 240 10% 6%;
     --foreground: 210 40% 96%;
 
@@ -70,11 +70,11 @@
     --primary: var(--brand);
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 240 8% 12%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 8% 18%;
-    --muted-foreground: 215 20% 70%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
     --accent: var(--neon);
     --accent-foreground: 240 10% 6%;
@@ -82,9 +82,9 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: var(--neon);
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: var(--brand);
   }
 }
 
@@ -100,41 +100,23 @@
 
 /* Utilities and component helpers powered by tokens */
 @layer utilities {
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
 
   /* Underline animation for links */
-  .story-link {
-    position: relative;
-    display: inline-block;
-  }
+  .story-link { position: relative; display: inline-block; }
   .story-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 2px;
-    width: 100%;
-    background: hsl(var(--primary));
-    transform-origin: bottom right;
-    transform: scaleX(0);
+    content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+    background: hsl(var(--primary)); transform-origin: bottom right; transform: scaleX(0);
     transition: transform 300ms ease;
   }
-  .story-link:hover::after {
-    transform-origin: bottom left;
-    transform: scaleX(1);
-  }
+  .story-link:hover::after { transform-origin: bottom left; transform: scaleX(1); }
 
-  .hover-scale {
-    transition: transform 200ms ease;
-  }
+  .hover-scale { transition: transform 200ms ease; }
   .hover-scale:hover { transform: scale(1.05); }
 
   /* Signature interaction — reactive radial light following pointer */
   .hero-interactive {
-    --mx: 50%;
-    --my: 50%;
-    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--brand) / 0.12), transparent 60%);
+    --mx: 50%; --my: 50%;
+    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--brand) / 0.10), transparent 60%);
   }
 }
