@@ -36,6 +36,7 @@ const Index = () => {
         <PainPoints />
         <ModelComparison />
         <LiveMarketplace />
+        {/* Animación de matchmaking ya incluida en LiveMarketplace */}
         <WhatsAppTestimonials />
         <FounderTruth />
         <SimpleSteps />

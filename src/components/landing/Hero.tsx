@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useRef, useState } from "react";
 import LiveRevenueCounter from "./LiveRevenueCounter";
+import { ShieldCheck, Users, Zap } from "lucide-react";
 
 const Hero = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -48,12 +49,22 @@ const Hero = () => {
             </a>
             <span className="text-sm text-muted-foreground">Sin salarios. Sin riesgos. Solo cierres.</span>
           </div>
+          {/* Trust badges */}
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2"><ShieldCheck size={16} className="text-brand" /> Sin salarios ni riesgos</span>
+            <span className="inline-flex items-center gap-2"><Users size={16} className="text-brand" /> Closers verificados</span>
+            <span className="inline-flex items-center gap-2"><Zap size={16} className="text-brand" /> Go-live en 14 días</span>
+          </div>
+
           <div className="mt-10">
             <LiveRevenueCounter />
           </div>
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-brand/20 blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-primary/10 blur-3xl" />
+      </div>
     </header>
   );
 };
