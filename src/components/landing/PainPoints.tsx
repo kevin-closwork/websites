@@ -7,7 +7,7 @@ const items = [
     Icon: Calendar,
   },
   {
-    title: "$30K USD mensuales sin garantía de resultados",
+    title: "Hasta $10K USD mensuales sin garantía de resultados",
     desc: "Nómina, comisiones, herramientas, management.",
     Icon: DollarSign,
   },
