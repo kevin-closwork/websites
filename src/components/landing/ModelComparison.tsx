@@ -6,6 +6,7 @@ const ModelComparison = () => (
         <ol className="mt-4 space-y-2 text-sm text-muted-foreground list-decimal list-inside">
           <li>Empresa → Busca → Contrata → Paga → Espera resultados</li>
           <li>Riesgo financiero alto y time-to-first-sale impredecible</li>
+          <li>Costos de implementación de $1,000 a $5,000 USD por closer</li>
         </ol>
       </article>
       <article className="rounded-xl border border-border bg-card/60 p-6 backdrop-blur">
