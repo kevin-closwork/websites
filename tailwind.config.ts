@@ -112,6 +112,11 @@ export default {
 					'stepPulse': {
 						'0%, 66.66%, 100%': { backgroundColor: 'hsl(var(--card) / 0.6)' },
 						'33.33%': { backgroundColor: 'hsl(var(--brand) / 0.2)' }
+					},
+					// Subtle bounce animation
+					'bounce-subtle': {
+						'0%, 100%': { transform: 'translateY(0) scale(1.05)' },
+						'50%': { transform: 'translateY(-5px) scale(1.05)' }
 					}
 				},
 				animation: {
@@ -128,7 +133,8 @@ export default {
 					heartbeat: 'heartbeat 1.6s ease-in-out infinite',
 					'tech-pulse': 'tech-pulse 3s ease-in-out infinite',
 					'float': 'float 6s ease-in-out infinite',
-					'stepPulse': 'stepPulse 3s ease-in-out infinite'
+					'stepPulse': 'stepPulse 3s ease-in-out infinite',
+					'bounce-subtle': 'bounce-subtle 4s ease-in-out infinite'
 				},
 				animationDelay: {
 					'1000': '1s',
