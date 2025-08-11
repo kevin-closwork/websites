@@ -62,12 +62,13 @@ export default {
 						border: 'hsl(var(--sidebar-border))',
 						ring: 'hsl(var(--sidebar-ring))'
 					},
-					// Extended brand palette for clean aesthetics
-					'ocean-blue': 'hsl(var(--ocean-blue))',
-					'sage-green': 'hsl(var(--sage-green))',
-					'warm-slate': 'hsl(var(--warm-slate))',
-					'soft-amber': 'hsl(var(--soft-amber))',
-					'dusty-rose': 'hsl(var(--dusty-rose))'
+					// Extended brand palette for tech startup
+					'tech-blue': 'hsl(var(--tech-blue))',
+					'startup-yellow': 'hsl(var(--startup-yellow))',
+					'electric-blue': 'hsl(var(--electric-blue))',
+					'cyber-yellow': 'hsl(var(--cyber-yellow))',
+					'innovation-blue': 'hsl(var(--innovation-blue))',
+					'brand': 'hsl(var(--brand))'
 				},
 				borderRadius: {
 					lg: 'var(--radius)',
@@ -94,6 +95,16 @@ export default {
 						'28%': { transform: 'scale(1)' },
 						'42%': { transform: 'scale(1.06)' },
 						'70%': { transform: 'scale(1)' }
+					},
+					// Tech pulse
+					'tech-pulse': {
+						'0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+						'50%': { opacity: '0.8', transform: 'scale(1.1)' }
+					},
+					// Float animation
+					'float': {
+						'0%, 100%': { transform: 'translateY(0px)' },
+						'50%': { transform: 'translateY(-20px)' }
 					}
 				},
 				animation: {
@@ -107,7 +118,9 @@ export default {
 					'slide-out-right': 'slide-out-right 0.3s ease-out',
 					'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
 					'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
-					heartbeat: 'heartbeat 1.6s ease-in-out infinite'
+					heartbeat: 'heartbeat 1.6s ease-in-out infinite',
+					'tech-pulse': 'tech-pulse 3s ease-in-out infinite',
+					'float': 'float 6s ease-in-out infinite'
 				}
 			}
 
