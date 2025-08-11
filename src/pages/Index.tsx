@@ -57,7 +57,7 @@ const Index = () => {
       <div className="fixed inset-x-0 bottom-4 z-40">
         <div className="container">
           <div className="mx-auto max-w-3xl rounded-xl bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border border-border shadow-glow p-3 flex items-center justify-between gap-3">
-            <span className="text-sm hidden sm:inline text-muted-foreground">Activa tu crecimiento:</span>
+            <span className="text-sm hidden sm:inline text-muted-foreground">Elige tu camino en closwork:</span>
             <div className="flex items-center gap-3">
               <a href="/solicitud?type=empresa"><Button variant="success" size="lg">Empresa</Button></a>
               <a href="/solicitud?type=closer"><Button variant="tech" size="lg">Closer</Button></a>
