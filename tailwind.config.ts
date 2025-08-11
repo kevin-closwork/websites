@@ -62,9 +62,12 @@ export default {
 						border: 'hsl(var(--sidebar-border))',
 						ring: 'hsl(var(--sidebar-ring))'
 					},
-					// Brand tokens
-					brand: 'hsl(var(--brand))',
-					neon: 'hsl(var(--neon))'
+					// Extended brand palette for sales energy
+					'electric-green': 'hsl(var(--electric-green))',
+					'tech-blue': 'hsl(var(--tech-blue))',
+					'disrupt-purple': 'hsl(var(--disrupt-purple))',
+					'energy-orange': 'hsl(var(--energy-orange))',
+					'neon-cyan': 'hsl(var(--neon-cyan))'
 				},
 				borderRadius: {
 					lg: 'var(--radius)',

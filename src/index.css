@@ -2,89 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System — startup friendly palette (light by default). All colors are HSL. */
+/* Design System — Sales Tech Disruptive Palette (bright & energetic). All colors are HSL. */
 
 @layer base {
   :root {
-    /* Core Surfaces (light) */
-    --background: 210 20% 98%;
-    --foreground: 222.2 47.4% 11.2%;
+    /* Core Surfaces (bright & clean) */
+    --background: 0 0% 99%;
+    --foreground: 210 22% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 210 22% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 22% 15%;
 
-    /* Brand */
-    --brand: 254 85% 60%; /* vibrant indigo */
-    --neon: 162 72% 45%; /* friendly teal */
+    /* Brand Palette - Electric Sales Energy */
+    --electric-green: 142 76% 42%;    /* Vibrant green for growth/money/success */
+    --tech-blue: 214 95% 58%;         /* Bright tech blue for trust/innovation */
+    --disrupt-purple: 271 81% 56%;    /* Electric purple for disruption */
+    --energy-orange: 25 95% 55%;      /* Energetic orange for dynamism */
+    --neon-cyan: 186 100% 45%;        /* Neon cyan for tech edge */
 
-    --primary: var(--brand);
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--electric-green);
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 214 95% 96%;
+    --secondary-foreground: 210 22% 15%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 95%;
+    --muted-foreground: 215 20% 50%;
 
-    --accent: var(--neon);
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--tech-blue);
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: var(--brand);
+    --border: 214 32% 89%;
+    --input: 214 32% 91%;
+    --ring: var(--electric-green);
 
     --radius: 0.75rem;
 
     /* Sidebar (kept for components that use it) */
-    --sidebar-background: 210 20% 98%;
-    --sidebar-foreground: 222.2 47.4% 11.2%;
-    --sidebar-primary: var(--brand);
+    --sidebar-background: 0 0% 99%;
+    --sidebar-foreground: 210 22% 15%;
+    --sidebar-primary: var(--electric-green);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
-    --sidebar-border: 214.3 31.8% 91.4%;
-    --sidebar-ring: var(--brand);
+    --sidebar-accent: 210 40% 95%;
+    --sidebar-accent-foreground: 210 22% 15%;
+    --sidebar-border: 214 32% 89%;
+    --sidebar-ring: var(--electric-green);
 
-    /* Effects */
-    --shadow-glow: 0 0 30px hsl(var(--brand) / 0.25), 0 0 10px hsl(var(--neon) / 0.25);
+    /* Gradients - Sales Power */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--electric-green)), hsl(var(--tech-blue)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--electric-green)), hsl(var(--neon-cyan)));
+    --gradient-energy: linear-gradient(135deg, hsl(var(--energy-orange)), hsl(var(--disrupt-purple)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--electric-green) / 0.1), hsl(var(--tech-blue) / 0.05));
+
+    /* Effects - High-Impact Shadows */
+    --shadow-glow: 0 0 40px hsl(var(--electric-green) / 0.3), 0 0 15px hsl(var(--tech-blue) / 0.2);
+    --shadow-success: 0 10px 25px -5px hsl(var(--electric-green) / 0.4);
+    --shadow-energy: 0 10px 25px -5px hsl(var(--energy-orange) / 0.4);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    /* Dark parity */
-    --background: 240 10% 6%;
+    /* Dark mode with bright accents */
+    --background: 224 15% 8%;
     --foreground: 210 40% 96%;
 
-    --card: 240 8% 8%;
+    --card: 224 15% 10%;
     --card-foreground: 210 40% 96%;
 
-    --popover: 240 8% 8%;
+    --popover: 224 15% 10%;
     --popover-foreground: 210 40% 96%;
 
-    --primary: var(--brand);
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--electric-green);
+    --primary-foreground: 224 15% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 217 33% 18%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: var(--neon);
-    --accent-foreground: 240 10% 6%;
+    --accent: var(--tech-blue);
+    --accent-foreground: 224 15% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 85% 65%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: var(--brand);
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: var(--electric-green);
   }
 }
 
@@ -98,15 +109,23 @@
   }
 }
 
-/* Utilities and component helpers powered by tokens */
+/* Utilities and component helpers powered by new energy palette */
 @layer utilities {
   .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-success { box-shadow: var(--shadow-success); }
+  .shadow-energy { box-shadow: var(--shadow-energy); }
+
+  /* Gradient utilities */
+  .bg-gradient-primary { background: var(--gradient-primary); }
+  .bg-gradient-success { background: var(--gradient-success); }
+  .bg-gradient-energy { background: var(--gradient-energy); }
+  .bg-gradient-hero { background: var(--gradient-hero); }
 
   /* Underline animation for links */
   .story-link { position: relative; display: inline-block; }
   .story-link::after {
     content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
-    background: hsl(var(--primary)); transform-origin: bottom right; transform: scaleX(0);
+    background: hsl(var(--electric-green)); transform-origin: bottom right; transform: scaleX(0);
     transition: transform 300ms ease;
   }
   .story-link:hover::after { transform-origin: bottom left; transform: scaleX(1); }
@@ -117,6 +136,6 @@
   /* Signature interaction — reactive radial light following pointer */
   .hero-interactive {
     --mx: 50%; --my: 50%;
-    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--brand) / 0.10), transparent 60%);
+    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--electric-green) / 0.08), hsl(var(--tech-blue) / 0.03), transparent 60%);
   }
 }
