@@ -37,7 +37,7 @@ const Hero = () => {
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
             Closwork conecta tu empresa con closers elite que solo cobran por resultados. Punto.
           </p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#27f711]">
             <a href="/solicitud?type=empresa">
               <Button variant="hero" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale text-slate-50 bg-gray-900 hover:bg-gray-800">
                 Soy Empresa
