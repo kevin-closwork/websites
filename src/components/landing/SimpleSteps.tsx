@@ -14,7 +14,7 @@ const steps = [{
 const SimpleSteps = () => <section className="container py-16">
     <h2 className="text-3xl font-bold text-center mb-12">Así de simple es Closwork</h2>
     <div className="grid md:grid-cols-3 gap-6">
-      {steps.map(s => <article key={s.n} className="rounded-xl border border-border bg-card/60 p-6 backdrop-blur">
+      {steps.map(s => <article key={s.n} className={`rounded-xl border border-border bg-card/60 p-6 backdrop-blur animate-stepPulse ${s.n === 2 ? '[animation-delay:1s]' : s.n === 3 ? '[animation-delay:2s]' : ''}`} style={s.n === 2 ? {animationDelay: '1s'} : s.n === 3 ? {animationDelay: '2s'} : {}}>
           <div className="text-neon text-3xl font-extrabold">{s.n}</div>
           <h4 className="mt-2 text-lg font-semibold">{s.t}</h4>
           <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>

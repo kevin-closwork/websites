@@ -107,6 +107,11 @@ export default {
 					'float': {
 						'0%, 100%': { transform: 'translateY(0px)' },
 						'50%': { transform: 'translateY(-20px)' }
+					},
+					// Step pulse animation
+					'stepPulse': {
+						'0%, 66.66%, 100%': { backgroundColor: 'hsl(var(--card) / 0.6)' },
+						'33.33%': { backgroundColor: 'hsl(var(--brand) / 0.2)' }
 					}
 				},
 				animation: {
@@ -122,7 +127,12 @@ export default {
 					'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
 					heartbeat: 'heartbeat 1.6s ease-in-out infinite',
 					'tech-pulse': 'tech-pulse 3s ease-in-out infinite',
-					'float': 'float 6s ease-in-out infinite'
+					'float': 'float 6s ease-in-out infinite',
+					'stepPulse': 'stepPulse 3s ease-in-out infinite'
+				},
+				animationDelay: {
+					'1000': '1s',
+					'2000': '2s'
 				}
 			}
 
