@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useRef, useState } from "react";
 import LiveRevenueCounter from "./LiveRevenueCounter";
 import { ShieldCheck, Users, Zap } from "lucide-react";
+import closworkLogo from "@/assets/closwork-logo.png";
 
 const Hero = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -29,7 +30,9 @@ const Hero = () => {
     <header ref={ref} style={style} className="relative overflow-hidden hero-interactive">
       <div className="container mx-auto py-24 md:py-28 lg:py-32">
         <div className="max-w-3xl">
-          <p className="text-sm tracking-widest uppercase text-muted-foreground mb-4">Closwork</p>
+          <div className="mb-6">
+            <img src={closworkLogo} alt="Closwork" className="h-12 md:h-16 object-contain" />
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
             ¿Y si existiera un botón que activara ventas B2B sin riesgos?
           </h1>
