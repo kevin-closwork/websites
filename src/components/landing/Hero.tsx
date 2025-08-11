@@ -39,22 +39,22 @@ const Hero = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-in">
             <a href="/solicitud?type=empresa">
-              <Button variant="success" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale animate-pulse">
+              <Button variant="success" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale">
                 Soy Empresa
               </Button>
             </a>
             <a href="/solicitud?type=closer">
-              <Button variant="tech" size="xl" aria-label="Soy closer: unirme a la elite de Closwork" className="hover-scale animate-pulse">
+              <Button variant="tech" size="xl" aria-label="Soy closer: unirme a la elite de Closwork" className="hover-scale">
                 Soy Closer
               </Button>
             </a>
-            <span className="text-sm text-muted-foreground animate-fade-in">Sin salarios. Sin riesgos. Solo cierres.</span>
+            <span className="text-sm text-muted-foreground animate-fade-in float-animation">Sin salarios. Sin riesgos. Solo cierres.</span>
           </div>
           {/* Trust badges */}
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground animate-fade-in">
-            <span className="inline-flex items-center gap-2 animate-pulse"><ShieldCheck size={16} className="text-brand animate-tech-pulse" /> Sin salarios ni riesgos</span>
-            <span className="inline-flex items-center gap-2 animate-pulse"><Users size={16} className="text-brand animate-tech-pulse" /> Closers verificados</span>
-            <span className="inline-flex items-center gap-2 animate-pulse"><Zap size={16} className="text-brand animate-tech-pulse" /> Go-live en 14 días</span>
+            <span className="inline-flex items-center gap-2 float-animation"><ShieldCheck size={16} className="text-brand animate-tech-pulse" /> Sin salarios ni riesgos</span>
+            <span className="inline-flex items-center gap-2 float-animation" style={{ animationDelay: '0.5s' }}><Users size={16} className="text-brand animate-tech-pulse" /> Closers verificados</span>
+            <span className="inline-flex items-center gap-2 float-animation" style={{ animationDelay: '1s' }}><Zap size={16} className="text-brand animate-tech-pulse" /> Go-live en 14 días</span>
           </div>
 
           <div className="mt-10">
