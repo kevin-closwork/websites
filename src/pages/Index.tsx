@@ -7,12 +7,10 @@ import LiveMarketplace from "@/components/landing/LiveMarketplace";
 import SimpleSteps from "@/components/landing/SimpleSteps";
 import MinimalForm from "@/components/landing/MinimalForm";
 import { Button } from "@/components/ui/button";
-
 const Index = () => {
   const title = "Closwork: Ventas B2B sin riesgo (paga por cierre)";
   const description = "Activa ventas B2B sin nómina. Closers elite que cobran solo por resultados. Tu primer deal en 14 días.";
-  return (
-    <div>
+  return <div>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -24,7 +22,7 @@ const Index = () => {
           "@type": "Organization",
           name: "Closwork",
           url: "/",
-          description,
+          description
         })}</script>
       </Helmet>
 
@@ -67,7 +65,7 @@ const Index = () => {
       </div>
 
       <footer className="border-t border-border bg-secondary/50">
-        <div className="container py-16">
+        <div className="container py-16 bg-slate-950">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* About Section */}
             <div className="md:col-span-2">
@@ -75,10 +73,10 @@ const Index = () => {
                 <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
                   <span className="text-white font-bold text-sm">C</span>
                 </div>
-                <span className="text-xl font-bold">Closwork</span>
+                <span className="text-xl font-bold text-zinc-100">Closwork</span>
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-foreground">Sobre Nosotros</h3>
-              <p className="text-muted-foreground leading-relaxed max-w-md">
+              <h3 className="text-lg font-semibold mb-3 text-zinc-100">Sobre Nosotros</h3>
+              <p className="leading-relaxed max-w-md text-zinc-50">
                 Closwork es una plataforma innovadora diseñada para revolucionar las ventas B2B, 
                 ofreciendo herramientas avanzadas y soluciones personalizadas.
               </p>
@@ -86,7 +84,7 @@ const Index = () => {
 
             {/* Contact Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-foreground">Contacto</h3>
+              <h3 className="text-lg font-semibold mb-4 text-zinc-50">Contacto</h3>
               <div className="space-y-3 text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <span className="text-primary">📧</span>
@@ -102,14 +100,14 @@ const Index = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-primary">📍</span>
-                  <span>Guadalajara, Jal.</span>
+                  <span className="text-slate-50">Guadalajara, Jal.</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-foreground">Enlaces Rápidos</h3>
+              <h3 className="text-lg font-semibold mb-4 text-zinc-50">Enlaces Rápidos</h3>
               <div className="space-y-2">
                 <a href="/" className="block text-muted-foreground hover:text-primary transition-colors">
                   Inicio
@@ -143,8 +141,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
