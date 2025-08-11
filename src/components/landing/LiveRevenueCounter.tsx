@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { TrendingUp } from "lucide-react";
 
 const locales = 'es-MX';
 
@@ -24,9 +25,12 @@ const LiveRevenueCounter = () => {
   return (
     <div className="inline-flex items-baseline gap-3 rounded-xl border border-border bg-secondary/50 px-4 py-3 backdrop-blur">
       <span className="text-sm text-muted-foreground">Revenue generado hoy</span>
-      <strong className="text-2xl md:text-3xl font-extrabold tracking-tight animate-fade-in">
-        {formatted}
-      </strong>
+      <div className="flex items-center gap-2">
+        <strong className="text-2xl md:text-3xl font-extrabold tracking-tight animate-fade-in text-success-green">
+          {formatted}
+        </strong>
+        <TrendingUp className="text-success-green animate-pulse" size={24} />
+      </div>
     </div>
   );
 };
