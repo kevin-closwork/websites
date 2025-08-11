@@ -19,8 +19,7 @@ const SimpleSteps = () => <section className="container py-16">
           <p className="mt-1 text-sm text-muted-foreground">{s.d}</p>
         </article>)}
     </div>
-    <p className="text-center mt-6 text-brand font-medium">Closwork
-
+    <p className="text-center mt-6 text-brand font-medium">
   </p>
   </section>;
 export default SimpleSteps;
