@@ -46,6 +46,16 @@ const MatchmakingAnimation = () => {
           <div className="absolute top-[60%] left-[30%] w-2 h-2 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
           <div className="absolute top-[80%] left-[80%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
           <div className="absolute top-[15%] left-[50%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-[25%] left-[90%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '0.3s'}}></div>
+          <div className="absolute top-[45%] left-[10%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '0.8s'}}></div>
+          <div className="absolute top-[70%] left-[60%] w-2 h-2 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.3s'}}></div>
+          <div className="absolute top-[90%] left-[40%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.8s'}}></div>
+          <div className="absolute top-[5%] left-[75%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '2.3s'}}></div>
+          <div className="absolute top-[35%] left-[40%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '0.7s'}}></div>
+          <div className="absolute top-[55%] left-[85%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.2s'}}></div>
+          <div className="absolute top-[75%] left-[15%] w-2 h-2 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.7s'}}></div>
+          <div className="absolute top-[20%] left-[35%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '2.2s'}}></div>
+          <div className="absolute top-[40%] left-[75%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
           
           {/* Connection lines */}
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -86,6 +96,31 @@ const MatchmakingAnimation = () => {
             <span className="text-xs text-muted-foreground">Motor de<br />Matchmaking</span>
             <div className="absolute inset-0 rounded-full bg-brand/20 blur-2xl -z-10" aria-hidden="true" />
           </div>
+          
+          {/* Animated arrow connecting to closer */}
+          <svg className="absolute left-full top-1/2 w-24 h-2 ml-4" viewBox="0 0 96 8" fill="none">
+            <defs>
+              <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.8"/>
+                <stop offset="100%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.4"/>
+              </linearGradient>
+            </defs>
+            <path 
+              d="M0 4 L84 4" 
+              stroke="url(#arrowGradient)" 
+              strokeWidth="2" 
+              className="animate-pulse"
+              strokeDasharray="4 2"
+            />
+            <path 
+              d="M80 1 L87 4 L80 7" 
+              stroke="hsl(var(--tech-blue))" 
+              strokeWidth="2" 
+              fill="none"
+              className="animate-pulse"
+              style={{animationDelay: '0.5s'}}
+            />
+          </svg>
         </div>
 
         {/* Resultado: Closer */}
