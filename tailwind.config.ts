@@ -62,12 +62,12 @@ export default {
 						border: 'hsl(var(--sidebar-border))',
 						ring: 'hsl(var(--sidebar-ring))'
 					},
-					// Extended brand palette for sales energy
-					'electric-magenta': 'hsl(var(--electric-magenta))',
-					'laser-blue': 'hsl(var(--laser-blue))',
-					'lime-burst': 'hsl(var(--lime-burst))',
-					'golden-spark': 'hsl(var(--golden-spark))',
-					'coral-fire': 'hsl(var(--coral-fire))'
+					// Extended brand palette for clean aesthetics
+					'ocean-blue': 'hsl(var(--ocean-blue))',
+					'sage-green': 'hsl(var(--sage-green))',
+					'warm-slate': 'hsl(var(--warm-slate))',
+					'soft-amber': 'hsl(var(--soft-amber))',
+					'dusty-rose': 'hsl(var(--dusty-rose))'
 				},
 				borderRadius: {
 					lg: 'var(--radius)',

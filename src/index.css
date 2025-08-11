@@ -16,23 +16,23 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 22% 15%;
 
-    /* Brand Palette - Dynamic Sales Energy */
-    --electric-magenta: 320 85% 58%;  /* Bold magenta for power/impact */
-    --laser-blue: 195 100% 65%;       /* Bright laser blue for innovation */
-    --lime-burst: 75 85% 55%;         /* Electric lime for growth/energy */
-    --golden-spark: 45 95% 62%;       /* Golden yellow for success/prosperity */
-    --coral-fire: 15 88% 65%;         /* Vibrant coral for warmth/action */
+    /* Brand Palette - Clean & Minimalist */
+    --ocean-blue: 210 65% 58%;        /* Professional ocean blue */
+    --sage-green: 145 40% 55%;        /* Calm sage green for growth */
+    --warm-slate: 215 25% 65%;        /* Sophisticated warm slate */
+    --soft-amber: 45 70% 70%;         /* Gentle amber for warmth */
+    --dusty-rose: 350 45% 68%;        /* Subtle dusty rose accent */
 
-    --primary: var(--electric-magenta);
+    --primary: var(--ocean-blue);
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 195 95% 96%;
+    --secondary: 210 50% 96%;
     --secondary-foreground: 210 22% 15%;
 
-    --muted: 210 40% 95%;
+    --muted: 210 25% 95%;
     --muted-foreground: 215 20% 50%;
 
-    --accent: var(--laser-blue);
+    --accent: var(--sage-green);
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -40,30 +40,30 @@
 
     --border: 214 32% 89%;
     --input: 214 32% 91%;
-    --ring: var(--electric-magenta);
+    --ring: var(--ocean-blue);
 
     --radius: 0.75rem;
 
     /* Sidebar (kept for components that use it) */
     --sidebar-background: 0 0% 99%;
     --sidebar-foreground: 210 22% 15%;
-    --sidebar-primary: var(--electric-magenta);
+    --sidebar-primary: var(--ocean-blue);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 95%;
+    --sidebar-accent: 210 25% 95%;
     --sidebar-accent-foreground: 210 22% 15%;
-    --sidebar-border: 214 32% 89%;
-    --sidebar-ring: var(--electric-magenta);
+    --sidebar-border: 214 20% 89%;
+    --sidebar-ring: var(--ocean-blue);
 
-    /* Gradients - Sales Power */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--electric-magenta)), hsl(var(--laser-blue)));
-    --gradient-success: linear-gradient(135deg, hsl(var(--lime-burst)), hsl(var(--golden-spark)));
-    --gradient-energy: linear-gradient(135deg, hsl(var(--coral-fire)), hsl(var(--electric-magenta)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--electric-magenta) / 0.1), hsl(var(--laser-blue) / 0.05));
+    /* Gradients - Clean & Subtle */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--ocean-blue)), hsl(var(--warm-slate)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--sage-green)), hsl(var(--soft-amber)));
+    --gradient-energy: linear-gradient(135deg, hsl(var(--dusty-rose)), hsl(var(--ocean-blue)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--ocean-blue) / 0.08), hsl(var(--sage-green) / 0.04));
 
-    /* Effects - High-Impact Shadows */
-    --shadow-glow: 0 0 40px hsl(var(--electric-magenta) / 0.3), 0 0 15px hsl(var(--laser-blue) / 0.2);
-    --shadow-success: 0 10px 25px -5px hsl(var(--lime-burst) / 0.4);
-    --shadow-energy: 0 10px 25px -5px hsl(var(--coral-fire) / 0.4);
+    /* Effects - Subtle Shadows */
+    --shadow-glow: 0 0 30px hsl(var(--ocean-blue) / 0.2), 0 0 10px hsl(var(--sage-green) / 0.15);
+    --shadow-success: 0 8px 20px -4px hsl(var(--sage-green) / 0.3);
+    --shadow-energy: 0 8px 20px -4px hsl(var(--dusty-rose) / 0.3);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -78,16 +78,16 @@
     --popover: 224 15% 10%;
     --popover-foreground: 210 40% 96%;
 
-    --primary: var(--electric-magenta);
+    --primary: var(--ocean-blue);
     --primary-foreground: 224 15% 8%;
 
-    --secondary: 217 33% 18%;
+    --secondary: 217 20% 20%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 217 20% 20%;
+    --muted-foreground: 215 15% 65%;
 
-    --accent: var(--laser-blue);
+    --accent: var(--sage-green);
     --accent-foreground: 224 15% 8%;
 
     --destructive: 0 85% 65%;
@@ -95,7 +95,7 @@
 
     --border: 217 33% 18%;
     --input: 217 33% 18%;
-    --ring: var(--electric-magenta);
+    --ring: var(--ocean-blue);
   }
 }
 
@@ -125,7 +125,7 @@
   .story-link { position: relative; display: inline-block; }
   .story-link::after {
     content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
-    background: hsl(var(--electric-magenta)); transform-origin: bottom right; transform: scaleX(0);
+    background: hsl(var(--ocean-blue)); transform-origin: bottom right; transform: scaleX(0);
     transition: transform 300ms ease;
   }
   .story-link:hover::after { transform-origin: bottom left; transform: scaleX(1); }
@@ -136,6 +136,6 @@
   /* Signature interaction — reactive radial light following pointer */
   .hero-interactive {
     --mx: 50%; --my: 50%;
-    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--electric-magenta) / 0.08), hsl(var(--laser-blue) / 0.03), transparent 60%);
+    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--ocean-blue) / 0.06), hsl(var(--sage-green) / 0.03), transparent 60%);
   }
 }
