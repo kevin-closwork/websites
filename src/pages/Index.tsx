@@ -5,6 +5,7 @@ import PainPoints from "@/components/landing/PainPoints";
 import ModelComparison from "@/components/landing/ModelComparison";
 import LiveMarketplace from "@/components/landing/LiveMarketplace";
 import SimpleSteps from "@/components/landing/SimpleSteps";
+import BenefitsSection from "@/components/landing/BenefitsSection";
 import MinimalForm from "@/components/landing/MinimalForm";
 import { Button } from "@/components/ui/button";
 const Index = () => {
@@ -34,6 +35,7 @@ const Index = () => {
         <LiveMarketplace />
         {/* Animación de matchmaking ya incluida en LiveMarketplace */}
         <SimpleSteps />
+        <BenefitsSection />
         <section className="container py-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
