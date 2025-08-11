@@ -95,6 +95,33 @@ const MatchmakingAnimation = () => {
           <div className="relative size-28 rounded-full border border-border bg-background/60 backdrop-blur flex items-center justify-center shadow-glow animate-pulse">
             <span className="text-xs text-muted-foreground">Motor de<br />Matchmaking</span>
             <div className="absolute inset-0 rounded-full bg-brand/20 blur-2xl -z-10" aria-hidden="true" />
+            
+            {/* Connection arrow to closer */}
+            <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 hidden md:block">
+              <svg width="100" height="20" viewBox="0 0 100 20" className="animate-pulse">
+                <defs>
+                  <linearGradient id="connectionArrow" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.8"/>
+                    <stop offset="100%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.4"/>
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M5 10 L85 10" 
+                  stroke="url(#connectionArrow)" 
+                  strokeWidth="2" 
+                  strokeDasharray="3 2"
+                  className="animate-pulse"
+                />
+                <path 
+                  d="M80 6 L88 10 L80 14" 
+                  stroke="hsl(var(--tech-blue))" 
+                  strokeWidth="2" 
+                  fill="none"
+                  className="animate-pulse"
+                  style={{animationDelay: '0.3s'}}
+                />
+              </svg>
+            </div>
           </div>
           
           {/* Animated arrow connecting to closer */}
