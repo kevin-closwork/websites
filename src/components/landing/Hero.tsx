@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useRef, useState } from "react";
 import LiveRevenueCounter from "./LiveRevenueCounter";
 import { ShieldCheck, Users, Zap } from "lucide-react";
-import closworkLogo from "@/assets/closwork-logo.png";
+import closworkLogo from "@/assets/new-closwork-logo.png";
 
 const Hero = () => {
   const ref = useRef<HTMLDivElement | null>(null);
