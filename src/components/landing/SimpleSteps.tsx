@@ -12,6 +12,7 @@ const steps = [{
   d: "No hay salarios, no hay riesgo"
 }];
 const SimpleSteps = () => <section className="container py-16">
+    <h2 className="text-3xl font-bold text-center mb-12">Así de simple es Closwork</h2>
     <div className="grid md:grid-cols-3 gap-6">
       {steps.map(s => <article key={s.n} className="rounded-xl border border-border bg-card/60 p-6 backdrop-blur">
           <div className="text-neon text-3xl font-extrabold">{s.n}</div>
