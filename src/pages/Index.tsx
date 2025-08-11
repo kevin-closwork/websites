@@ -43,8 +43,8 @@ const Index = () => {
               <p className="text-muted-foreground mt-1">Escoge lo que acelera tu crecimiento hoy.</p>
             </div>
             <div className="flex items-center gap-4">
-              <a href="/solicitud?type=empresa"><Button variant="hero" size="xl">Soy Empresa</Button></a>
-              <a href="/solicitud?type=closer"><Button variant="neon" size="xl">Soy Closer</Button></a>
+              <a href="/solicitud?type=empresa"><Button variant="success" size="xl">Soy Empresa</Button></a>
+              <a href="/solicitud?type=closer"><Button variant="tech" size="xl">Soy Closer</Button></a>
             </div>
           </div>
           <div className="mt-10">
@@ -60,7 +60,7 @@ const Index = () => {
             <span className="text-sm hidden sm:inline text-muted-foreground">Activa tu crecimiento:</span>
             <div className="flex items-center gap-3">
               <a href="/solicitud?type=empresa"><Button variant="success" size="lg">Empresa</Button></a>
-              <a href="/solicitud?type=closer"><Button variant="neon" size="lg">Closer</Button></a>
+              <a href="/solicitud?type=closer"><Button variant="tech" size="lg">Closer</Button></a>
             </div>
           </div>
         </div>
