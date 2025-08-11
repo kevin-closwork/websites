@@ -38,21 +38,21 @@ const Card = ({
 const MatchmakingAnimation = () => {
   return <section className="container py-16 relative overflow-hidden">
       {/* Animated network background */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none">
+      <div className="absolute inset-0 opacity-25 pointer-events-none">
         <div className="relative w-full h-full">
           {/* Network nodes */}
-          <div className="absolute top-[10%] left-[20%] w-2 h-2 bg-brand rounded-full animate-pulse"></div>
-          <div className="absolute top-[30%] left-[70%] w-1.5 h-1.5 bg-brand rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-          <div className="absolute top-[60%] left-[30%] w-2 h-2 bg-brand rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-          <div className="absolute top-[80%] left-[80%] w-1.5 h-1.5 bg-brand rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-          <div className="absolute top-[15%] left-[50%] w-1 h-1 bg-brand rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-[10%] left-[20%] w-2 h-2 bg-tech-blue rounded-full animate-pulse"></div>
+          <div className="absolute top-[30%] left-[70%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+          <div className="absolute top-[60%] left-[30%] w-2 h-2 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute top-[80%] left-[80%] w-1.5 h-1.5 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+          <div className="absolute top-[15%] left-[50%] w-1 h-1 bg-tech-blue rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
           
           {/* Connection lines */}
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(var(--brand))" stopOpacity="0.3"/>
-                <stop offset="100%" stopColor="hsl(var(--brand))" stopOpacity="0.1"/>
+                <stop offset="0%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.5"/>
+                <stop offset="100%" stopColor="hsl(var(--tech-blue))" stopOpacity="0.2"/>
               </linearGradient>
             </defs>
             <path d="M20,10 Q50,30 70,30" stroke="url(#connectionGradient)" strokeWidth="1" fill="none" className="animate-pulse"/>
