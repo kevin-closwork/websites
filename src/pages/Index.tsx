@@ -66,7 +66,7 @@ const Index = () => {
         </div>
       </div>
 
-      <footer className="border-t border-border bg-gradient-to-br from-background to-muted/30">
+      <footer className="border-t border-border bg-secondary/50">
         <div className="container py-16">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* About Section */}
