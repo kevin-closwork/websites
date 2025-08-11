@@ -4,8 +4,6 @@ import SocialTicker from "@/components/landing/SocialTicker";
 import PainPoints from "@/components/landing/PainPoints";
 import ModelComparison from "@/components/landing/ModelComparison";
 import LiveMarketplace from "@/components/landing/LiveMarketplace";
-import WhatsAppTestimonials from "@/components/landing/WhatsAppTestimonials";
-import FounderTruth from "@/components/landing/FounderTruth";
 import SimpleSteps from "@/components/landing/SimpleSteps";
 import MinimalForm from "@/components/landing/MinimalForm";
 import { Button } from "@/components/ui/button";
@@ -37,8 +35,6 @@ const Index = () => {
         <ModelComparison />
         <LiveMarketplace />
         {/* Animación de matchmaking ya incluida en LiveMarketplace */}
-        <WhatsAppTestimonials />
-        <FounderTruth />
         <SimpleSteps />
         <section className="container py-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
