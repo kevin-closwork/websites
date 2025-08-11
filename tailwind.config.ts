@@ -68,7 +68,9 @@ export default {
 					'electric-blue': 'hsl(var(--electric-blue))',
 					'cyber-yellow': 'hsl(var(--cyber-yellow))',
 					'innovation-blue': 'hsl(var(--innovation-blue))',
-					'brand': 'hsl(var(--brand))'
+					'brand': 'hsl(var(--brand))',
+					'success-green': 'hsl(var(--success-green))',
+					'success-green-light': 'hsl(var(--success-green-light))'
 				},
 				borderRadius: {
 					lg: 'var(--radius)',

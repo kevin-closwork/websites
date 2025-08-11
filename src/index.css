@@ -23,6 +23,8 @@
     --cyber-yellow: 50 100% 70%;      /* Cyber yellow highlight */
     --innovation-blue: 220 85% 65%;   /* Innovation deep blue */
     --brand: var(--startup-yellow);   /* Brand color for highlights */
+    --success-green: 142 76% 36%;     /* Vibrant success green */
+    --success-green-light: 142 76% 46%; /* Light success green */
 
     --primary: var(--tech-blue);
     --primary-foreground: 0 0% 100%;

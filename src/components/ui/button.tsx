@@ -22,7 +22,9 @@ const buttonVariants = cva(
         hero:
           "bg-gradient-to-r from-brand to-neon text-primary-foreground shadow-glow hover:opacity-90 animate-heartbeat",
         neon:
-          "bg-transparent border border-neon/40 text-foreground hover:bg-neon/10 hover:border-neon"
+          "bg-transparent border border-neon/40 text-foreground hover:bg-neon/10 hover:border-neon",
+        success:
+          "bg-gradient-to-r from-success-green to-success-green-light text-white shadow-lg hover:from-success-green-light hover:to-success-green transform hover:scale-105 transition-all duration-200"
       },
       size: {
         default: "h-10 px-4 py-2",
