@@ -89,12 +89,11 @@ export const CompanyForm = ({
   });
   const onSubmit = (values: CompanyFormValues) => {
     // In a real app we would send to backend here
-    // For now we redirect to success with share-ready email
+    // For now we redirect to thank you page with email
     const params = new URLSearchParams({
-      success: "1",
       email: String(values.email)
     });
-    navigate(`/solicitud?${params.toString()}`);
+    navigate(`/gracias-empresa?${params.toString()}`);
   };
   const dealsValue = form.watch("deals");
   const hasTeam = form.watch("hasTeam");

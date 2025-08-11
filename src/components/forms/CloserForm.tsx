@@ -123,8 +123,8 @@ export const CloserForm = ({ className }: Props) => {
   const selectedIndustries = form.watch("expertIndustries");
 
   const onSubmit = (values: CloserFormValues) => {
-    const params = new URLSearchParams({ success: "1", type: "closer", email: String(values.email) });
-    navigate(`/solicitud?${params.toString()}`);
+    const params = new URLSearchParams({ email: String(values.email) });
+    navigate(`/gracias-closer?${params.toString()}`);
   };
 
   const toggleArray = <T,>(arr: T[], value: T) => {
