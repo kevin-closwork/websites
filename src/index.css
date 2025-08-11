@@ -16,23 +16,23 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 22% 15%;
 
-    /* Brand Palette - Electric Sales Energy */
-    --electric-green: 142 76% 42%;    /* Vibrant green for growth/money/success */
-    --tech-blue: 214 95% 58%;         /* Bright tech blue for trust/innovation */
-    --disrupt-purple: 271 81% 56%;    /* Electric purple for disruption */
-    --energy-orange: 25 95% 55%;      /* Energetic orange for dynamism */
-    --neon-cyan: 186 100% 45%;        /* Neon cyan for tech edge */
+    /* Brand Palette - Dynamic Sales Energy */
+    --electric-magenta: 320 85% 58%;  /* Bold magenta for power/impact */
+    --laser-blue: 195 100% 65%;       /* Bright laser blue for innovation */
+    --lime-burst: 75 85% 55%;         /* Electric lime for growth/energy */
+    --golden-spark: 45 95% 62%;       /* Golden yellow for success/prosperity */
+    --coral-fire: 15 88% 65%;         /* Vibrant coral for warmth/action */
 
-    --primary: var(--electric-green);
+    --primary: var(--electric-magenta);
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 214 95% 96%;
+    --secondary: 195 95% 96%;
     --secondary-foreground: 210 22% 15%;
 
     --muted: 210 40% 95%;
     --muted-foreground: 215 20% 50%;
 
-    --accent: var(--tech-blue);
+    --accent: var(--laser-blue);
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -40,30 +40,30 @@
 
     --border: 214 32% 89%;
     --input: 214 32% 91%;
-    --ring: var(--electric-green);
+    --ring: var(--electric-magenta);
 
     --radius: 0.75rem;
 
     /* Sidebar (kept for components that use it) */
     --sidebar-background: 0 0% 99%;
     --sidebar-foreground: 210 22% 15%;
-    --sidebar-primary: var(--electric-green);
+    --sidebar-primary: var(--electric-magenta);
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 40% 95%;
     --sidebar-accent-foreground: 210 22% 15%;
     --sidebar-border: 214 32% 89%;
-    --sidebar-ring: var(--electric-green);
+    --sidebar-ring: var(--electric-magenta);
 
     /* Gradients - Sales Power */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--electric-green)), hsl(var(--tech-blue)));
-    --gradient-success: linear-gradient(135deg, hsl(var(--electric-green)), hsl(var(--neon-cyan)));
-    --gradient-energy: linear-gradient(135deg, hsl(var(--energy-orange)), hsl(var(--disrupt-purple)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--electric-green) / 0.1), hsl(var(--tech-blue) / 0.05));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--electric-magenta)), hsl(var(--laser-blue)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--lime-burst)), hsl(var(--golden-spark)));
+    --gradient-energy: linear-gradient(135deg, hsl(var(--coral-fire)), hsl(var(--electric-magenta)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--electric-magenta) / 0.1), hsl(var(--laser-blue) / 0.05));
 
     /* Effects - High-Impact Shadows */
-    --shadow-glow: 0 0 40px hsl(var(--electric-green) / 0.3), 0 0 15px hsl(var(--tech-blue) / 0.2);
-    --shadow-success: 0 10px 25px -5px hsl(var(--electric-green) / 0.4);
-    --shadow-energy: 0 10px 25px -5px hsl(var(--energy-orange) / 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--electric-magenta) / 0.3), 0 0 15px hsl(var(--laser-blue) / 0.2);
+    --shadow-success: 0 10px 25px -5px hsl(var(--lime-burst) / 0.4);
+    --shadow-energy: 0 10px 25px -5px hsl(var(--coral-fire) / 0.4);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -78,7 +78,7 @@
     --popover: 224 15% 10%;
     --popover-foreground: 210 40% 96%;
 
-    --primary: var(--electric-green);
+    --primary: var(--electric-magenta);
     --primary-foreground: 224 15% 8%;
 
     --secondary: 217 33% 18%;
@@ -87,7 +87,7 @@
     --muted: 217 33% 18%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: var(--tech-blue);
+    --accent: var(--laser-blue);
     --accent-foreground: 224 15% 8%;
 
     --destructive: 0 85% 65%;
@@ -95,7 +95,7 @@
 
     --border: 217 33% 18%;
     --input: 217 33% 18%;
-    --ring: var(--electric-green);
+    --ring: var(--electric-magenta);
   }
 }
 
@@ -125,7 +125,7 @@
   .story-link { position: relative; display: inline-block; }
   .story-link::after {
     content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
-    background: hsl(var(--electric-green)); transform-origin: bottom right; transform: scaleX(0);
+    background: hsl(var(--electric-magenta)); transform-origin: bottom right; transform: scaleX(0);
     transition: transform 300ms ease;
   }
   .story-link:hover::after { transform-origin: bottom left; transform: scaleX(1); }
@@ -136,6 +136,6 @@
   /* Signature interaction — reactive radial light following pointer */
   .hero-interactive {
     --mx: 50%; --my: 50%;
-    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--electric-green) / 0.08), hsl(var(--tech-blue) / 0.03), transparent 60%);
+    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--electric-magenta) / 0.08), hsl(var(--laser-blue) / 0.03), transparent 60%);
   }
 }

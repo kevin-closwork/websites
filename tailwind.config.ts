@@ -63,11 +63,11 @@ export default {
 						ring: 'hsl(var(--sidebar-ring))'
 					},
 					// Extended brand palette for sales energy
-					'electric-green': 'hsl(var(--electric-green))',
-					'tech-blue': 'hsl(var(--tech-blue))',
-					'disrupt-purple': 'hsl(var(--disrupt-purple))',
-					'energy-orange': 'hsl(var(--energy-orange))',
-					'neon-cyan': 'hsl(var(--neon-cyan))'
+					'electric-magenta': 'hsl(var(--electric-magenta))',
+					'laser-blue': 'hsl(var(--laser-blue))',
+					'lime-burst': 'hsl(var(--lime-burst))',
+					'golden-spark': 'hsl(var(--golden-spark))',
+					'coral-fire': 'hsl(var(--coral-fire))'
 				},
 				borderRadius: {
 					lg: 'var(--radius)',
