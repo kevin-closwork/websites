@@ -2,32 +2,32 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useRef, useState } from "react";
 import LiveRevenueCounter from "./LiveRevenueCounter";
 import { ShieldCheck, Users, Zap } from "lucide-react";
-
-
 const Hero = () => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [pos, setPos] = useState({ x: "50%", y: "50%" });
-
+  const [pos, setPos] = useState({
+    x: "50%",
+    y: "50%"
+  });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const onMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      setPos({ x: `${x}%`, y: `${y}%` });
+      const x = (e.clientX - rect.left) / rect.width * 100;
+      const y = (e.clientY - rect.top) / rect.height * 100;
+      setPos({
+        x: `${x}%`,
+        y: `${y}%`
+      });
     };
     el.addEventListener("mousemove", onMove);
     return () => el.removeEventListener("mousemove", onMove);
   }, []);
-
   const style = useMemo(() => ({
     ['--mx' as any]: pos.x,
-    ['--my' as any]: pos.y,
+    ['--my' as any]: pos.y
   }), [pos]);
-
-  return (
-    <header ref={ref} style={style} className="relative overflow-hidden hero-interactive">
+  return <header ref={ref} style={style} className="relative overflow-hidden hero-interactive">
       <div className="container mx-auto py-24 md:py-28 lg:py-32">
         <div className="max-w-3xl">
           <div className="mb-6">
@@ -41,12 +41,12 @@ const Hero = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <a href="/solicitud?type=empresa">
-              <Button variant="hero" size="xl" className="hover-scale" aria-label="Soy empresa: activar ventas B2B sin riesgos">
+              <Button variant="hero" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale text-slate-50 bg-gray-900 hover:bg-gray-800">
                 Soy Empresa
               </Button>
             </a>
             <a href="/solicitud?type=closer">
-              <Button variant="neon" size="xl" className="hover-scale" aria-label="Soy closer: unirme a la elite de Closwork">
+              <Button variant="neon" size="xl" aria-label="Soy closer: unirme a la elite de Closwork" className="hover-scale bg-gray-800 hover:bg-gray-700 text-slate-50">
                 Soy Closer
               </Button>
             </a>
@@ -68,8 +68,6 @@ const Hero = () => {
         <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-brand/20 blur-3xl" />
         <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-primary/10 blur-3xl" />
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Hero;
