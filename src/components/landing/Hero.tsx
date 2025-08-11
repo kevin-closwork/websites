@@ -41,12 +41,12 @@ const Hero = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <a href="/solicitud?type=empresa">
-              <Button variant="hero" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale bg-gradient-cta shadow-cta text-white hover:shadow-lg transition-all duration-300">
+              <Button variant="success" size="xl" aria-label="Soy empresa: activar ventas B2B sin riesgos" className="hover-scale-subtle">
                 Soy Empresa
               </Button>
             </a>
             <a href="/solicitud?type=closer">
-              <Button variant="neon" size="xl" aria-label="Soy closer: unirme a la elite de Closwork" className="hover-scale bg-gradient-tech shadow-energy text-white hover:shadow-lg transition-all duration-300">
+              <Button variant="tech" size="xl" aria-label="Soy closer: unirme a la elite de Closwork" className="hover-scale-subtle">
                 Soy Closer
               </Button>
             </a>

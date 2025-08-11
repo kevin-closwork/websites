@@ -141,6 +141,9 @@
 
   .hover-scale { transition: transform 200ms ease; }
   .hover-scale:hover { transform: scale(1.05); }
+  
+  .hover-scale-subtle { transition: transform 250ms ease; }
+  .hover-scale-subtle:hover { transform: scale(1.02); }
 
   /* Signature interaction — reactive radial light following pointer */
   .hero-interactive {
