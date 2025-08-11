@@ -14,7 +14,7 @@ const ModelComparison = () => <section className="container py-16">
           <li>Empresa →  Matchmaking → Closers elite → Cierran ventas</li>
           <li>Cobran solo por cerrar. Sin salarios. Sin riesgo.</li>
         </ol>
-        <p className="mt-4 text-brand font-medium">Empresa →  Matchmaking → Closers elite → Cierran ventas</p>
+        <p className="mt-4 text-brand font-medium">Reducimos el riesgo para tu empresa</p>
       </article>
     </div>
   </section>;
