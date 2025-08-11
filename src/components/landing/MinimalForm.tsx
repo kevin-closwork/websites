@@ -41,7 +41,7 @@ const MinimalForm = () => {
           </div>
           <Slider value={[deals]} onValueChange={(v) => setDeals(v[0] ?? 1)} min={1} max={50} step={1} className="py-2" />
         </div>
-        <Button type="submit" variant="hero" size="xl" className="mt-2" disabled={!canSubmit} aria-label="Enviar solicitud a closers">
+        <Button type="submit" variant="success" size="xl" className="mt-2" disabled={!canSubmit} aria-label="Enviar solicitud a closers">
           Activar mi botón mágico
         </Button>
         <p className="text-xs text-center text-muted-foreground">
