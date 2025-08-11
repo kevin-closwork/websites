@@ -20,6 +20,9 @@ const items = [
 
 const PainPoints = () => (
   <section className="container py-16">
+    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+      Sabemos lo difícil que es vender
+    </h2>
     <div className="grid md:grid-cols-3 gap-6">
       {items.map(({ title, desc, Icon }) => (
         <article key={title} className="rounded-xl border border-border bg-card/60 p-6 backdrop-blur">
