@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas EmailJS - Closwork</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .template { border: 2px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 8px; }
+        .template h3 { color: #2563eb; margin-top: 0; }
+        .code { background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; }
+        .variables { background: #e0f2fe; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .note { background: #fef3c7; padding: 10px; border-radius: 5px; border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Plantillas EmailJS para Closwork</h1>
+    
+    <div class="note">
+        <strong>Nota:</strong> Copia y pega estas plantillas en EmailJS. Asegúrate de usar los IDs correctos:
+        <ul>
+            <li><strong>Closer:</strong> template_w5w6o3j</li>
+            <li><strong>Empresa:</strong> template_9591x3s</li>
+        </ul>
+    </div>
+
+    <!-- TEMPLATE PARA CLOSER -->
+    <div class="template">
+        <h3>📧 Template para Closer (template_w5w6o3j)</h3>
+        
+        <div class="variables">
+            <strong>Variables disponibles:</strong>
+            {{to_email}}, {{to_name}}, {{years_experience}}, {{biggest_deal}}, {{industries}}, {{ticket_range}}, {{markets}}, {{superpower}}, {{registration_date}}
+        </div>
+
+        <div class="code">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Bienvenido a Closwork&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: white; padding: 30px; border: 1px solid #e5e7eb; }
+        .profile { background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .profile-item { margin: 8px 0; }
+        .footer { background: #f1f5f9; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; color: #64748b; }
+        .highlight { color: #2563eb; font-weight: bold; }
+        .emoji { font-size: 1.2em; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="header"&gt;
+        &lt;h1&gt;🚀 ¡Bienvenido a Closwork!&lt;/h1&gt;
+        &lt;p&gt;Tu viaje hacia el éxito en ventas B2B comienza aquí&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="content"&gt;
+        &lt;p&gt;Hola &lt;span class="highlight"&gt;{{to_name}}&lt;/span&gt;,&lt;/p&gt;
+        
+        &lt;p&gt;¡Felicidades! Has dado el primer paso para unirte a la elite de closers en Latinoamérica.&lt;/p&gt;
+        
+        &lt;p&gt;Hemos recibido tu información y estamos impresionados con tu perfil:&lt;/p&gt;
+        
+        &lt;div class="profile"&gt;
+            &lt;h3&gt;📊 Tu Perfil de Elite&lt;/h3&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Experiencia:&lt;/strong&gt; {{years_experience}} años cerrando B2B&lt;/div&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Deal más grande:&lt;/strong&gt; {{biggest_deal}}&lt;/div&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Industrias dominadas:&lt;/strong&gt; {{industries}}&lt;/div&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Ticket sweet spot:&lt;/strong&gt; {{ticket_range}}&lt;/div&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Mercados:&lt;/strong&gt; {{markets}}&lt;/div&gt;
+            &lt;div class="profile-item"&gt;&lt;strong&gt;Tu superpoder:&lt;/strong&gt; {{superpower}}&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;p&gt;🎯 &lt;strong&gt;Próximos pasos:&lt;/strong&gt;&lt;/p&gt;
+        &lt;ol&gt;
+            &lt;li&gt;Nuestro equipo revisará tu perfil en las próximas 24-48 horas&lt;/li&gt;
+            &lt;li&gt;Te contactaremos para una breve entrevista&lt;/li&gt;
+            &lt;li&gt;Te conectaremos con empresas que buscan closers como tú&lt;/li&gt;
+        &lt;/ol&gt;
+        
+        &lt;p&gt;📅 &lt;strong&gt;Fecha de registro:&lt;/strong&gt; {{registration_date}}&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="footer"&gt;
+        &lt;p&gt;💪 &lt;strong&gt;¡Bienvenido a la elite!&lt;/strong&gt;&lt;/p&gt;
+        &lt;p&gt;El equipo de Closwork&lt;/p&gt;
+        &lt;p&gt;hola@closwork.com&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+    </div>
+
+    <!-- TEMPLATE PARA EMPRESA -->
+    <div class="template">
+        <h3>🏢 Template para Empresa (template_9591x3s)</h3>
+        
+        <div class="variables">
+            <strong>Variables disponibles:</strong>
+            {{to_email}}, {{to_name}}, {{company_industry}}, {{ticket_range}}, {{sales_cycle}}, {{deals_count}}, {{markets}}, {{selling_type}}, {{has_team}}, {{team_size}}, {{has_leads}}, {{leads_size}}, {{registration_date}}
+        </div>
+
+        <div class="code">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Bienvenido a Closwork&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 0; }
+        .container { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .header { background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; padding: 40px 30px; text-align: center; }
+        .logo { margin-bottom: 20px; }
+        .logo img { height: 60px; width: auto; }
+        .header h1 { font-size: 28px; font-weight: 800; margin: 0 0 10px 0; }
+        .header p { font-size: 16px; margin: 0; opacity: 0.9; }
+        .content { padding: 40px 30px; background: white; }
+        .greeting { font-size: 18px; margin-bottom: 20px; }
+        .highlight { color: #059669; font-weight: 700; }
+        .company-info { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #059669; }
+        .company-info h3 { color: #059669; margin: 0 0 20px 0; font-size: 20px; font-weight: 700; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .info-item { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .info-label { font-weight: 600; color: #374151; font-size: 14px; margin-bottom: 5px; }
+        .info-value { color: #059669; font-weight: 600; }
+        .next-steps { background: #fef3c7; padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #f59e0b; }
+        .next-steps h3 { color: #92400e; margin: 0 0 15px 0; font-size: 18px; font-weight: 700; }
+        .next-steps ol { margin: 0; padding-left: 20px; }
+        .next-steps li { margin-bottom: 8px; color: #92400e; }
+        .benefits { background: #dbeafe; padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #2563eb; }
+        .benefits h3 { color: #1e40af; margin: 0 0 15px 0; font-size: 18px; font-weight: 700; }
+        .benefits ul { margin: 0; padding-left: 20px; }
+        .benefits li { margin-bottom: 8px; color: #1e40af; }
+        .footer { background: #f8fafc; padding: 30px; text-align: center; color: #64748b; border-top: 1px solid #e5e7eb; }
+        .footer .logo { margin-bottom: 15px; }
+        .footer .logo img { height: 40px; }
+        .cta { background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; padding: 20px; border-radius: 12px; margin: 25px 0; text-align: center; }
+        .cta h3 { margin: 0 0 10px 0; font-size: 20px; font-weight: 700; }
+        .cta p { margin: 0; opacity: 0.9; }
+        .registration-date { text-align: center; padding: 20px; background: #f9fafb; border-radius: 8px; margin: 20px 0; color: #6b7280; font-size: 14px; }
+        @media (max-width: 600px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .header, .content { padding: 25px 20px; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="header"&gt;
+            &lt;div class="logo"&gt;
+                &lt;img src="https://i.imgur.com/NgAumU4.png" alt="Closwork" /&gt;
+            &lt;/div&gt;
+            &lt;h1&gt;🚀 ¡Bienvenido a Closwork!&lt;/h1&gt;
+            &lt;p&gt;Tu solución para cerrar más deals con closers de elite&lt;/p&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="content"&gt;
+            &lt;p class="greeting"&gt;Hola &lt;span class="highlight"&gt;{{to_name}}&lt;/span&gt;,&lt;/p&gt;
+            
+            &lt;p&gt;¡Excelente decisión! Has dado el primer paso para transformar tu equipo de ventas con closers de elite.&lt;/p&gt;
+            
+            &lt;p&gt;Hemos recibido la información de tu empresa y estamos emocionados de trabajar contigo:&lt;/p&gt;
+            
+            &lt;div class="company-info"&gt;
+                &lt;h3&gt;🏢 Información de tu Empresa&lt;/h3&gt;
+                &lt;div class="info-grid"&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Industria&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{company_industry}}&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Ticket promedio&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{ticket_range}}&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Ciclo de ventas&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{sales_cycle}}&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Deals por mes&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{deals_count}}&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Mercados objetivo&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{markets}}&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class="info-item"&gt;
+                        &lt;div class="info-label"&gt;Tipo de venta&lt;/div&gt;
+                        &lt;div class="info-value"&gt;{{selling_type}}&lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="next-steps"&gt;
+                &lt;h3&gt;🎯 Próximos pasos&lt;/h3&gt;
+                &lt;ol&gt;
+                    &lt;li&gt;Nuestro equipo analizará tus necesidades específicas en las próximas 24-48 horas&lt;/li&gt;
+                    &lt;li&gt;Te contactaremos para una consultoría gratuita personalizada&lt;/li&gt;
+                    &lt;li&gt;Te presentaremos closers que se ajusten perfectamente a tu modelo de negocio&lt;/li&gt;
+                &lt;/ol&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="benefits"&gt;
+                &lt;h3&gt;💰 Beneficios que obtendrás&lt;/h3&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;Closers probados y verificados con track record&lt;/li&gt;
+                    &lt;li&gt;Aumento inmediato en conversiones y cierres&lt;/li&gt;
+                    &lt;li&gt;Reducción significativa en tiempo de venta&lt;/li&gt;
+                    &lt;li&gt;Escalabilidad sin contratar personal permanente&lt;/li&gt;
+                    &lt;li&gt;Solo pagas por resultados&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="cta"&gt;
+                &lt;h3&gt;🚀 ¡Juntos cerraremos más deals!&lt;/h3&gt;
+                &lt;p&gt;Tu éxito es nuestro éxito&lt;/p&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="registration-date"&gt;
+                📅 &lt;strong&gt;Fecha de registro:&lt;/strong&gt; {{registration_date}}
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="footer"&gt;
+            &lt;div class="logo"&gt;
+                &lt;img src="https://i.imgur.com/NgAumU4.png" alt="Closwork" /&gt;
+            &lt;/div&gt;
+            &lt;p&gt;&lt;strong&gt;El equipo de Closwork&lt;/strong&gt;&lt;/p&gt;
+            &lt;p&gt;hola@closwork.com&lt;/p&gt;
+            &lt;p style="font-size: 12px; margin-top: 15px;"&gt;Conectando empresas con closers elite en Latinoamérica&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+    </div>
+
+    <div class="note">
+        <strong>Instrucciones:</strong>
+        <ol>
+            <li>Copia el contenido HTML de la plantilla que necesites</li>
+            <li>Ve a EmailJS y crea una nueva plantilla</li>
+            <li>Pega el HTML en el editor</li>
+            <li>Asigna el ID correcto (template_w5w6o3j o template_9591x3s)</li>
+            <li>Guarda la plantilla</li>
+        </ol>
+    </div>
+
+    <h2>🔧 Configuración Adicional</h2>
+    <p>Recuerda configurar en EmailJS:</p>
+    <ul>
+        <li><strong>From Email:</strong> El email desde donde se enviarán los correos</li>
+        <li><strong>Reply To:</strong> hola@closwork.com</li>
+        <li><strong>Subject:</strong> ¡Bienvenido a Closwork! 🚀</li>
+    </ul>
+</body>
+</html>

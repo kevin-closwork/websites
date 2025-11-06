@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#0069ff"/>
+  
+  <!-- Target rings -->
+  <circle cx="16" cy="16" r="12" stroke="white" stroke-width="1" fill="none" opacity="0.3"/>
+  <circle cx="16" cy="16" r="8" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+  <circle cx="16" cy="16" r="4" stroke="white" stroke-width="1" fill="none" opacity="0.7"/>
+  
+  <!-- Center target -->
+  <circle cx="16" cy="16" r="2" fill="white"/>
+  
+  <!-- Dollar sign -->
+  <path d="M16 8v16M13 12c0-1.1.9-2 2-2s2 .9 2 2c0 1.1-.9 2-2 2s-2 .9-2 2c0 1.1.9 2 2 2s2 .9 2 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Success checkmark -->
+  <path d="M22 10l-8 8-4-4" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+</svg>
+

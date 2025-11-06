@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System — Sales Tech Disruptive Palette (bright & energetic). All colors are HSL. */
+
+@layer base {
+  :root {
+    /* Core Surfaces (bright & clean) */
+    --background: 0 0% 99%;
+    --foreground: 210 22% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 22% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 22% 15%;
+
+    /* Brand Palette - Tech Startup Blue/Yellow */
+    --tech-blue: 215 100% 60%;        /* Vibrant tech blue */
+    --startup-yellow: 45 100% 65%;    /* Bold startup yellow */
+    --electric-blue: 200 100% 55%;    /* Electric blue accent */
+    --cyber-yellow: 50 100% 70%;      /* Cyber yellow highlight */
+    --innovation-blue: 220 85% 65%;   /* Innovation deep blue */
+    --brand: var(--startup-yellow);   /* Brand color for highlights */
+    --success-green: 142 76% 36%;     /* Vibrant success green */
+    --success-green-light: 142 76% 46%; /* Light success green */
+
+    --primary: var(--tech-blue);
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 40% 95%;
+    --secondary-foreground: 215 25% 15%;
+
+    --muted: 215 20% 96%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: var(--startup-yellow);
+    --accent-foreground: 215 25% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 89%;
+    --input: 214 32% 91%;
+    --ring: var(--tech-blue);
+
+    --radius: 0.75rem;
+
+    /* Sidebar (kept for components that use it) */
+    --sidebar-background: 0 0% 99%;
+    --sidebar-foreground: 210 22% 15%;
+    --sidebar-primary: var(--tech-blue);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 40% 95%;
+    --sidebar-accent-foreground: 215 25% 15%;
+    --sidebar-border: 215 20% 89%;
+    --sidebar-ring: var(--tech-blue);
+
+    /* Gradients - Tech Startup Energy */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--tech-blue)), hsl(var(--electric-blue)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--startup-yellow)), hsl(var(--cyber-yellow)));
+    --gradient-energy: linear-gradient(135deg, hsl(var(--innovation-blue)), hsl(var(--tech-blue)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--tech-blue) / 0.1), hsl(var(--startup-yellow) / 0.05));
+    --gradient-cta: linear-gradient(135deg, hsl(var(--startup-yellow)), hsl(var(--cyber-yellow)));
+    --gradient-tech: linear-gradient(45deg, hsl(var(--tech-blue)), hsl(var(--innovation-blue)));
+
+    /* Effects - Tech Glow */
+    --shadow-glow: 0 0 40px hsl(var(--tech-blue) / 0.3), 0 0 20px hsl(var(--startup-yellow) / 0.2);
+    --shadow-success: 0 8px 25px -4px hsl(var(--startup-yellow) / 0.4);
+    --shadow-energy: 0 8px 25px -4px hsl(var(--tech-blue) / 0.4);
+    --shadow-cta: 0 8px 30px -6px hsl(var(--startup-yellow) / 0.5);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Dark mode with bright accents */
+    --background: 224 15% 8%;
+    --foreground: 210 40% 96%;
+
+    --card: 224 15% 10%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 224 15% 10%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: var(--tech-blue);
+    --primary-foreground: 224 15% 8%;
+
+    --secondary: 217 20% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 20% 20%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: var(--startup-yellow);
+    --accent-foreground: 224 15% 8%;
+
+    --destructive: 0 85% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: var(--tech-blue);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Utilities and component helpers powered by new energy palette */
+@layer utilities {
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-success { box-shadow: var(--shadow-success); }
+  .shadow-energy { box-shadow: var(--shadow-energy); }
+  .shadow-cta { box-shadow: var(--shadow-cta); }
+
+  /* Gradient utilities */
+  .bg-gradient-primary { background: var(--gradient-primary); }
+  .bg-gradient-success { background: var(--gradient-success); }
+  .bg-gradient-energy { background: var(--gradient-energy); }
+  .bg-gradient-hero { background: var(--gradient-hero); }
+  .bg-gradient-cta { background: var(--gradient-cta); }
+  .bg-gradient-tech { background: var(--gradient-tech); }
+
+  /* Underline animation for links */
+  .story-link { position: relative; display: inline-block; }
+  .story-link::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+    background: hsl(var(--tech-blue)); transform-origin: bottom right; transform: scaleX(0);
+    transition: transform 300ms ease;
+  }
+  .story-link:hover::after { transform-origin: bottom left; transform: scaleX(1); }
+
+  .hover-scale { transition: transform 200ms ease; }
+  .hover-scale:hover { transform: scale(1.05); }
+  
+  .hover-scale-subtle { transition: transform 250ms ease; }
+  .hover-scale-subtle:hover { transform: scale(1.02); }
+
+  /* Signature interaction — reactive radial light following pointer */
+  .hero-interactive {
+    --mx: 50%; --my: 50%;
+    background: radial-gradient(600px circle at var(--mx) var(--my), hsl(var(--tech-blue) / 0.08), hsl(var(--startup-yellow) / 0.04), transparent 60%);
+  }
+
+  /* Tech grid pattern */
+  .tech-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--tech-blue) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--tech-blue) / 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Floating elements animation */
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+}

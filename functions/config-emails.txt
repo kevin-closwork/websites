@@ -1,0 +1,24 @@
+# 🔥 Configuración de Emails para Firebase Functions
+# Copia y pega estas líneas en tu archivo .env
+
+# Email del remitente (tu email de Gmail)
+SENDER_EMAIL=tu-email@gmail.com
+
+# Contraseña de aplicación de Gmail (NO tu contraseña normal)
+SENDER_PASSWORD=tu-contraseña-de-aplicacion
+
+# Email del destinatario (donde quieres recibir las notificaciones)
+# Múltiples emails separados por comas
+RECIPIENT_EMAIL=kevin@closwork.com,hola@closwork.com,jonathan@closwork.com
+
+# Configuración del servidor SMTP de Gmail
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+
+# 📝 INSTRUCCIONES:
+# 1. Copia este contenido
+# 2. Pega en el archivo functions/.env
+# 3. Reemplaza SENDER_EMAIL y SENDER_PASSWORD con tus credenciales reales
+# 4. Los emails de destino ya están configurados correctamente
+# 5. Ejecuta: firebase deploy --only functions
