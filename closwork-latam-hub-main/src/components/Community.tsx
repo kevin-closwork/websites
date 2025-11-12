@@ -106,28 +106,33 @@ const Community = () => {
           </div>
         </div>
         
-        {/* Network Visualization */}
-        <div className="mt-16 relative h-64 lg:h-80 overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center text-white/60">
-              <Globe className="h-16 w-16 mx-auto mb-4 animate-pulse" />
-              <p className="text-lg">Red de conexiones en tiempo real</p>
-            </div>
-          </div>
-          
-          {/* Animated connection lines */}
-          <div className="absolute inset-0">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-1 bg-gradient-to-b from-primary to-transparent opacity-30"
-                style={{
-                  left: `${10 + i * 10}%`,
-                  height: '100%',
-                  animationDelay: `${i * 0.2}s`,
-                  animation: 'pulse 2s infinite'
-                }}
-              />
+        {/* Gallery of People in Business */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold text-white text-center mb-8">
+            Nuestra comunidad en acción
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&h=400&fit=crop", // Persona en reunión de negocios
+              "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=400&fit=crop", // Persona presentando
+              "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop", // Persona en oficina
+              "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop", // Persona en negociación
+              "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=400&fit=crop", // Persona vendiendo
+              "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=400&h=400&fit=crop", // Persona en tienda
+              "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=400&h=400&fit=crop", // Persona en call center
+              "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=400&fit=crop"  // Persona en ventas
+            ].map((imageUrl, index) => (
+              <div 
+                key={index}
+                className="relative overflow-hidden rounded-xl aspect-square group cursor-pointer"
+              >
+                <img 
+                  src={imageUrl} 
+                  alt={`Persona en negocio ${index + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
             ))}
           </div>
         </div>

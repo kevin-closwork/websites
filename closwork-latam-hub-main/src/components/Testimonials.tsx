@@ -10,6 +10,7 @@ const testimonials = [
     role: "CEO",
     content: "Closwork nos ayudó a escalar nuestras ventas un 300% en solo 3 meses. Los closers que encontramos son realmente profesionales y conocen el mercado LATAM.",
     avatar: "MG",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=face",
     type: "empresa"
   },
   {
@@ -19,6 +20,7 @@ const testimonials = [
     role: "Socio Comercial",
     content: "En 6 meses con Closwork he generado más comisiones que en todo el año anterior. La calidad de las oportunidades y el soporte es excepcional.",
     avatar: "CM",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
     type: "closer"
   },
   {
@@ -28,6 +30,7 @@ const testimonials = [
     role: "Directora de Ventas",
     content: "La plataforma nos conectó con el socio comercial perfecto para nuestro nicho. Sin riesgos fijos y con resultados desde el primer mes.",
     avatar: "AT",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
     type: "empresa"
   },
   {
@@ -37,6 +40,7 @@ const testimonials = [
     role: "Closer Especializado",
     content: "Closwork me ha permitido trabajar con múltiples empresas al mismo tiempo. La comunidad es increíble y siempre hay nuevas oportunidades.",
     avatar: "RS",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
     type: "closer"
   }
 ];
@@ -84,11 +88,11 @@ const Testimonials = () => {
               <div className="flex flex-col lg:flex-row items-center gap-8">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  <div className={`w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold text-white ${
-                    testimonials[currentIndex].type === 'empresa' ? 'gradient-primary' : 'gradient-secondary'
-                  }`}>
-                    {testimonials[currentIndex].avatar}
-                  </div>
+                  <img 
+                    src={testimonials[currentIndex].image} 
+                    alt={testimonials[currentIndex].name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-elevation"
+                  />
                 </div>
                 
                 {/* Content */}

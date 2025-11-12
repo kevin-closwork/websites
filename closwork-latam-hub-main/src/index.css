@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 100% 21%;
+    --background: 340 30% 98%; /* Rosa muy claro/crema rosado */
+    --foreground: 330 40% 20%; /* Rosa oscuro/magenta suave */
 
-    --card: 0 0% 100%;
-    --card-foreground: 210 100% 21%;
+    --card: 340 25% 99%; /* Blanco rosado */
+    --card-foreground: 330 40% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 100% 21%;
+    --popover: 340 25% 99%;
+    --popover-foreground: 330 40% 20%;
 
-    /* Closwork Brand Colors */
-    --primary: 152 48% 47%; /* Green #4aab6f */
+    /* Closwork Brand Colors - Rosas con Naranja */
+    --primary: 350 75% 60%; /* Rosa coral vibrante #ff6b9d */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 152 58% 57%;
+    --primary-glow: 350 80% 70%;
 
-    --secondary: 210 100% 21%; /* Blue #003976 */
+    --secondary: 20 80% 55%; /* Coral salmón/naranja rosado #ff8c69 */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 15% 96%;
-    --muted-foreground: 210 10% 46%;
+    --muted: 340 25% 95%; /* Rosa pastel suave */
+    --muted-foreground: 330 30% 50%;
 
-    --accent: 152 48% 47%;
+    --accent: 350 75% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 90%;
-    --input: 210 15% 90%;
-    --ring: 152 48% 47%;
+    --border: 340 20% 88%; /* Borde rosa suave */
+    --input: 340 20% 88%;
+    --ring: 350 75% 60%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(152 48% 47%), hsl(152 58% 57%));
-    --gradient-secondary: linear-gradient(135deg, hsl(210 100% 21%), hsl(210 80% 35%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 100% 21%) 0%, hsl(152 48% 47%) 100%);
-    --gradient-tech: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 15% 98%) 100%);
+    /* Gradients - Rosas con Naranja */
+    --gradient-primary: linear-gradient(135deg, hsl(350 75% 60%), hsl(350 80% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(20 80% 55%), hsl(350 70% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(20 80% 55%) 0%, hsl(350 75% 60%) 100%);
+    --gradient-tech: linear-gradient(180deg, hsl(340 30% 98%) 0%, hsl(340 25% 96%) 100%);
 
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(152 48% 47% / 0.3);
-    --shadow-elevation: 0 10px 30px -10px hsl(210 100% 21% / 0.2);
-    --shadow-card: 0 4px 20px hsl(210 20% 15% / 0.1);
+    /* Shadows - Rosas */
+    --shadow-glow: 0 0 40px hsl(350 75% 60% / 0.3);
+    --shadow-elevation: 0 10px 30px -10px hsl(330 50% 30% / 0.2);
+    --shadow-card: 0 4px 20px hsl(330 40% 20% / 0.1);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -115,7 +115,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Poppins', sans-serif;
   }
 
   html {
@@ -174,8 +175,8 @@
   }
 
   @keyframes pulse-glow {
-    0% { box-shadow: 0 0 20px hsl(152 48% 47% / 0.3); }
-    100% { box-shadow: 0 0 40px hsl(152 48% 47% / 0.6); }
+    0% { box-shadow: 0 0 20px hsl(350 75% 60% / 0.3); }
+    100% { box-shadow: 0 0 40px hsl(350 75% 60% / 0.6); }
   }
 
   @keyframes slide-up {
