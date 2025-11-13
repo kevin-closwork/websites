@@ -66,11 +66,12 @@ const Benefits = () => {
               {benefits.empresas.map((benefit, index) => (
                 <div 
                   key={index}
-                  className="group bg-white rounded-xl p-6 shadow-card hover:shadow-elevation transition-all duration-300 hover:-translate-y-2"
+                  className="group interactive-card bg-white rounded-xl p-6 shadow-card animate-fade-in-up"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center group-hover:animate-pulse-glow">
-                      <benefit.icon className="h-6 w-6 text-white" />
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center group-hover:animate-wiggle group-hover:scale-110 transition-all duration-300">
+                      <benefit.icon className="h-6 w-6 text-white transition-transform group-hover:rotate-12" />
                     </div>
                     <div className="space-y-2">
                       <h4 className="text-xl font-semibold text-secondary group-hover:text-primary transition-colors">
@@ -101,11 +102,12 @@ const Benefits = () => {
               {benefits.closers.map((benefit, index) => (
                 <div 
                   key={index}
-                  className="group bg-white rounded-xl p-6 shadow-card hover:shadow-elevation transition-all duration-300 hover:-translate-y-2"
+                  className="group interactive-card bg-white rounded-xl p-6 shadow-card animate-fade-in-up"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-secondary rounded-lg flex items-center justify-center group-hover:animate-pulse-glow">
-                      <benefit.icon className="h-6 w-6 text-white" />
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-secondary rounded-lg flex items-center justify-center group-hover:animate-wiggle group-hover:scale-110 transition-all duration-300">
+                      <benefit.icon className="h-6 w-6 text-white transition-transform group-hover:rotate-12" />
                     </div>
                     <div className="space-y-2">
                       <h4 className="text-xl font-semibold text-secondary group-hover:text-primary transition-colors">

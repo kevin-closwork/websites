@@ -72,17 +72,18 @@ const Plans = () => {
           {plans.map((plan, index) => (
             <div 
               key={index}
-              className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 ${
+              className={`relative rounded-2xl p-8 interactive-card animate-scale-in ${
                 plan.popular 
-                  ? 'bg-gradient-to-br from-primary to-primary-glow text-white shadow-glow scale-105' 
-                  : 'bg-white shadow-card hover:shadow-elevation border border-gray-100'
+                  ? 'bg-gradient-to-br from-primary to-primary-glow text-white shadow-glow scale-105 animate-gradient-shift' 
+                  : 'bg-white shadow-card border border-gray-100'
               }`}
+              style={{ animationDelay: `${index * 0.15}s` }}
             >
               {/* Popular Badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-current" />
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 animate-bounce-in">
+                  <div className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1 hover-scale">
+                    <Star className="h-4 w-4 fill-current animate-pulse" />
                     Más Popular
                   </div>
                 </div>
@@ -117,11 +118,15 @@ const Plans = () => {
               
               <div className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center gap-3">
-                    <Check className={`h-5 w-5 flex-shrink-0 ${
+                  <div 
+                    key={featureIndex} 
+                    className="flex items-center gap-3 group/feature animate-fade-in-up"
+                    style={{ animationDelay: `${(index * 0.1) + (featureIndex * 0.05)}s` }}
+                  >
+                    <Check className={`h-5 w-5 flex-shrink-0 transition-transform group-hover/feature:scale-125 group-hover/feature:rotate-12 ${
                       plan.popular ? 'text-white' : 'text-primary'
                     }`} />
-                    <span className={`${
+                    <span className={`transition-colors ${
                       plan.popular ? 'text-white' : 'text-secondary'
                     }`}>
                       {feature}
@@ -133,7 +138,7 @@ const Plans = () => {
               <Button 
                 variant={plan.popular ? "outline-white" : plan.variant}
                 size="lg"
-                className="w-full"
+                className="w-full hover-lift"
               >
                 {plan.cta}
               </Button>

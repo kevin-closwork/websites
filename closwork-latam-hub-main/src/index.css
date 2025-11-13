@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    --background: 340 30% 98%; /* Rosa muy claro/crema rosado */
-    --foreground: 330 40% 20%; /* Rosa oscuro/magenta suave */
+    --background: 200 30% 98%; /* Azul muy claro/crema azulado */
+    --foreground: 220 50% 15%; /* Azul oscuro profundo */
 
-    --card: 340 25% 99%; /* Blanco rosado */
-    --card-foreground: 330 40% 20%;
+    --card: 200 25% 99%; /* Blanco azulado */
+    --card-foreground: 220 50% 15%;
 
-    --popover: 340 25% 99%;
-    --popover-foreground: 330 40% 20%;
+    --popover: 200 25% 99%;
+    --popover-foreground: 220 50% 15%;
 
-    /* Closwork Brand Colors - Rosas con Naranja */
-    --primary: 350 75% 60%; /* Rosa coral vibrante #ff6b9d */
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 350 80% 70%;
+    /* Closwork Brand Colors - Amarillo con Azul */
+    --primary: 45 95% 55%; /* Amarillo vibrante #ffd700 */
+    --primary-foreground: 220 50% 15%;
+    --primary-glow: 45 100% 65%;
 
-    --secondary: 20 80% 55%; /* Coral salmón/naranja rosado #ff8c69 */
+    --secondary: 210 85% 50%; /* Azul vibrante #1e90ff */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 340 25% 95%; /* Rosa pastel suave */
-    --muted-foreground: 330 30% 50%;
+    --muted: 200 25% 95%; /* Azul pastel suave */
+    --muted-foreground: 220 30% 50%;
 
-    --accent: 350 75% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 95% 55%;
+    --accent-foreground: 220 50% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 340 20% 88%; /* Borde rosa suave */
-    --input: 340 20% 88%;
-    --ring: 350 75% 60%;
+    --border: 200 20% 88%; /* Borde azul suave */
+    --input: 200 20% 88%;
+    --ring: 45 95% 55%;
 
-    /* Gradients - Rosas con Naranja */
-    --gradient-primary: linear-gradient(135deg, hsl(350 75% 60%), hsl(350 80% 70%));
-    --gradient-secondary: linear-gradient(135deg, hsl(20 80% 55%), hsl(350 70% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(20 80% 55%) 0%, hsl(350 75% 60%) 100%);
-    --gradient-tech: linear-gradient(180deg, hsl(340 30% 98%) 0%, hsl(340 25% 96%) 100%);
+    /* Gradients - Amarillo con Azul */
+    --gradient-primary: linear-gradient(135deg, hsl(45 95% 55%), hsl(45 100% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 85% 50%), hsl(210 90% 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(210 85% 50%) 0%, hsl(45 95% 55%) 100%);
+    --gradient-tech: linear-gradient(180deg, hsl(200 30% 98%) 0%, hsl(200 25% 96%) 100%);
 
-    /* Shadows - Rosas */
-    --shadow-glow: 0 0 40px hsl(350 75% 60% / 0.3);
-    --shadow-elevation: 0 10px 30px -10px hsl(330 50% 30% / 0.2);
-    --shadow-card: 0 4px 20px hsl(330 40% 20% / 0.1);
+    /* Shadows - Amarillo/Azul */
+    --shadow-glow: 0 0 40px hsl(45 95% 55% / 0.4);
+    --shadow-elevation: 0 10px 30px -10px hsl(220 50% 30% / 0.25);
+    --shadow-card: 0 4px 20px hsl(220 40% 20% / 0.15);
 
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -175,8 +175,8 @@
   }
 
   @keyframes pulse-glow {
-    0% { box-shadow: 0 0 20px hsl(350 75% 60% / 0.3); }
-    100% { box-shadow: 0 0 40px hsl(350 75% 60% / 0.6); }
+    0% { box-shadow: 0 0 20px hsl(45 95% 55% / 0.4); }
+    100% { box-shadow: 0 0 50px hsl(45 95% 55% / 0.7); }
   }
 
   @keyframes slide-up {
@@ -193,5 +193,114 @@
   @keyframes counter {
     from { opacity: 0; transform: scale(0.5); }
     to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+
+  @keyframes bounce-in {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes scale-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 3s infinite;
+  }
+
+  .animate-bounce-in {
+    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .animate-wiggle {
+    animation: wiggle 0.5s ease-in-out;
+  }
+
+  .animate-gradient-shift {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.4s ease-out;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  /* Micro interacciones */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px -10px hsl(45 95% 55% / 0.3);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px hsl(45 95% 55% / 0.5);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .hover-scale {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  .interactive-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 50px -15px hsl(210 85% 50% / 0.3);
+  }
+
+  .interactive-card:active {
+    transform: translateY(-4px) scale(0.98);
   }
 }

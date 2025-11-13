@@ -33,28 +33,28 @@ const HeroSection = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button variant="hero" size="xl" className="group">
+                <Button variant="hero" size="xl" className="group hover-lift">
                   Únete Gratis a la Comunidad
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-2 group-hover:scale-110" />
                 </Button>
                 
-                <Button variant="outline-white" size="xl" className="group">
-                  <Play className="mr-2 h-5 w-5" />
+                <Button variant="outline-white" size="xl" className="group hover-lift">
+                  <Play className="mr-2 h-5 w-5 transition-transform group-hover:scale-125" />
                   Ver Demo
                 </Button>
               </div>
               
               <div className="flex items-center justify-center lg:justify-start gap-8 pt-8 text-white/80">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white animate-counter">+200</div>
+                <div className="text-center hover-scale animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                  <div className="text-2xl font-bold text-white animate-counter hover-glow">+200</div>
                   <div className="text-sm">Closers Verificados</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white animate-counter">+50</div>
+                <div className="text-center hover-scale animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <div className="text-2xl font-bold text-white animate-counter hover-glow">+50</div>
                   <div className="text-sm">Empresas Activas</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white animate-counter">95%</div>
+                <div className="text-center hover-scale animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                  <div className="text-2xl font-bold text-white animate-counter hover-glow">95%</div>
                   <div className="text-sm">Tasa de Éxito</div>
                 </div>
               </div>
@@ -63,18 +63,22 @@ const HeroSection = () => {
           
           {/* Hero Illustration */}
           <div className="relative">
-            <div className="relative z-10 animate-float">
-              <img src={heroTech} alt="Closwork Platform Illustration" className="w-full h-auto max-w-lg mx-auto" />
+            <div className="relative z-10 animate-float hover-scale">
+              <img 
+                src={heroTech} 
+                alt="Closwork Platform Illustration" 
+                className="w-full h-auto max-w-lg mx-auto transition-transform duration-500 hover:scale-110 hover:rotate-2" 
+              />
             </div>
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary to-secondary rounded-full opacity-20 blur-2xl animate-pulse-glow"></div>
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary to-secondary rounded-full opacity-20 blur-2xl animate-pulse-glow animate-gradient-shift"></div>
           </div>
         </div>
       </div>
       
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hover-scale cursor-pointer">
+        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center hover:border-white transition-all duration-300">
+          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse hover:bg-white"></div>
         </div>
       </div>
     </section>;
