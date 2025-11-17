@@ -19,19 +19,48 @@ const Calculator = () => {
 
   // Constants
   const MEXICAN_MIN_WAGE = 8500; // MXN per month
-  const CLOSWORK_PRICE = 4500; // MXN per month per closer
   const AVERAGE_SALARY_MULTIPLIER = 1.5; // Most companies pay more than minimum wage
+
+  // Planes de Closwork (precios mensuales)
+  const PLAN_STARTER = 899; // 1 socio comercial
+  const PLAN_GROWTH = 1900; // 2 socios comerciales ($950 por socio)
+  const PLAN_SCALE = 2400; // 3 socios comerciales ($800 por socio)
+  const ADDON_PRICE = 199; // Por cada socio adicional después de 3
+
+  // Calcular precio mensual de Closwork basado en número de socios
+  const getClosworkMonthlyPrice = (sociosCount: number): number => {
+    if (sociosCount === 1) {
+      return PLAN_STARTER; // $899/mes
+    } else if (sociosCount === 2) {
+      return PLAN_GROWTH; // $1,900/mes
+    } else if (sociosCount === 3) {
+      return PLAN_SCALE; // $2,400/mes
+    } else {
+      // 4+ socios: SCALE + addons
+      const addonsCount = sociosCount - 3;
+      return PLAN_SCALE + (addonsCount * ADDON_PRICE);
+    }
+  };
+
+  // Calcular precio por socio comercial
+  const getPricePerSocio = (sociosCount: number): number => {
+    return getClosworkMonthlyPrice(sociosCount) / sociosCount;
+  };
 
   const calculations = useMemo(() => {
     const traditionalSalary = MEXICAN_MIN_WAGE * AVERAGE_SALARY_MULTIPLIER;
     const traditionalCost = traditionalSalary * closersCount * salesCycle;
-    const closworkCost = CLOSWORK_PRICE * closersCount * salesCycle;
+    const closworkMonthlyPrice = getClosworkMonthlyPrice(closersCount);
+    const closworkCost = closworkMonthlyPrice * salesCycle;
     const savings = traditionalCost - closworkCost;
     const savingsPercentage = ((savings / traditionalCost) * 100).toFixed(1);
+    const pricePerSocio = getPricePerSocio(closersCount);
     
     return {
       traditionalCost,
       closworkCost,
+      closworkMonthlyPrice,
+      pricePerSocio,
       savings,
       savingsPercentage,
       traditionalSalary
@@ -52,7 +81,7 @@ const Calculator = () => {
           ¿Cuánto ahorras con <span className="text-brand">Closwork</span>?
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Compara el costo real de contratar closers tradicionales vs nuestro modelo de pago por resultados
+          Compara el costo real de contratar socios comerciales tradicionales vs nuestro modelo de planes mensuales
         </p>
       </div>
 
@@ -70,7 +99,7 @@ const Calculator = () => {
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Cantidad de closers</label>
+              <label className="text-sm font-medium">Cantidad de socios comerciales</label>
               <Input 
                 type="number" 
                 value={closersCount} 
@@ -79,7 +108,7 @@ const Calculator = () => {
                 max="20"
               />
               <p className="text-xs text-muted-foreground">
-                {closersCount} closers trabajando para ti
+                {closersCount} {closersCount === 1 ? 'socio comercial' : 'socios comerciales'} trabajando para ti
               </p>
             </div>
             <div className="space-y-2">
@@ -112,17 +141,17 @@ const Calculator = () => {
               <Badge variant="destructive">Costoso</Badge>
             </div>
             <CardDescription className="text-red-600">
-              Contratas closers con salario fijo
+              Contratas socios comerciales con salario fijo
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Salario por closer:</span>
+                <span>Salario por socio comercial:</span>
                 <span className="font-medium">${calculations.traditionalSalary.toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Total closers:</span>
+                <span>Total socios comerciales:</span>
                 <span className="font-medium">{closersCount}</span>
               </div>
               <div className="flex justify-between text-sm">
@@ -138,7 +167,7 @@ const Calculator = () => {
               </div>
             </div>
             <div className="text-xs text-red-600 bg-red-100 p-3 rounded-lg">
-              <strong>⚠️ Riesgo:</strong> Pagas salarios sin importar si venden o no
+              <strong>⚠️ Riesgo:</strong> Pagas salarios fijos sin importar si venden o no
             </div>
           </CardContent>
         </Card>
@@ -160,11 +189,15 @@ const Calculator = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Precio por closer:</span>
-                <span className="font-medium">${CLOSWORK_PRICE.toLocaleString('es-MX')} MXN</span>
+                <span>Plan mensual ({closersCount} {closersCount === 1 ? 'socio' : 'socios'}):</span>
+                <span className="font-medium">${calculations.closworkMonthlyPrice.toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Total closers:</span>
+                <span>Precio por socio comercial:</span>
+                <span className="font-medium">${calculations.pricePerSocio.toLocaleString('es-MX', { maximumFractionDigits: 0 })} MXN</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Total socios comerciales:</span>
                 <span className="font-medium">{closersCount}</span>
               </div>
               <div className="flex justify-between text-sm">
@@ -180,7 +213,7 @@ const Calculator = () => {
               </div>
             </div>
             <div className="text-xs text-green-600 bg-green-100 p-3 rounded-lg">
-              <strong>✅ Ventaja:</strong> Solo pagas por closers activos y resultados
+              <strong>✅ Ventaja:</strong> Solo pagas por socios comerciales activos, sin salarios fijos
             </div>
           </CardContent>
         </Card>
@@ -215,7 +248,7 @@ const Calculator = () => {
               <div className="text-2xl font-bold text-purple-700">
                 {closersCount * salesCycle}
               </div>
-              <p className="text-sm text-muted-foreground">Closers-mes totales</p>
+              <p className="text-sm text-muted-foreground">Socios-mes totales</p>
             </div>
           </div>
         </CardContent>
