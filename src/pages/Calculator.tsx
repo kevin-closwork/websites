@@ -222,35 +222,51 @@ const Calculator = () => {
             {addonsCount > 0 && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-blue-900">Socios adicionales (Addons):</span>
-                  <span className="font-semibold text-blue-700">{addonsCount}</span>
+                  <span className="font-medium text-blue-900">Socios comerciales extra:</span>
+                  <span className="font-semibold text-blue-700">{addonsCount} {addonsCount === 1 ? 'socio' : 'socios'}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-blue-700">Precio por addon:</span>
+                  <span className="text-blue-700">Precio por socio comercial extra:</span>
                   <span className="font-semibold text-blue-900">${planDetails.addonPrice.toLocaleString('es-MX')} MXN/mes</span>
                 </div>
                 <div className="flex items-center justify-between text-sm pt-2 border-t border-blue-200">
-                  <span className="font-medium text-blue-900">Total addons:</span>
-                  <span className="font-bold text-blue-900">${planDetails.addonsCost.toLocaleString('es-MX')} MXN/mes</span>
+                  <span className="font-medium text-blue-900">Total socios extra:</span>
+                  <span className="font-bold text-blue-900">{addonsCount} × ${planDetails.addonPrice.toLocaleString('es-MX')} = ${planDetails.addonsCost.toLocaleString('es-MX')} MXN/mes</span>
                 </div>
               </div>
             )}
 
             <Separator />
             
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Precio mensual total:</span>
-                <div className="text-lg font-bold text-brand mt-1">
-                  ${planDetails.monthlyCost.toLocaleString('es-MX')} MXN
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Precio mensual total:</span>
+                  <div className="text-lg font-bold text-brand mt-1">
+                    ${planDetails.monthlyCost.toLocaleString('es-MX')} MXN
+                  </div>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Total socios comerciales:</span>
+                  <div className="text-lg font-bold text-brand mt-1">
+                    {planDetails.totalClosers} {planDetails.totalClosers === 1 ? 'socio' : 'socios'}
+                  </div>
                 </div>
               </div>
-              <div>
-                <span className="text-muted-foreground">Precio por socio comercial:</span>
-                <div className="text-lg font-bold text-brand mt-1">
-                  ${Math.round(planDetails.pricePerCloser).toLocaleString('es-MX')} MXN
+              
+              {addonsCount > 0 && (
+                <div className="pt-2 border-t">
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Precio por socio comercial extra:</span>
+                    <div className="font-semibold text-brand mt-1">
+                      ${planDetails.addonPrice.toLocaleString('es-MX')} MXN/mes
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {addonsCount} {addonsCount === 1 ? 'socio extra' : 'socios extra'} × ${planDetails.addonPrice.toLocaleString('es-MX')} = ${planDetails.addonsCost.toLocaleString('es-MX')} MXN/mes
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </CardContent>
@@ -324,9 +340,15 @@ const Calculator = () => {
                 <span>Precio mensual del plan:</span>
                 <span className="font-medium">${planDetails.monthlyCost.toLocaleString('es-MX')} MXN</span>
               </div>
+              {addonsCount > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span>Socios comerciales extra:</span>
+                  <span className="font-medium">{addonsCount} × ${planDetails.addonPrice.toLocaleString('es-MX')} MXN</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
-                <span>Precio por socio comercial:</span>
-                <span className="font-medium">${Math.round(planDetails.pricePerCloser).toLocaleString('es-MX')} MXN</span>
+                <span>Precio por socio extra:</span>
+                <span className="font-medium">${planDetails.addonPrice.toLocaleString('es-MX')} MXN/mes</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Total socios comerciales:</span>
