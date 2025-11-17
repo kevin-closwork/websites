@@ -101,8 +101,8 @@ const SavingsSection = () => {
                 </p>
                 <Link to="/calculadora" onClick={handleCalculatorClick}>
                   <Button 
+                    variant="hero"
                     size="lg" 
-                    className="bg-brand hover:bg-brand/90 text-white"
                   >
                     <Calculator className="h-5 w-5 mr-2" />
                     Calcular Mi Ahorro
