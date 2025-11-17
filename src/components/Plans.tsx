@@ -5,62 +5,78 @@ import { getStripeCheckoutUrl, getStripePrice, getStripeTracking, getStripeCurre
 
 const plans = [
   {
-    name: "Plan Básico",
+    name: "STARTER",
+    subtitle: "Prueba sin riesgo, cambia cuando quieras",
     price: "$899",
-    currency: "USD",
-    originalPrice: "$1200",
-    period: "por lanzamiento",
-    description: "Perfecto para empresas que están comenzando",
+    currency: "MXN",
+    period: "/mes",
     features: [
-      "1 socio comercial",
-      "Sesión consultiva",
-      "Garantía de cambio (1 cambio en los siguientes 7 días posteriores)"
+      "1 socio comercial verificado activo",
+      "1 Cambio de socio comercial por mes",
+      "Sesión consultiva inicial (45 min)",
+      "WhatsApp support"
     ],
-    cta: "Comenzar Ahora",
+    addon: {
+      text: "Closer adicional: +$699/mes",
+      price: 699
+    },
+    cta: "Empezar Ahora",
     popular: false,
     variant: "hero" as const,
     planKey: "planBasico" as const,
-    icon: Star
+    icon: Star,
+    emoji: "🎯"
   },
   {
-    name: "Plan Growth",
-    price: "$2,400",
-    currency: "USD",
-    originalPrice: "$2,700",
-    period: "por lanzamiento",
-    description: "Ideal para empresas en crecimiento",
+    name: "GROWTH",
+    subtitle: "Dobla tus probabilidades, diferentes estilos",
+    price: "$1,900",
+    currency: "MXN",
+    period: "/mes",
     features: [
-      "2 socios comerciales",
-      "Garantía de cambio (2 cambios)",
-      "Sesión consultiva extendida",
-      "Soporte prioritario",
-      "Garantía de 14 días"
+      "2 closers elite simultáneamente",
+      "2 cambios de socio comercial por mes",
+      "2 sesiones consultivas/mes (30 min c/u)",
+      "Prioridad en asignación de closers",
+      "WhatsApp support prioritario (<4h)",
+      "Acceso a eventos Closwork"
     ],
-    cta: "Escalar Ahora",
+    addon: {
+      text: "Closer adicional: +$499/mes",
+      price: 499
+    },
+    cta: "Comenzar Growth",
     popular: true,
     variant: "hero" as const,
     planKey: "planGrowth" as const,
-    icon: TrendingUp
+    icon: TrendingUp,
+    emoji: "🚀"
   },
   {
-    name: "Plan Scale",
-    price: "$7,900",
-    currency: "USD",
-    originalPrice: "$8,900",
-    period: "por lanzamiento",
-    description: "Para empresas que buscan máximo rendimiento",
+    name: "SCALE",
+    subtitle: "Equipo comercial completo, resultados multiplicados",
+    price: "$2,400",
+    currency: "MXN",
+    period: "/mes",
     features: [
-      "3 socios comerciales senior",
-      "Garantía de cambio (2 cambios)",
-      "2 Sesiónes consultivas",
-      "Soporte prioritario",
-      "Garantía de 30 días"
+      "3 closers senior simultáneamente",
+      "Cambios ilimitados de closers",
+      "Prioridad absoluta en nuevas oportunidades",
+      "Beta access: Primeros en probar nuevas features",
+      "2 sesiones consultivas/mes",
+      "WhatsApp VIP directo (fundadores)",
+      "Acceso exclusivo a closers TOP 10%"
     ],
-    cta: "Maximizar Ventas",
+    addon: {
+      text: "Closer adicional: +$199/mes",
+      price: 199
+    },
+    cta: "Escalar Ahora",
     popular: false,
     variant: "hero" as const,
     planKey: "planScale" as const,
-    icon: Zap
+    icon: Zap,
+    emoji: "💎"
   }
 ];
 
@@ -123,44 +139,40 @@ const Plans = () => {
                       ? 'bg-white/20 text-white' 
                       : 'bg-primary/10 text-primary'
                   }`}>
-                    <plan.icon className="h-8 w-8" />
+                    {plan.emoji && (
+                      <span className="text-3xl">{plan.emoji}</span>
+                    )}
+                    {!plan.emoji && (
+                      <plan.icon className="h-8 w-8" />
+                    )}
                   </div>
                 </div>
-                <h3 className={`text-2xl font-bold mb-2 ${
+                <h3 className={`text-2xl font-bold mb-1 ${
                   plan.popular ? 'text-white' : 'text-secondary'
                 }`}>
                   {plan.name}
                 </h3>
+                {plan.subtitle && (
+                  <p className={`text-sm mb-4 ${
+                    plan.popular ? 'text-white/80' : 'text-muted-foreground'
+                  }`}>
+                    {plan.subtitle}
+                  </p>
+                )}
                 <div className="mb-4">
-                  {plan.originalPrice && (
-                    <div className="mb-2">
-                      <span className={`text-lg line-through ${
-                        plan.popular ? 'text-white/60' : 'text-muted-foreground'
-                      }`}>
-                        {plan.originalPrice}
-                      </span>
-                    </div>
-                  )}
                   <div className="flex items-baseline justify-center gap-2">
                     <span className={`text-4xl font-bold ${
                       plan.popular ? 'text-white' : 'text-secondary'
                     }`}>
                       {plan.price}
                     </span>
-                    {plan.period && (
-                      <span className={`text-lg ${
-                        plan.popular ? 'text-white/80' : 'text-muted-foreground'
-                      }`}>
-                        {plan.period}
-                      </span>
-                    )}
+                    <span className={`text-lg ${
+                      plan.popular ? 'text-white/80' : 'text-muted-foreground'
+                    }`}>
+                      {plan.currency}{plan.period}
+                    </span>
                   </div>
                 </div>
-                <p className={`${
-                  plan.popular ? 'text-white/90' : 'text-muted-foreground'
-                }`}>
-                  {plan.description}
-                </p>
               </div>
               
               <div className="space-y-4 mb-8">
@@ -190,21 +202,20 @@ const Plans = () => {
               <Button 
                 variant={plan.popular ? "outline-white" : plan.variant}
                 size="lg"
-                className="w-full"
+                className="w-full mb-3"
                 onClick={() => handleStripeCheckout(plan.planKey)}
               >
                 {plan.cta}
               </Button>
               
-              {/* Guarantee Badge - Only show for Growth and Scale plans */}
-              {plan.name !== "Plan Básico" && (
-                <div className="text-center mt-6">
-                  <div className={`inline-flex items-center gap-1 text-sm ${
-                    plan.popular ? 'text-white/80' : 'text-muted-foreground'
+              {/* Addon Info */}
+              {plan.addon && (
+                <div className="text-center">
+                  <p className={`text-xs ${
+                    plan.popular ? 'text-white/70' : 'text-muted-foreground'
                   }`}>
-                    <Check className="h-4 w-4" />
-                    {plan.name === "Plan Growth" ? "Garantía de 14 días" : "Garantía de 30 días"}
-                  </div>
+                    {plan.addon.text}
+                  </p>
                 </div>
               )}
             </div>

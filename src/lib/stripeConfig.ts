@@ -2,14 +2,14 @@
 export const stripeConfig = {
   // URLs de Stripe Checkout
   checkoutUrls: {
-    // Plan Básico - $899 USD por lanzamiento
-    planBasico: 'https://buy.stripe.com/14A4gy2IN2DA2q7fnx6Na04', // URL real de Stripe
+    // STARTER - $899 MXN/mes
+    planBasico: 'https://buy.stripe.com/14A4gy2IN2DA2q7fnx6Na04', // URL real de Stripe - ACTUALIZAR
     
-    // Plan Growth - $2400 USD por lanzamiento
-    planGrowth: 'https://buy.stripe.com/5kQ5kCabfguq6Gn5MX6Na01', // URL real de Stripe
+    // GROWTH - $1,900 MXN/mes
+    planGrowth: 'https://buy.stripe.com/5kQ5kCabfguq6Gn5MX6Na01', // URL real de Stripe - ACTUALIZAR
     
-    // Plan Scale - $7900 USD por lanzamiento
-    planScale: 'https://buy.stripe.com/28E7sKdnremi5Cjb7h6Na02', // URL real de Stripe
+    // SCALE - $2,400 MXN/mes
+    planScale: 'https://buy.stripe.com/28E7sKdnremi5Cjb7h6Na02', // URL real de Stripe - ACTUALIZAR
   },
   
   // URLs de éxito y cancelación
@@ -20,34 +20,34 @@ export const stripeConfig = {
   
   // Configuración de precios
   prices: {
-    planBasico: 899, // USD
-    planGrowth: 2400, // USD
-    planScale: 7900, // USD
+    planBasico: 899, // MXN/mes
+    planGrowth: 1900, // MXN/mes
+    planScale: 2400, // MXN/mes
   },
   
   // Configuración de monedas
   currencies: {
-    planBasico: 'USD',
-    planGrowth: 'USD',
-    planScale: 'USD',
+    planBasico: 'MXN',
+    planGrowth: 'MXN',
+    planScale: 'MXN',
   },
   
   // Configuración de moneda
-  currency: 'USD',
+  currency: 'MXN',
   
   // Configuración de tracking
   tracking: {
     planBasico: {
-      checkoutType: 'Plan Básico - $899 USD',
-      leadType: 'Plan Básico - Stripe Checkout',
+      checkoutType: 'STARTER - $899 MXN/mes',
+      leadType: 'STARTER - Stripe Checkout',
     },
     planGrowth: {
-      checkoutType: 'Plan Growth - $2400 USD',
-      leadType: 'Plan Growth - Stripe Checkout',
+      checkoutType: 'GROWTH - $1,900 MXN/mes',
+      leadType: 'GROWTH - Stripe Checkout',
     },
     planScale: {
-      checkoutType: 'Plan Scale - $7900 USD',
-      leadType: 'Plan Scale - Stripe Checkout',
+      checkoutType: 'SCALE - $2,400 MXN/mes',
+      leadType: 'SCALE - Stripe Checkout',
     },
   }
 };
