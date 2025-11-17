@@ -17,7 +17,7 @@ const plans = [
       "WhatsApp support"
     ],
     addon: {
-      text: "Closer adicional: +$699/mes",
+      text: "Socio comercial adicional: +$699/mes",
       price: 699
     },
     cta: "Empezar Ahora",
@@ -34,15 +34,15 @@ const plans = [
     currency: "MXN",
     period: "/mes",
     features: [
-      "2 closers elite simultáneamente",
+      "2 socios comerciales simultáneamente",
       "2 cambios de socio comercial por mes",
       "2 sesiones consultivas/mes (30 min c/u)",
-      "Prioridad en asignación de closers",
+      "Prioridad en asignación de socios comerciales",
       "WhatsApp support prioritario (<4h)",
       "Acceso a eventos Closwork"
     ],
     addon: {
-      text: "Closer adicional: +$499/mes",
+      text: "Socio comercial adicional: +$499/mes",
       price: 499
     },
     cta: "Comenzar Growth",
@@ -59,16 +59,16 @@ const plans = [
     currency: "MXN",
     period: "/mes",
     features: [
-      "3 closers senior simultáneamente",
-      "Cambios ilimitados de closers",
+      "3 socios comerciales simultáneamente",
+      "Cambios ilimitados de socios comerciales",
       "Prioridad absoluta en nuevas oportunidades",
       "Beta access: Primeros en probar nuevas features",
       "2 sesiones consultivas/mes",
       "WhatsApp VIP directo (fundadores)",
-      "Acceso exclusivo a closers TOP 10%"
+      "Acceso exclusivo a socios comerciales TOP 10%"
     ],
     addon: {
-      text: "Closer adicional: +$199/mes",
+      text: "Socio comercial adicional: +$199/mes",
       price: 199
     },
     cta: "Escalar Ahora",
