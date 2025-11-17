@@ -3,13 +3,13 @@ export const stripeConfig = {
   // URLs de Stripe Checkout
   checkoutUrls: {
     // STARTER - $899 MXN/mes
-    planBasico: 'https://buy.stripe.com/14A4gy2IN2DA2q7fnx6Na04', // URL real de Stripe - ACTUALIZAR
+    planBasico: 'https://buy.stripe.com/5kQ8wO83791YfcT6R16Na05',
     
     // GROWTH - $1,900 MXN/mes
-    planGrowth: 'https://buy.stripe.com/5kQ5kCabfguq6Gn5MX6Na01', // URL real de Stripe - ACTUALIZAR
+    planGrowth: 'https://buy.stripe.com/28E5kC5UZ2DA1m3cbl6Na06',
     
     // SCALE - $2,400 MXN/mes
-    planScale: 'https://buy.stripe.com/28E7sKdnremi5Cjb7h6Na02', // URL real de Stripe - ACTUALIZAR
+    planScale: 'https://buy.stripe.com/eVqcN4bfj6TQ9Sz4IT6Na07',
   },
   
   // URLs de éxito y cancelación
