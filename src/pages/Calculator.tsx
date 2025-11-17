@@ -5,11 +5,15 @@ import { useMemo, useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TrendingUp, Users, Clock, DollarSign, Target, Zap, CheckCircle, XCircle } from "lucide-react";
 import { pixelEvents } from "@/lib/pixelEvents";
 
+type PlanType = 'STARTER' | 'GROWTH' | 'SCALE';
+
 const Calculator = () => {
-  const [closersCount, setClosersCount] = useState<number>(3);
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>('GROWTH');
+  const [addonsCount, setAddonsCount] = useState<number>(0);
   const [salesCycle, setSalesCycle] = useState<number>(3);
 
   // Track page view
@@ -22,58 +26,56 @@ const Calculator = () => {
   const AVERAGE_SALARY_MULTIPLIER = 1.5; // Most companies pay more than minimum wage
   
   // Nuevos planes Closwork
-  const PLAN_STARTER = 899; // MXN/mes - 1 socio comercial
-  const PLAN_GROWTH = 1900; // MXN/mes - 2 socios comerciales
-  const PLAN_SCALE = 2400; // MXN/mes - 3 socios comerciales
-  const ADDON_STARTER = 699; // MXN/mes por socio adicional
-  const ADDON_GROWTH = 499; // MXN/mes por socio adicional
-  const ADDON_SCALE = 199; // MXN/mes por socio adicional
-
-  // Calcular costo de Closwork según cantidad de closers
-  const getClosworkPlanCost = (count: number): { monthlyCost: number; planName: string; pricePerCloser: number } => {
-    if (count === 1) {
-      return {
-        monthlyCost: PLAN_STARTER,
-        planName: 'STARTER',
-        pricePerCloser: PLAN_STARTER
-      };
-    } else if (count === 2) {
-      return {
-        monthlyCost: PLAN_GROWTH,
-        planName: 'GROWTH',
-        pricePerCloser: PLAN_GROWTH / 2
-      };
-    } else if (count === 3) {
-      return {
-        monthlyCost: PLAN_SCALE,
-        planName: 'SCALE',
-        pricePerCloser: PLAN_SCALE / 3
-      };
-    } else if (count > 3) {
-      // Plan SCALE + addons
-      const addons = count - 3;
-      const monthlyCost = PLAN_SCALE + (ADDON_SCALE * addons);
-      return {
-        monthlyCost,
-        planName: 'SCALE + Addons',
-        pricePerCloser: monthlyCost / count
-      };
+  const PLAN_CONFIG = {
+    STARTER: {
+      name: 'STARTER',
+      price: 899, // MXN/mes
+      closersIncluded: 1,
+      addonPrice: 699, // MXN/mes por socio adicional
+      emoji: '🎯'
+    },
+    GROWTH: {
+      name: 'GROWTH',
+      price: 1900, // MXN/mes
+      closersIncluded: 2,
+      addonPrice: 499, // MXN/mes por socio adicional
+      emoji: '🚀'
+    },
+    SCALE: {
+      name: 'SCALE',
+      price: 2400, // MXN/mes
+      closersIncluded: 3,
+      addonPrice: 199, // MXN/mes por socio adicional
+      emoji: '💎'
     }
-    // Default (no debería llegar aquí)
-    return {
-      monthlyCost: PLAN_STARTER,
-      planName: 'STARTER',
-      pricePerCloser: PLAN_STARTER
-    };
   };
+
+  // Calcular costo total y detalles del plan
+  const planDetails = useMemo(() => {
+    const plan = PLAN_CONFIG[selectedPlan];
+    const totalClosers = plan.closersIncluded + addonsCount;
+    const addonsCost = addonsCount * plan.addonPrice;
+    const monthlyCost = plan.price + addonsCost;
+    const pricePerCloser = monthlyCost / totalClosers;
+    
+    return {
+      planName: plan.name,
+      planPrice: plan.price,
+      closersIncluded: plan.closersIncluded,
+      addonsCount,
+      addonPrice: plan.addonPrice,
+      addonsCost,
+      monthlyCost,
+      totalClosers,
+      pricePerCloser,
+      emoji: plan.emoji
+    };
+  }, [selectedPlan, addonsCount]);
 
   const calculations = useMemo(() => {
     const traditionalSalary = MEXICAN_MIN_WAGE * AVERAGE_SALARY_MULTIPLIER;
-    const traditionalCost = traditionalSalary * closersCount * salesCycle;
-    
-    const closworkPlan = getClosworkPlanCost(closersCount);
-    const closworkCost = closworkPlan.monthlyCost * salesCycle;
-    
+    const traditionalCost = traditionalSalary * planDetails.totalClosers * salesCycle;
+    const closworkCost = planDetails.monthlyCost * salesCycle;
     const savings = traditionalCost - closworkCost;
     const savingsPercentage = ((savings / traditionalCost) * 100).toFixed(1);
     
@@ -82,10 +84,9 @@ const Calculator = () => {
       closworkCost,
       savings,
       savingsPercentage,
-      traditionalSalary,
-      closworkPlan
+      traditionalSalary
     };
-  }, [closersCount, salesCycle]);
+  }, [planDetails, salesCycle]);
 
   return (
     <div className="container py-16">
@@ -119,18 +120,52 @@ const Calculator = () => {
         <CardContent className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Cantidad de socios comerciales</label>
+              <label className="text-sm font-medium">Selecciona tu plan</label>
+              <Select value={selectedPlan} onValueChange={(value) => setSelectedPlan(value as PlanType)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="STARTER">
+                    <div className="flex items-center gap-2">
+                      <span>🎯</span>
+                      <span>STARTER - $899 MXN/mes (1 socio)</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="GROWTH">
+                    <div className="flex items-center gap-2">
+                      <span>🚀</span>
+                      <span>GROWTH - $1,900 MXN/mes (2 socios)</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="SCALE">
+                    <div className="flex items-center gap-2">
+                      <span>💎</span>
+                      <span>SCALE - $2,400 MXN/mes (3 socios)</span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Plan {planDetails.planName} - {planDetails.closersIncluded} {planDetails.closersIncluded === 1 ? 'socio comercial' : 'socios comerciales'} incluidos
+              </p>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Socios comerciales adicionales</label>
               <Input 
                 type="number" 
-                value={closersCount} 
-                onChange={(e) => setClosersCount(parseInt(e.target.value || "1", 10))}
-                min="1"
+                value={addonsCount} 
+                onChange={(e) => setAddonsCount(Math.max(0, parseInt(e.target.value || "0", 10)))}
+                min="0"
                 max="20"
               />
               <p className="text-xs text-muted-foreground">
-                {closersCount} {closersCount === 1 ? 'socio comercial' : 'socios comerciales'} trabajando para ti
+                {addonsCount === 0 ? 'Sin addons' : `${addonsCount} ${addonsCount === 1 ? 'addon' : 'addons'} (+$${planDetails.addonPrice.toLocaleString('es-MX')} MXN/mes ${addonsCount === 1 ? 'cada uno' : 'cada uno'})`}
               </p>
             </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium">Ciclo de ventas (meses)</label>
               <Input 
@@ -144,15 +179,28 @@ const Calculator = () => {
                 Tiempo para ver resultados
               </p>
             </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Total de socios comerciales</label>
+              <div className="h-10 flex items-center px-3 bg-muted rounded-md border border-input">
+                <span className="text-lg font-semibold">{planDetails.totalClosers}</span>
+                <span className="text-sm text-muted-foreground ml-2">
+                  {planDetails.totalClosers === 1 ? 'socio comercial' : 'socios comerciales'}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {planDetails.closersIncluded} del plan + {addonsCount} {addonsCount === 1 ? 'addon' : 'addons'}
+              </p>
+            </div>
           </div>
 
           {/* Plan Details */}
           <Separator />
           <div className="bg-muted/50 rounded-lg p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Plan seleccionado:</span>
+              <span className="text-sm font-medium">Resumen del plan:</span>
               <Badge variant="outline" className="font-semibold">
-                {calculations.closworkPlan.planName}
+                <span className="mr-1">{planDetails.emoji}</span>
+                {planDetails.planName}
               </Badge>
             </div>
             
@@ -160,30 +208,30 @@ const Calculator = () => {
               <div>
                 <span className="text-muted-foreground">Socios incluidos en plan:</span>
                 <div className="font-semibold mt-1">
-                  {closersCount <= 1 ? '1' : closersCount <= 2 ? '2' : '3'} socio{closersCount <= 1 ? '' : closersCount <= 2 ? 's' : 's'}
+                  {planDetails.closersIncluded} {planDetails.closersIncluded === 1 ? 'socio' : 'socios'}
                 </div>
               </div>
               <div>
                 <span className="text-muted-foreground">Precio base del plan:</span>
                 <div className="font-semibold mt-1">
-                  ${(closersCount <= 1 ? PLAN_STARTER : closersCount <= 2 ? PLAN_GROWTH : PLAN_SCALE).toLocaleString('es-MX')} MXN/mes
+                  ${planDetails.planPrice.toLocaleString('es-MX')} MXN/mes
                 </div>
               </div>
             </div>
 
-            {closersCount > 3 && (
+            {addonsCount > 0 && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium text-blue-900">Socios adicionales (Addons):</span>
-                  <span className="font-semibold text-blue-700">{closersCount - 3}</span>
+                  <span className="font-semibold text-blue-700">{addonsCount}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-blue-700">Precio por addon:</span>
-                  <span className="font-semibold text-blue-900">${ADDON_SCALE.toLocaleString('es-MX')} MXN/mes</span>
+                  <span className="font-semibold text-blue-900">${planDetails.addonPrice.toLocaleString('es-MX')} MXN/mes</span>
                 </div>
                 <div className="flex items-center justify-between text-sm pt-2 border-t border-blue-200">
                   <span className="font-medium text-blue-900">Total addons:</span>
-                  <span className="font-bold text-blue-900">${((closersCount - 3) * ADDON_SCALE).toLocaleString('es-MX')} MXN/mes</span>
+                  <span className="font-bold text-blue-900">${planDetails.addonsCost.toLocaleString('es-MX')} MXN/mes</span>
                 </div>
               </div>
             )}
@@ -194,13 +242,13 @@ const Calculator = () => {
               <div>
                 <span className="text-muted-foreground">Precio mensual total:</span>
                 <div className="text-lg font-bold text-brand mt-1">
-                  ${calculations.closworkPlan.monthlyCost.toLocaleString('es-MX')} MXN
+                  ${planDetails.monthlyCost.toLocaleString('es-MX')} MXN
                 </div>
               </div>
               <div>
                 <span className="text-muted-foreground">Precio por socio comercial:</span>
                 <div className="text-lg font-bold text-brand mt-1">
-                  ${Math.round(calculations.closworkPlan.pricePerCloser).toLocaleString('es-MX')} MXN
+                  ${Math.round(planDetails.pricePerCloser).toLocaleString('es-MX')} MXN
                 </div>
               </div>
             </div>
@@ -231,8 +279,8 @@ const Calculator = () => {
                 <span className="font-medium">${calculations.traditionalSalary.toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span>Total closers:</span>
-                <span className="font-medium">{closersCount}</span>
+                <span>Total socios comerciales:</span>
+                <span className="font-medium">{planDetails.totalClosers}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Duración:</span>
@@ -269,20 +317,20 @@ const Calculator = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Plan recomendado:</span>
-                <Badge variant="outline" className="font-medium">{calculations.closworkPlan.planName}</Badge>
+                <span>Plan seleccionado:</span>
+                <Badge variant="outline" className="font-medium">{planDetails.planName}</Badge>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Precio mensual del plan:</span>
-                <span className="font-medium">${calculations.closworkPlan.monthlyCost.toLocaleString('es-MX')} MXN</span>
+                <span className="font-medium">${planDetails.monthlyCost.toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Precio por socio comercial:</span>
-                <span className="font-medium">${Math.round(calculations.closworkPlan.pricePerCloser).toLocaleString('es-MX')} MXN</span>
+                <span className="font-medium">${Math.round(planDetails.pricePerCloser).toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Total socios comerciales:</span>
-                <span className="font-medium">{closersCount}</span>
+                <span className="font-medium">{planDetails.totalClosers}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span>Duración:</span>
@@ -330,7 +378,7 @@ const Calculator = () => {
             </div>
             <div className="space-y-2">
               <div className="text-2xl font-bold text-purple-700">
-                {closersCount * salesCycle}
+                {planDetails.totalClosers * salesCycle}
               </div>
               <p className="text-sm text-muted-foreground">Socios comerciales-mes totales</p>
             </div>
