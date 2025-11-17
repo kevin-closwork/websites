@@ -167,7 +167,7 @@ const Calculator = () => {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Salario por closer:</span>
+                <span>Salario por socio comercial:</span>
                 <span className="font-medium">${calculations.traditionalSalary.toLocaleString('es-MX')} MXN</span>
               </div>
               <div className="flex justify-between text-sm">
