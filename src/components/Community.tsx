@@ -223,12 +223,9 @@ const Community = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Una comunidad en{" "}
-            <span className="bg-gradient-to-r from-primary-glow to-white bg-clip-text text-transparent">
-              crecimiento
-            </span>
+            Una comunidad en crecimiento
           </h2>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Miles de empresas y closers ya confían en Closwork para hacer crecer sus negocios
             en toda América Latina
           </p>

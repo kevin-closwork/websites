@@ -52,21 +52,6 @@ const HeroSection = () => {
                   <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
                 </Button>
               </div>
-            
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 text-white/80">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-white animate-counter mb-2">+200</div>
-                  <div className="text-lg">Closers Verificados</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-white animate-counter mb-2">+50</div>
-                  <div className="text-lg">Empresas Activas</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-white animate-counter mb-2">95%</div>
-                  <div className="text-lg">Tasa de Éxito</div>
-                </div>
-              </div>
 
               {/* Accelerated by Section */}
               <div className="pt-8">
