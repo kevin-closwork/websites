@@ -26,61 +26,82 @@ const HeroSection = () => {
         </div>
 
         <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="space-y-8 animate-slide-up">
-              <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight">
-                <span className="text-white">
-                  Únete a la comunidad
-                </span>
-                <br />
-                de socios comerciales bajo comisión de LATAM
-              </h1>
-              
-              <p className="text-xl lg:text-2xl text-white/90 leading-relaxed max-w-3xl mx-auto">
-                Conecta con closers verificados y promotores de ventas especializados. 
-                Sin riesgos fijos, solo comisión por resultados.
-              </p>
-              
-              <div className="pt-8">
-                <Button 
-                  variant="hero" 
-                  size="xl" 
-                  className="group text-lg px-12 py-6"
-                  onClick={handleJoinClick}
-                >
-                  Únete Gratis a la Comunidad
-                  <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Column - Text Content */}
+              <div className="space-y-8 animate-slide-up text-left">
+                {/* Pre-Title Badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                  <span className="text-lg">🚀</span>
+                  <span className="text-sm lg:text-base text-white/90 font-medium">
+                    La evolución de las ventas B2B
+                  </span>
+                </div>
 
-              {/* Accelerated by Section */}
-              <div className="pt-8">
-                <div className="flex flex-col items-center gap-6">
-                  <p className="text-lg text-white/80">Acelerados en:</p>
-                  <div className="flex flex-wrap justify-center items-center gap-8">
-                    <div className="flex items-center justify-center">
-                      <img 
-                        src="/logo-86bf1018.svg" 
-                        alt="Partner Logo" 
-                        className="h-24 w-auto filter brightness-0 invert"
-                      />
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <img 
-                        src="/emprelatam-logo.png" 
-                        alt="Emprelatam Logo" 
-                        className="h-12 w-auto"
-                      />
+                <h1 className="text-4xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
+                  El Primer Sales-as-a-Service de LATAM.
+                </h1>
+                
+                <h2 className="text-lg lg:text-xl xl:text-2xl text-white/90 leading-relaxed font-normal">
+                  Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
+                </h2>
+                
+                <div className="pt-4 space-y-4">
+                  <Button 
+                    variant="hero" 
+                    size="xl" 
+                    className="group text-lg px-12 py-6"
+                    onClick={handleJoinClick}
+                  >
+                    Desplegar Sales Team
+                    <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                  
+                  <p className="text-sm lg:text-base text-white/70">
+                    Setup en 5 minutos • Cancelación flexible
+                  </p>
+                </div>
+
+                {/* Accelerated by Section */}
+                <div className="pt-8">
+                  <div className="flex flex-col items-start gap-6">
+                    <p className="text-lg text-white/80">Acelerados en:</p>
+                    <div className="flex flex-wrap items-center gap-8">
+                      <div className="flex items-center justify-center">
+                        <img 
+                          src="/logo-86bf1018.svg" 
+                          alt="Partner Logo" 
+                          className="h-24 w-auto filter brightness-0 invert"
+                        />
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <img 
+                          src="/emprelatam-logo.png" 
+                          alt="Emprelatam Logo" 
+                          className="h-12 w-auto"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Right Column - Image */}
+              <div className="flex items-center justify-center lg:justify-end animate-slide-up" style={{
+                animationDelay: '0.2s'
+              }}>
+                <img 
+                  src="https://i.imgur.com/VzAEgME.png" 
+                  alt="Hero Illustration" 
+                  className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl h-auto object-contain"
+                />
               </div>
             </div>
           </div>
         </div>
         
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
           </div>
