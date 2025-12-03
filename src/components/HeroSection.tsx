@@ -3,12 +3,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroTech from "@/assets/hero-tech.png";
 import RegistrationModal from "@/components/RegistrationModal";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleJoinClick = () => {
-    setIsModalOpen(true);
+    const plansSection = document.getElementById('planes');
+    if (plansSection) {
+      plansSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -59,6 +63,16 @@ const HeroSection = () => {
                   
                   <p className="text-sm lg:text-base text-white/70">
                     Setup en 5 minutos • Cancelación flexible
+                  </p>
+                  
+                  <p className="text-sm lg:text-base text-white/70">
+                    ¿Eres un vendedor? Comienza tu camino{" "}
+                    <Link 
+                      to="/solicitud?type=closer" 
+                      className="underline hover:text-white transition-colors"
+                    >
+                      aquí
+                    </Link>
                   </p>
                 </div>
 

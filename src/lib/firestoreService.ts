@@ -96,6 +96,7 @@ export type EmpresasTycData = {
   acceptedAt: string;
   userAgent: string;
   timestamp: string;
+  plan?: 'planBasico' | 'planGrowth' | 'planScale';
 };
 
 // Funciones para CloserForm

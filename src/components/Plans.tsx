@@ -1,5 +1,6 @@
-import { Check, Star, TrendingUp, Zap } from "lucide-react";
+import { Check, Star, TrendingUp, Info, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { pixelEvents } from "@/lib/pixelEvents";
 import { getStripeCheckoutUrl, getStripePrice, getStripeTracking, getStripeCurrency } from "@/lib/stripeConfig";
 
@@ -12,7 +13,7 @@ const plans = [
     period: "/mes",
     features: [
       "1 socio comercial verificado activo",
-      "1 Cambio de socio comercial por mes",
+      "Garantía extendida",
       "Sesión consultiva inicial (45 min)",
       "WhatsApp support"
     ],
@@ -35,10 +36,10 @@ const plans = [
     period: "/mes",
     features: [
       "2 socios comerciales simultáneamente",
-      "2 cambios de socio comercial por mes",
+      "Garantía extendida",
       "2 sesiones consultivas/mes (30 min c/u)",
       "Prioridad en asignación de socios comerciales",
-      "WhatsApp support prioritario (<4h)",
+      "WhatsApp support",
       "Acceso a eventos Closwork"
     ],
     addon: {
@@ -54,53 +55,56 @@ const plans = [
   },
   {
     name: "SCALE",
-    subtitle: "Equipo comercial completo, resultados multiplicados",
-    price: "$2,400",
+    subtitle: "Máximo rendimiento y escalabilidad",
+    price: "$2,300",
     currency: "MXN",
     period: "/mes",
     features: [
       "3 socios comerciales simultáneamente",
-      "Cambios ilimitados de socios comerciales",
-      "Prioridad absoluta en nuevas oportunidades",
-      "Beta access: Primeros en probar nuevas features",
-      "2 sesiones consultivas/mes",
-      "WhatsApp VIP directo (fundadores)",
-      "Acceso exclusivo a socios comerciales TOP 10%"
+      "Garantía extendida",
+      "Garantía de satisfacción",
+      "Auditoría de Ventas Mensual: Sesión consultiva con tus socios comerciales para buscar mejoras",
+      "Prioridad VIP: Asignación de nuevos socios en < 48 horas",
+      "WhatsApp support prioritario (<4h)",
+      "Acceso a eventos Closwork"
     ],
     addon: {
-      text: "Socio comercial adicional: +$199/mes",
-      price: 199
+      text: "Socio comercial adicional: +$299/mes",
+      price: 299
     },
-    cta: "Escalar Ahora",
+    cta: "Comenzar Scale",
     popular: false,
     variant: "hero" as const,
     planKey: "planScale" as const,
-    icon: Zap,
+    icon: Scale,
     emoji: "💎"
   }
 ];
 
 const Plans = () => {
-  // Función para manejar el clic del botón de Stripe
+  // Función para manejar el clic del botón - redirige a página de TyC
   const handleStripeCheckout = (planKey: 'planBasico' | 'planGrowth' | 'planScale') => {
     // Obtener configuración de tracking
     const tracking = getStripeTracking(planKey);
     const price = getStripePrice(planKey);
-    const currency = getStripeCurrency(planKey);
     
     // Track pixel events
     pixelEvents.initiateCheckout(tracking.checkoutType, price);
     pixelEvents.lead(tracking.leadType, price);
     
-    // Obtener URL de Stripe Checkout
-    const stripeCheckoutUrl = getStripeCheckoutUrl(planKey);
+    // Redirigir a la página de TyC correspondiente según el plan
+    const tycRoutes = {
+      planBasico: '/empresas-tyc-basico',
+      planGrowth: '/empresas-tyc-growth',
+      planScale: '/empresas-tyc-scale'
+    };
     
-    // Redirigir a Stripe
-    window.open(stripeCheckoutUrl, '_blank');
+    window.location.href = tycRoutes[planKey];
   };
 
   return (
-    <section className="py-20 bg-white">
+    <TooltipProvider>
+      <section id="planes" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-6">
@@ -112,61 +116,75 @@ const Plans = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
           {plans.map((plan, index) => (
             <div 
               key={index}
-              className={`relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 ${
+              className={`group relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1 ${
                 plan.popular 
-                  ? 'bg-gradient-to-br from-[#4aab6f] to-[#6bbf8a] text-white shadow-glow scale-105' 
-                  : 'bg-white shadow-card hover:shadow-elevation border border-gray-100'
+                  ? 'bg-gradient-to-br from-[#4aab6f] via-[#5bb87d] to-[#6bbf8a] text-white shadow-2xl shadow-[#4aab6f]/20 scale-105 border-2 border-[#4aab6f]/30' 
+                  : 'bg-white shadow-lg hover:shadow-2xl border-2 border-gray-100 hover:border-primary/20'
               }`}
             >
               {/* Popular Badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1">
+                <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="bg-gradient-to-r from-[#003976] to-[#1a4a7a] text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg">
                     <Star className="h-4 w-4 fill-current" />
                     Más Popular
                   </div>
                 </div>
               )}
               
-              <div className="text-center mb-8">
-                <div className="flex justify-center mb-4">
-                  <div className={`p-3 rounded-full ${
+              {/* Decorative gradient overlay for non-popular plans */}
+              {!plan.popular && (
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              )}
+              
+              <div className="text-center mb-8 relative z-0">
+                {/* Icon/Emoji Container */}
+                <div className="flex justify-center mb-6">
+                  <div className={`relative p-4 rounded-2xl transition-all duration-300 group-hover:scale-110 ${
                     plan.popular 
-                      ? 'bg-white/20 text-white' 
-                      : 'bg-primary/10 text-primary'
+                      ? 'bg-white/20 backdrop-blur-sm' 
+                      : 'bg-gradient-to-br from-primary/10 to-primary/5'
                   }`}>
                     {plan.emoji && (
-                      <span className="text-3xl">{plan.emoji}</span>
+                      <span className="text-4xl block">{plan.emoji}</span>
                     )}
                     {!plan.emoji && (
-                      <plan.icon className="h-8 w-8" />
+                      <plan.icon className={`h-10 w-10 ${
+                        plan.popular ? 'text-white' : 'text-primary'
+                      }`} />
                     )}
                   </div>
                 </div>
-                <h3 className={`text-2xl font-bold mb-1 ${
+                
+                {/* Plan Name */}
+                <h3 className={`text-3xl font-bold mb-2 tracking-tight ${
                   plan.popular ? 'text-white' : 'text-secondary'
                 }`}>
                   {plan.name}
                 </h3>
+                
+                {/* Subtitle */}
                 {plan.subtitle && (
-                  <p className={`text-sm mb-4 ${
-                    plan.popular ? 'text-white/80' : 'text-muted-foreground'
+                  <p className={`text-sm mb-6 leading-relaxed ${
+                    plan.popular ? 'text-white/90' : 'text-muted-foreground'
                   }`}>
                     {plan.subtitle}
                   </p>
                 )}
-                <div className="mb-4">
+                
+                {/* Price */}
+                <div className="mb-6">
                   <div className="flex items-baseline justify-center gap-2">
-                    <span className={`text-4xl font-bold ${
+                    <span className={`text-5xl font-extrabold tracking-tight ${
                       plan.popular ? 'text-white' : 'text-secondary'
                     }`}>
                       {plan.price}
                     </span>
-                    <span className={`text-lg ${
+                    <span className={`text-lg font-medium ${
                       plan.popular ? 'text-white/80' : 'text-muted-foreground'
                     }`}>
                       {plan.currency}{plan.period}
@@ -175,34 +193,57 @@ const Plans = () => {
                 </div>
               </div>
               
-              <div className="space-y-4 mb-8">
+              {/* Features List */}
+              <div className="space-y-3.5 mb-8 min-h-[280px]">
                 {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="space-y-1">
-                    <div className="flex items-center gap-3">
-                      <Check className={`h-5 w-5 flex-shrink-0 ${
+                  <div key={featureIndex} className="flex items-start gap-3 group/feature">
+                    <div className={`mt-0.5 flex-shrink-0 rounded-full p-1 ${
+                      plan.popular 
+                        ? 'bg-white/20' 
+                        : 'bg-primary/10'
+                    }`}>
+                      <Check className={`h-4 w-4 ${
                         plan.popular ? 'text-white' : 'text-primary'
                       }`} />
-                      <span className={`${
-                        plan.popular ? 'text-white' : 'text-secondary'
+                    </div>
+                    <div className="flex-1 flex items-start gap-2">
+                      <span className={`text-sm leading-relaxed ${
+                        plan.popular ? 'text-white/95' : 'text-gray-700'
                       }`}>
                         {feature}
                       </span>
+                      {(feature === "Garantía extendida" || feature === "Garantía de satisfacción") && (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Info className={`h-4 w-4 cursor-help mt-0.5 flex-shrink-0 transition-colors ${
+                              plan.popular 
+                                ? 'text-white/70 hover:text-white' 
+                                : 'text-gray-400 hover:text-primary'
+                            }`} />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs">
+                            <p className="text-sm">
+                              {feature === "Garantía extendida" 
+                                ? "Si el socio comercial asignado no cumple con tus expectativas, nos comprometemos a realizar el reemplazo correspondiente para garantizar tu satisfacción."
+                                : "Si después de un período mínimo de 3 meses no estás satisfecho con los resultados obtenidos, te reembolsaremos el monto correspondiente a tu inversión."}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
                     </div>
-                    {feature.toLowerCase().includes('socio comercial') && (
-                      <p className={`text-xs ml-8 ${
-                        plan.popular ? 'text-white/70' : 'text-muted-foreground'
-                      }`}>
-                        Un cerrador de venta bajo comisión, no es freelancer ni empleado
-                      </p>
-                    )}
                   </div>
                 ))}
               </div>
               
+              {/* CTA Button */}
               <Button 
                 variant={plan.popular ? "outline-white" : plan.variant}
                 size="lg"
-                className="w-full mb-3"
+                className={`w-full mb-4 font-semibold text-base py-6 rounded-xl transition-all duration-300 ${
+                  plan.popular 
+                    ? 'bg-white text-[#4aab6f] hover:bg-white/90 border-2 border-white shadow-lg hover:shadow-xl hover:scale-105' 
+                    : 'bg-gradient-to-r from-[#003976] to-[#1a4a7a] hover:from-[#1a4a7a] hover:to-[#003976] text-white shadow-lg hover:shadow-xl hover:scale-105'
+                }`}
                 onClick={() => handleStripeCheckout(plan.planKey)}
               >
                 {plan.cta}
@@ -210,9 +251,9 @@ const Plans = () => {
               
               {/* Addon Info */}
               {plan.addon && (
-                <div className="text-center">
-                  <p className={`text-xs ${
-                    plan.popular ? 'text-white/70' : 'text-muted-foreground'
+                <div className="text-center pt-4 border-t border-gray-200/50">
+                  <p className={`text-xs font-medium ${
+                    plan.popular ? 'text-white/80' : 'text-muted-foreground'
                   }`}>
                     {plan.addon.text}
                   </p>
@@ -247,6 +288,7 @@ const Plans = () => {
         </div>
       </div>
     </section>
+    </TooltipProvider>
   );
 };
 

@@ -3,13 +3,13 @@ export const stripeConfig = {
   // URLs de Stripe Checkout
   checkoutUrls: {
     // STARTER - $899 MXN/mes
-    planBasico: 'https://buy.stripe.com/5kQ8wO83791YfcT6R16Na05',
+    planBasico: 'https://buy.stripe.com/test_7sY5kF7QJ2Hgc6C2TEbV600',
     
     // GROWTH - $1,900 MXN/mes
     planGrowth: 'https://buy.stripe.com/28E5kC5UZ2DA1m3cbl6Na06',
     
-    // SCALE - $2,400 MXN/mes
-    planScale: 'https://buy.stripe.com/eVqcN4bfj6TQ9Sz4IT6Na07',
+    // SCALE - $2,300 MXN/mes
+    planScale: 'https://buy.stripe.com/14A7sKabf1zw1m3a3d6Na08',
   },
   
   // URLs de éxito y cancelación
@@ -22,7 +22,7 @@ export const stripeConfig = {
   prices: {
     planBasico: 899, // MXN/mes
     planGrowth: 1900, // MXN/mes
-    planScale: 2400, // MXN/mes
+    planScale: 2300, // MXN/mes
   },
   
   // Configuración de monedas
@@ -46,7 +46,7 @@ export const stripeConfig = {
       leadType: 'GROWTH - Stripe Checkout',
     },
     planScale: {
-      checkoutType: 'SCALE - $2,400 MXN/mes',
+      checkoutType: 'SCALE - $2,300 MXN/mes',
       leadType: 'SCALE - Stripe Checkout',
     },
   }

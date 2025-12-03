@@ -3,7 +3,7 @@ import { CheckCircle, Rocket, ArrowRight, Clock, Zap, MessageCircle } from "luci
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
-const GraciasPlanBasico = () => {
+const GraciasPlanScale = () => {
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
@@ -74,10 +74,10 @@ const GraciasPlanBasico = () => {
     if (!showConfetti) return;
     
     const styleSheet = document.createElement('style');
-    styleSheet.id = 'confetti-animations';
+    styleSheet.id = 'confetti-animations-scale';
     
     const keyframes = confettiPieces.map((piece) => `
-      @keyframes confettiFall${piece.id} {
+      @keyframes confettiFallScale${piece.id} {
         0% {
           opacity: 1;
           transform: translate(${piece.startX}px, ${piece.startY}px) rotate(0deg) scale(1);
@@ -96,7 +96,7 @@ const GraciasPlanBasico = () => {
     document.head.appendChild(styleSheet);
     
     return () => {
-      const existing = document.getElementById('confetti-animations');
+      const existing = document.getElementById('confetti-animations-scale');
       if (existing) existing.remove();
     };
   }, [showConfetti, confettiPieces]);
@@ -154,7 +154,7 @@ const GraciasPlanBasico = () => {
                           ? 'polygon(50% 0%, 0% 100%, 100% 100%)' 
                           : 'none',
                         transform: `translate(${piece.startX}px, ${piece.startY}px)`,
-                        animation: `confettiFall${piece.id} ${piece.duration}s ease-out ${piece.delay}s forwards`,
+                        animation: `confettiFallScale${piece.id} ${piece.duration}s ease-out ${piece.delay}s forwards`,
                       }}
                     />
                   ))}
@@ -182,7 +182,7 @@ const GraciasPlanBasico = () => {
             {/* Minimal Purchase Summary */}
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white mb-12 border border-white/30">
               <CheckCircle className="w-4 h-4 text-white" />
-              <span>Plan Básico • $899 MXN</span>
+              <span>Plan Scale • $2,300 MXN</span>
             </div>
           </div>
         </div>
@@ -393,4 +393,5 @@ const GraciasPlanBasico = () => {
   );
 };
 
-export default GraciasPlanBasico;
+export default GraciasPlanScale;
+

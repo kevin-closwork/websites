@@ -19,7 +19,11 @@ import Empresas from "./pages/Empresas";
 import EmpresasV2 from "./pages/EmpresasV2";
 import AboutUs from "./pages/AboutUs";
 import GraciasPlanBasico from "./pages/GraciasPlanBasico";
+import GraciasPlanScale from "./pages/GraciasPlanScale";
 import PagoCancelado from "./pages/PagoCancelado";
+import EmpresasTycBasico from "./pages/EmpresasTycBasico";
+import EmpresasTycGrowth from "./pages/EmpresasTycGrowth";
+import EmpresasTycScale from "./pages/EmpresasTycScale";
 
 // Calendly Widget Component - Only shows on homepage
 const CalendlyWidget = () => {
@@ -123,7 +127,11 @@ const AppContent = () => (
       <Route path="/precios" element={<Pricing />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/gracias-plan-basico" element={<GraciasPlanBasico />} />
+      <Route path="/gracias-plan-scale" element={<GraciasPlanScale />} />
       <Route path="/pago-cancelado" element={<PagoCancelado />} />
+      <Route path="/empresas-tyc-basico" element={<EmpresasTycBasico />} />
+      <Route path="/empresas-tyc-growth" element={<EmpresasTycGrowth />} />
+      <Route path="/empresas-tyc-scale" element={<EmpresasTycScale />} />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>

@@ -212,4 +212,29 @@
     0%, 100% { transform: translateY(0) scale(1.05); }
     50% { transform: translateY(-5px) scale(1.05); }
   }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.5);
+    }
+  }
+
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--end-x, 0), var(--end-y, 200px)) rotate(var(--rotation, 720deg)) scale(0);
+    }
+  }
 }
