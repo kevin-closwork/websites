@@ -1,26 +1,7 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock } from "lucide-react";
 
 const FinalCTA = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const viewHeight = window.innerHeight;
-      
-      // Show when user has scrolled past 50% of the page
-      if (scrolled > viewHeight * 0.5) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <>
@@ -82,33 +63,6 @@ const FinalCTA = () => {
           </div>
         </div>
       </section>
-
-      {/* Sticky CTA */}
-      <div className={`fixed bottom-0 left-0 right-0 z-50 transform transition-all duration-300 ${
-        isVisible ? 'translate-y-0' : 'translate-y-full'
-      }`}>
-        <div className="bg-white shadow-elevation border-t border-gray-200 p-4">
-          <div className="container mx-auto">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <div className="font-semibold text-secondary">
-                  ¡No pierdas más tiempo sin los mejores closers!
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Únete gratis y comienza a generar resultados hoy mismo
-                </div>
-              </div>
-              
-              <a href="/solicitud?type=empresa">
-                <Button variant="hero" className="group flex-shrink-0">
-                  Únete Gratis Ahora
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

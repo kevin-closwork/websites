@@ -144,7 +144,7 @@ const EmpresasTycGrowth = () => {
             <h1 className="text-4xl font-bold mb-4">Términos y Condiciones</h1>
             <h2 className="text-2xl font-semibold text-muted-foreground">Plan Growth - Closwork para Empresas</h2>
             <div className="mt-4 inline-block px-6 py-2 bg-gradient-to-r from-[#4aab6f] to-[#6bbf8a] rounded-full">
-              <p className="text-lg font-semibold text-white">$1,900 MXN /mes</p>
+              <p className="text-lg font-semibold text-white">$1,299 MXN /mes</p>
             </div>
             <p className="text-muted-foreground mt-4">
               <strong>MIO MOBILE S.A. DE C.V.</strong> | <strong>División Closwork</strong>
@@ -180,7 +180,7 @@ const EmpresasTycGrowth = () => {
           {/* Plan Highlight */}
           <Card className="mb-8 border-2 border-[#4aab6f] bg-gradient-to-br from-[#4aab6f]/10 to-[#6bbf8a]/10">
             <CardHeader>
-              <CardTitle className="text-xl text-[#4aab6f]">Plan Growth - $1,900 MXN/mes</CardTitle>
+              <CardTitle className="text-xl text-[#4aab6f]">Plan Growth - $1,299 MXN/mes</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside space-y-2 ml-4">
@@ -247,13 +247,14 @@ const EmpresasTycGrowth = () => {
 
                 <div>
                   <h3 className="font-semibold text-base mb-2">4. PLANES DE SERVICIO</h3>
-                  <h4 className="font-semibold text-sm mb-2 mt-3">4.1 Plan Growth - $1,900 MXN/mes</h4>
+                  <h4 className="font-semibold text-sm mb-2 mt-3">4.1 Plan Growth - $1,299 MXN/mes</h4>
                   <p className="font-semibold mb-2">MODELO DE PAGO: SUSCRIPCIÓN MENSUAL RECURRENTE</p>
                   <p>El Cliente acepta expresamente que este servicio opera bajo modelo de suscripción con renovación automática mensual hasta que el Cliente solicite explícitamente su cancelación.</p>
                   <p className="mt-2"><strong>Características incluidas:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
                     <li>2 socios comerciales simultáneamente activos</li>
                     <li>Garantía de servicio mensual (ver Sección 5)</li>
+                    <li>Garantía de satisfacción (mínimo 3 meses de uso continuo)</li>
                     <li>2 sesiones consultivas mensuales de 30 minutos cada una</li>
                     <li>Prioridad en asignación de nuevos socios comerciales</li>
                     <li>Soporte vía WhatsApp Business en horario laboral</li>
@@ -263,7 +264,7 @@ const EmpresasTycGrowth = () => {
 
                   <h4 className="font-semibold text-sm mb-2 mt-4">4.2 Términos de Pago y Renovación</h4>
                   <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
-                    <li><strong>Primer Pago:</strong> Al contratar el Plan, el Cliente paga $1,900 MXN correspondientes al primer mes de servicio</li>
+                    <li><strong>Primer Pago:</strong> Al contratar el Plan, el Cliente paga $1,299 MXN correspondientes al primer mes de servicio</li>
                     <li><strong>Renovación Automática:</strong> El cargo se realizará automáticamente cada 30 días naturales</li>
                     <li><strong>Método de Pago:</strong> Tarjeta de crédito/débito, transferencia bancaria o métodos autorizados por Closwork</li>
                     <li><strong>Facturación:</strong> Se emitirá CFDI por cada pago mensual realizado</li>
@@ -279,6 +280,16 @@ const EmpresasTycGrowth = () => {
                     <li>Se pierde prioridad en matching</li>
                     <li>Los Socios Comerciales asignados pueden ser reasignados a otros clientes activos</li>
                     <li>Closwork no garantiza disponibilidad de los mismos Socios Comerciales al reactivar</li>
+                  </ul>
+
+                  <h4 className="font-semibold text-sm mb-2 mt-4">4.4 Socios Comerciales Adicionales</h4>
+                  <p>El Cliente puede contratar socios comerciales adicionales más allá de los 2 incluidos en el Plan Growth.</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
+                    <li><strong>Precio por socio adicional:</strong> $699 MXN/mes por cada socio comercial adicional</li>
+                    <li><strong>Facturación:</strong> El cargo por socios adicionales se suma al cargo mensual del plan base</li>
+                    <li><strong>Renovación:</strong> Los socios adicionales se renuevan automáticamente junto con el plan base</li>
+                    <li><strong>Cancelación:</strong> El Cliente puede reducir el número de socios adicionales con 5 días de anticipación al próximo cobro</li>
+                    <li><strong>Matching:</strong> Los socios adicionales se asignan con la misma prioridad que los socios incluidos en el plan</li>
                   </ul>
                 </div>
 
@@ -304,6 +315,8 @@ const EmpresasTycGrowth = () => {
                     <li>Por motivos justificados (falta de comunicación, incumplimiento de acuerdos básicos, incompatibilidad profesional)</li>
                     <li>Proceso de nuevo matching en máximo 7 días hábiles</li>
                   </ul>
+                  <p className="mt-2"><strong>✅ Garantía de Satisfacción:</strong></p>
+                  <p className="ml-4">Si después de un período mínimo de 3 meses consecutivos de uso activo y pago al corriente no estás satisfecho con los resultados obtenidos, te reembolsaremos el monto correspondiente a tu inversión. Esta garantía requiere evidencia de uso activo y comunicación previa con nuestro equipo.</p>
 
                   <h4 className="font-semibold text-sm mb-2 mt-4">5.2 Limitaciones de la Garantía</h4>
                   <p><strong>❌ La garantía NO cubre:</strong></p>
@@ -430,14 +443,15 @@ const EmpresasTycGrowth = () => {
                     <li>✓ Error de cobro duplicado: Reembolso del 100% del cargo duplicado</li>
                     <li>✓ Falla técnica total de la plataforma por más de 72 horas consecutivas sin solución: Reembolso proporcional del mes</li>
                     <li>✓ Incumplimiento de Closwork en asignación de Socios Comerciales: Reembolso del 100% si después de 15 días hábiles no se han asignado los Socios Comerciales prometidos</li>
+                    <li>✓ Garantía de Satisfacción: Reembolso del 100% si después de mínimo 3 meses consecutivos de uso activo y pago al corriente no estás satisfecho con los resultados obtenidos</li>
                   </ul>
                   <p className="mt-2"><strong>Motivos que NO generan reembolso:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
-                    <li>Insatisfacción con el desempeño de ventas de los Socios Comerciales</li>
+                    <li>Insatisfacción con el desempeño de ventas de los Socios Comerciales (excepto garantía de satisfacción después de 3 meses)</li>
                     <li>Incompatibilidad personal con Socios Comerciales asignados</li>
                     <li>Cambio de estrategia comercial del Cliente</li>
                     <li>Falta de tiempo del Cliente para gestionar a los Socios Comerciales</li>
-                    <li>Resultados comerciales por debajo de expectativas del Cliente</li>
+                    <li>Resultados comerciales por debajo de expectativas del Cliente (excepto garantía de satisfacción después de 3 meses)</li>
                   </ul>
                 </div>
 
@@ -609,7 +623,7 @@ const EmpresasTycGrowth = () => {
                     <li>Acepta TODAS las limitaciones de responsabilidad de Closwork aquí establecidas</li>
                     <li>Reconoce que Closwork es un intermediario, no garantiza ventas ni resultados comerciales</li>
                     <li>Comprende que los Socios Comerciales son profesionales independientes sin relación laboral</li>
-                    <li>Acepta que NO hay reembolsos por insatisfacción con resultados de ventas</li>
+                    <li>Acepta que NO hay reembolsos por insatisfacción con resultados de ventas, excepto bajo los términos de la garantía de satisfacción después de 3 meses</li>
                     <li>Reconoce su responsabilidad exclusiva sobre acuerdos con Socios Comerciales</li>
                     <li>Acepta la garantía limitada y sus alcances específicos</li>
                     <li>Libera a Closwork de cualquier responsabilidad por fraudes, negligencias o conductas ilícitas de Socios Comerciales</li>
@@ -640,8 +654,7 @@ const EmpresasTycGrowth = () => {
                 <div className="border-t pt-4 mt-6">
                   <h3 className="font-semibold text-base mb-2">DECLARACIÓN FINAL</h3>
                   <p>MIO MOBILE S.A. DE C.V., operando como Closwork, agradece tu confianza en nuestra plataforma. Estos Términos y Condiciones están diseñados para establecer una relación transparente, justa y mutuamente beneficiosa.</p>
-                  <p className="mt-2">Nuestro compromiso es proporcionarte acceso a los mejores Socios Comerciales de LATAM y brindarte las herramientas para escalar tus ventas. Tu éxito comercial dependerá de la calidad de tu oferta, el esfuerzo conjunto con tus Socios Comerciales y la ejecución de tu estrategia de ventas.</p>
-                  <p className="mt-2 font-semibold">Bienvenido a Closwork - El Commission Crowd de LATAM.</p>
+                  <p className="mt-2">Nuestro compromiso es proporcionarte acceso a los mejores Socios Comerciales y brindarte las herramientas para escalar tus ventas. Tu éxito comercial dependerá de la calidad de tu oferta, el esfuerzo conjunto con tus Socios Comerciales y la ejecución de tu estrategia de ventas.</p>
                   <p className="mt-4 text-xs text-center">
                     <strong>Última actualización:</strong> Diciembre 2024<br />
                     <strong>Versión:</strong> 2.0<br />

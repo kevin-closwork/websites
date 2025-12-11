@@ -43,11 +43,11 @@ const HeroSection = () => {
                 </div>
 
                 <h1 className="text-4xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
-                  El Primer Sales-as-a-Service de LATAM.
+                  Crea tu fuerza de ventas bajo comisión
                 </h1>
                 
-                <h2 className="text-lg lg:text-xl xl:text-2xl text-white/90 leading-relaxed font-normal">
-                  Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
+                <h2 className="text-base lg:text-lg xl:text-xl text-white/80 leading-relaxed font-normal">
+                  El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
                 </h2>
                 
                 <div className="pt-4 space-y-4">

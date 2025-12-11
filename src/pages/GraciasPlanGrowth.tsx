@@ -3,7 +3,7 @@ import { CheckCircle, Rocket, ArrowRight, Clock, Zap, MessageCircle } from "luci
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 
-const GraciasPlanScale = () => {
+const GraciasPlanGrowth = () => {
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
@@ -74,10 +74,10 @@ const GraciasPlanScale = () => {
     if (!showConfetti) return;
     
     const styleSheet = document.createElement('style');
-    styleSheet.id = 'confetti-animations-scale';
+    styleSheet.id = 'confetti-animations-growth';
     
     const keyframes = confettiPieces.map((piece) => `
-      @keyframes confettiFallScale${piece.id} {
+      @keyframes confettiFallGrowth${piece.id} {
         0% {
           opacity: 1;
           transform: translate(${piece.startX}px, ${piece.startY}px) rotate(0deg) scale(1);
@@ -96,7 +96,7 @@ const GraciasPlanScale = () => {
     document.head.appendChild(styleSheet);
     
     return () => {
-      const existing = document.getElementById('confetti-animations-scale');
+      const existing = document.getElementById('confetti-animations-growth');
       if (existing) existing.remove();
     };
   }, [showConfetti, confettiPieces]);
@@ -154,7 +154,7 @@ const GraciasPlanScale = () => {
                           ? 'polygon(50% 0%, 0% 100%, 100% 100%)' 
                           : 'none',
                         transform: `translate(${piece.startX}px, ${piece.startY}px)`,
-                        animation: `confettiFallScale${piece.id} ${piece.duration}s ease-out ${piece.delay}s forwards`,
+                        animation: `confettiFallGrowth${piece.id} ${piece.duration}s ease-out ${piece.delay}s forwards`,
                       }}
                     />
                   ))}
@@ -182,7 +182,7 @@ const GraciasPlanScale = () => {
             {/* Minimal Purchase Summary */}
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white mb-12 border border-white/30">
               <CheckCircle className="w-4 h-4 text-white" />
-              <span>Plan Scale • $1,999 MXN</span>
+              <span>Plan Growth • $1,299 MXN</span>
             </div>
           </div>
         </div>
@@ -393,5 +393,6 @@ const GraciasPlanScale = () => {
   );
 };
 
-export default GraciasPlanScale;
+export default GraciasPlanGrowth;
+
 

@@ -14,6 +14,7 @@ const plans = [
     features: [
       "1 socio comercial verificado activo",
       "Garantía extendida",
+      "Garantía de satisfacción",
       "Sesión consultiva inicial (45 min)",
       "WhatsApp support"
     ],
@@ -31,20 +32,21 @@ const plans = [
   {
     name: "GROWTH",
     subtitle: "Dobla tus probabilidades, diferentes estilos",
-    price: "$1,900",
+    price: "$1,299",
     currency: "MXN",
     period: "/mes",
     features: [
       "2 socios comerciales simultáneamente",
       "Garantía extendida",
-      "2 sesiones consultivas/mes (30 min c/u)",
+      "Garantía de satisfacción",
+      "1 sesión consultiva por mes",
       "Prioridad en asignación de socios comerciales",
       "WhatsApp support",
       "Acceso a eventos Closwork"
     ],
     addon: {
-      text: "Socio comercial adicional: +$499/mes",
-      price: 499
+      text: "Socio comercial adicional: +$699/mes",
+      price: 699
     },
     cta: "Comenzar Growth",
     popular: true,
@@ -56,14 +58,14 @@ const plans = [
   {
     name: "SCALE",
     subtitle: "Máximo rendimiento y escalabilidad",
-    price: "$2,300",
+    price: "$1,999",
     currency: "MXN",
     period: "/mes",
     features: [
       "3 socios comerciales simultáneamente",
       "Garantía extendida",
       "Garantía de satisfacción",
-      "Auditoría de Ventas Mensual: Sesión consultiva con tus socios comerciales para buscar mejoras",
+      "Hasta 2 sesiones consultivas por mes",
       "Prioridad VIP: Asignación de nuevos socios en < 48 horas",
       "WhatsApp support prioritario (<4h)",
       "Acceso a eventos Closwork"

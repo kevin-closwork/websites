@@ -252,6 +252,7 @@ const EmpresasTycBasico = () => {
                   <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
                     <li>1 socio comercial verificado activo</li>
                     <li>Garantía de servicio mensual (ver Sección 5)</li>
+                    <li>Garantía de satisfacción (mínimo 3 meses de uso continuo)</li>
                     <li>Sesión consultiva inicial (45 min)</li>
                     <li>Soporte vía WhatsApp Business en horario laboral</li>
                   </ul>
@@ -275,6 +276,16 @@ const EmpresasTycBasico = () => {
                     <li>Se pierde prioridad en matching</li>
                     <li>Los Socios Comerciales asignados pueden ser reasignados a otros clientes activos</li>
                     <li>Closwork no garantiza disponibilidad de los mismos Socios Comerciales al reactivar</li>
+                  </ul>
+
+                  <h4 className="font-semibold text-sm mb-2 mt-4">4.4 Socios Comerciales Adicionales</h4>
+                  <p>El Cliente puede contratar socios comerciales adicionales más allá del 1 incluido en el Plan Básico.</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
+                    <li><strong>Precio por socio adicional:</strong> $699 MXN/mes por cada socio comercial adicional</li>
+                    <li><strong>Facturación:</strong> El cargo por socios adicionales se suma al cargo mensual del plan base</li>
+                    <li><strong>Renovación:</strong> Los socios adicionales se renuevan automáticamente junto con el plan base</li>
+                    <li><strong>Cancelación:</strong> El Cliente puede reducir el número de socios adicionales con 5 días de anticipación al próximo cobro</li>
+                    <li><strong>Matching:</strong> Los socios adicionales se asignan con la misma prioridad que el socio incluido en el plan</li>
                   </ul>
                 </div>
 
@@ -300,6 +311,8 @@ const EmpresasTycBasico = () => {
                     <li>Por motivos justificados (falta de comunicación, incumplimiento de acuerdos básicos, incompatibilidad profesional)</li>
                     <li>Proceso de nuevo matching en máximo 7 días hábiles</li>
                   </ul>
+                  <p className="mt-2"><strong>✅ Garantía de Satisfacción:</strong></p>
+                  <p className="ml-4">Si después de un período mínimo de 3 meses consecutivos de uso activo y pago al corriente no estás satisfecho con los resultados obtenidos, te reembolsaremos el monto correspondiente a tu inversión. Esta garantía requiere evidencia de uso activo y comunicación previa con nuestro equipo.</p>
 
                   <h4 className="font-semibold text-sm mb-2 mt-4">5.2 Limitaciones de la Garantía</h4>
                   <p><strong>❌ La garantía NO cubre:</strong></p>
@@ -426,14 +439,15 @@ const EmpresasTycBasico = () => {
                     <li>✓ Error de cobro duplicado: Reembolso del 100% del cargo duplicado</li>
                     <li>✓ Falla técnica total de la plataforma por más de 72 horas consecutivas sin solución: Reembolso proporcional del mes</li>
                     <li>✓ Incumplimiento de Closwork en asignación de Socios Comerciales: Reembolso del 100% si después de 15 días hábiles no se han asignado los Socios Comerciales prometidos</li>
+                    <li>✓ Garantía de Satisfacción: Reembolso del 100% si después de mínimo 3 meses consecutivos de uso activo y pago al corriente no estás satisfecho con los resultados obtenidos</li>
                   </ul>
                   <p className="mt-2"><strong>Motivos que NO generan reembolso:</strong></p>
                   <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
-                    <li>Insatisfacción con el desempeño de ventas de los Socios Comerciales</li>
+                    <li>Insatisfacción con el desempeño de ventas de los Socios Comerciales (excepto garantía de satisfacción después de 3 meses)</li>
                     <li>Incompatibilidad personal con Socios Comerciales asignados</li>
                     <li>Cambio de estrategia comercial del Cliente</li>
                     <li>Falta de tiempo del Cliente para gestionar a los Socios Comerciales</li>
-                    <li>Resultados comerciales por debajo de expectativas del Cliente</li>
+                    <li>Resultados comerciales por debajo de expectativas del Cliente (excepto garantía de satisfacción después de 3 meses)</li>
                   </ul>
                 </div>
 
@@ -605,7 +619,7 @@ const EmpresasTycBasico = () => {
                     <li>Acepta TODAS las limitaciones de responsabilidad de Closwork aquí establecidas</li>
                     <li>Reconoce que Closwork es un intermediario, no garantiza ventas ni resultados comerciales</li>
                     <li>Comprende que los Socios Comerciales son profesionales independientes sin relación laboral</li>
-                    <li>Acepta que NO hay reembolsos por insatisfacción con resultados de ventas</li>
+                    <li>Acepta que NO hay reembolsos por insatisfacción con resultados de ventas, excepto bajo los términos de la garantía de satisfacción después de 3 meses</li>
                     <li>Reconoce su responsabilidad exclusiva sobre acuerdos con Socios Comerciales</li>
                     <li>Acepta la garantía limitada y sus alcances específicos</li>
                     <li>Libera a Closwork de cualquier responsabilidad por fraudes, negligencias o conductas ilícitas de Socios Comerciales</li>
@@ -636,8 +650,7 @@ const EmpresasTycBasico = () => {
                 <div className="border-t pt-4 mt-6">
                   <h3 className="font-semibold text-base mb-2">DECLARACIÓN FINAL</h3>
                   <p>MIO MOBILE S.A. DE C.V., operando como Closwork, agradece tu confianza en nuestra plataforma. Estos Términos y Condiciones están diseñados para establecer una relación transparente, justa y mutuamente beneficiosa.</p>
-                  <p className="mt-2">Nuestro compromiso es proporcionarte acceso a los mejores Socios Comerciales de LATAM y brindarte las herramientas para escalar tus ventas. Tu éxito comercial dependerá de la calidad de tu oferta, el esfuerzo conjunto con tus Socios Comerciales y la ejecución de tu estrategia de ventas.</p>
-                  <p className="mt-2 font-semibold">Bienvenido a Closwork - El Commission Crowd de LATAM.</p>
+                  <p className="mt-2">Nuestro compromiso es proporcionarte acceso a los mejores Socios Comerciales y brindarte las herramientas para escalar tus ventas. Tu éxito comercial dependerá de la calidad de tu oferta, el esfuerzo conjunto con tus Socios Comerciales y la ejecución de tu estrategia de ventas.</p>
                   <p className="mt-4 text-xs text-center">
                     <strong>Última actualización:</strong> Diciembre 2024<br />
                     <strong>Versión:</strong> 2.0<br />

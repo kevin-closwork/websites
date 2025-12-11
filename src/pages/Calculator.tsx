@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TrendingUp, Users, Clock, DollarSign, Target, Zap, CheckCircle, XCircle } from "lucide-react";
 import { pixelEvents } from "@/lib/pixelEvents";
+import { getStripePrice } from "@/lib/stripeConfig";
 
 type PlanType = 'STARTER' | 'GROWTH' | 'SCALE';
 
@@ -25,27 +26,27 @@ const Calculator = () => {
   const MEXICAN_MIN_WAGE = 8500; // MXN per month
   const AVERAGE_SALARY_MULTIPLIER = 1.5; // Most companies pay more than minimum wage
   
-  // Nuevos planes Closwork
+  // Nuevos planes Closwork - Precios sincronizados con stripeConfig y Plans.tsx
   const PLAN_CONFIG = {
     STARTER: {
       name: 'STARTER',
-      price: 899, // MXN/mes
+      price: getStripePrice('planBasico'), // 899 MXN/mes - sincronizado con stripeConfig
       closersIncluded: 1,
       addonPrice: 699, // MXN/mes por socio adicional
       emoji: '🎯'
     },
     GROWTH: {
       name: 'GROWTH',
-      price: 1900, // MXN/mes
+      price: getStripePrice('planGrowth'), // 1299 MXN/mes - sincronizado con stripeConfig
       closersIncluded: 2,
-      addonPrice: 499, // MXN/mes por socio adicional
+      addonPrice: 699, // MXN/mes por socio adicional
       emoji: '🚀'
     },
     SCALE: {
       name: 'SCALE',
-      price: 2400, // MXN/mes
+      price: getStripePrice('planScale'), // 1999 MXN/mes - sincronizado con stripeConfig
       closersIncluded: 3,
-      addonPrice: 199, // MXN/mes por socio adicional
+      addonPrice: 299, // MXN/mes por socio adicional
       emoji: '💎'
     }
   };
@@ -135,13 +136,13 @@ const Calculator = () => {
                   <SelectItem value="GROWTH">
                     <div className="flex items-center gap-2">
                       <span>🚀</span>
-                      <span>GROWTH - $1,900 MXN/mes (2 socios)</span>
+                      <span>GROWTH - $1,299 MXN/mes (2 socios)</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="SCALE">
                     <div className="flex items-center gap-2">
                       <span>💎</span>
-                      <span>SCALE - $2,400 MXN/mes (3 socios)</span>
+                      <span>SCALE - $1,999 MXN/mes (3 socios)</span>
                     </div>
                   </SelectItem>
                 </SelectContent>
