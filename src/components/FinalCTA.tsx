@@ -1,12 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const FinalCTA = () => {
+  const { ref, isVisible } = useScrollAnimation();
 
   return (
     <>
       {/* Main CTA Section */}
-      <section className="py-20 gradient-secondary relative overflow-hidden">
+      <section 
+        ref={ref}
+        className={`py-20 bg-gradient-to-br from-secondary to-secondary relative overflow-hidden scroll-fade-in ${isVisible ? 'visible' : ''}`}
+      >
         {/* Background Elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full animate-float"></div>

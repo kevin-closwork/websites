@@ -2,6 +2,7 @@ import { Building2, Users, TrendingUp } from "lucide-react";
 import step1 from "@/assets/@1.png";
 import step2 from "@/assets/@2.png";
 import step3 from "@/assets/@3.png";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const steps = [
   {
@@ -30,28 +31,16 @@ const steps = [
   }
 ];
 
-const HowItWorks = () => {
+const StepCard = ({ step, index }: { step: typeof steps[0], index: number }) => {
+  const { ref, isVisible } = useScrollAnimation();
+  
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-6">
-            ¿Cómo funciona Closwork?
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Un proceso simple y transparente que conecta empresas con los mejores 
-            closers de LATAM en 3 pasos
-          </p>
-        </div>
-        
-        <div className="space-y-20">
-          {steps.map((step, index) => (
-            <div 
-              key={step.number}
-              className={`flex flex-col lg:flex-row items-center gap-12 ${
-                index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-              }`}
-            >
+    <div 
+      ref={ref}
+      className={`flex flex-col lg:flex-row items-center gap-12 scroll-animate scroll-animate-delay-${index + 1} ${
+        index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+      } ${isVisible ? 'visible' : ''}`}
+    >
               {/* Content */}
               <div className="flex-1 space-y-6">
                 <div className="flex items-center gap-4">
@@ -88,6 +77,31 @@ const HowItWorks = () => {
                 </div>
               </div>
             </div>
+  );
+};
+
+const HowItWorks = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  
+  return (
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 scroll-fade-in ${headerVisible ? 'visible' : ''}`}
+        >
+          <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-6">
+            ¿Cómo funciona Closwork?
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Un proceso simple y transparente que conecta empresas con los mejores 
+            closers de LATAM en 3 pasos
+          </p>
+        </div>
+        
+        <div className="space-y-20">
+          {steps.map((step, index) => (
+            <StepCard key={step.number} step={step} index={index} />
           ))}
         </div>
       </div>

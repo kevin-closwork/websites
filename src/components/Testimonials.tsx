@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const testimonials = [
   {
@@ -43,6 +44,8 @@ const testimonials = [
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: cardRef, isVisible: cardVisible } = useScrollAnimation();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -65,7 +68,10 @@ const Testimonials = () => {
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 scroll-fade-in ${headerVisible ? 'visible' : ''}`}
+        >
           <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-6">
             Lo que dicen nuestros usuarios
           </h2>
@@ -74,7 +80,10 @@ const Testimonials = () => {
           </p>
         </div>
         
-        <div className="relative max-w-4xl mx-auto">
+        <div 
+          ref={cardRef}
+          className={`relative max-w-4xl mx-auto scroll-scale-in ${cardVisible ? 'visible' : ''}`}
+        >
           {/* Testimonial Card */}
           <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 lg:p-12 shadow-elevation relative overflow-hidden">
             {/* Background Quote */}
