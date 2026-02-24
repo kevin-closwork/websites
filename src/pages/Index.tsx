@@ -423,9 +423,11 @@ const Index = () => {
             <Button
               size="lg"
               className="text-lg px-8 mb-4"
-              onClick={() => navigate("/solicitud")}
+              asChild
             >
-              Comenzar Ahora - Es Gratis
+              <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
+                Registra tu empresa
+              </a>
             </Button>
             <p className="text-sm text-muted-foreground mb-8">Setup en menos de 5 minutos</p>
             </ScrollReveal>
