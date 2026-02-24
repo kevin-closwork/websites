@@ -1,5 +1,27 @@
-const EmpresasTyCContent = () => (
-  <div className="max-h-[600px] overflow-y-auto pr-4 space-y-6 text-sm leading-relaxed">
+interface EmpresasTyCContentProps {
+  onScrollToBottom?: () => void;
+}
+
+const EmpresasTyCContent = ({ onScrollToBottom }: EmpresasTyCContentProps) => {
+  const handleScroll = (e: { currentTarget: HTMLDivElement }) => {
+    if (!onScrollToBottom) return;
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 80;
+    if (isAtBottom) onScrollToBottom();
+  };
+
+  const handleRef = (el: HTMLDivElement | null) => {
+    if (!el || !onScrollToBottom) return;
+    const { scrollHeight, clientHeight } = el;
+    if (scrollHeight <= clientHeight) onScrollToBottom();
+  };
+
+  return (
+  <div
+    ref={handleRef}
+    onScroll={handleScroll}
+    className="max-h-[600px] overflow-y-auto pr-4 space-y-6 text-sm leading-relaxed"
+  >
     <div>
       <h3 className="font-semibold text-base mb-2">Condiciones Generales</h3>
       <p>Bienvenido. Closwork (en adelante &quot;la Empresa&quot;), es la encargada de operar el Sitio. Los presentes términos y condiciones generales de uso tienen por objeto regular el acceso y uso que hagas del Sitio, el cual es https://closwork.com/. Asimismo, para efectos de claridad en adelante nos referiremos a cualquier persona que acceda o se registre como el &quot;Usuario&quot;, término que engloba tanto al &quot;Cliente&quot; (empresa o persona que busca contratar fuerza de ventas) como al &quot;Vendedor&quot; (persona física que ofrece servicios de promoción y ventas bajo comisión).</p>
@@ -184,6 +206,7 @@ const EmpresasTyCContent = () => (
       </ul>
     </div>
   </div>
-);
+  );
+};
 
 export default EmpresasTyCContent;

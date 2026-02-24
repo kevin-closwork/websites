@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Check, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ interface EmpresasTyCProps {
 
 const EmpresasTyC = ({ planKey }: EmpresasTyCProps) => {
   const navigate = useNavigate();
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const plan = PLANS[planKey];
 
   const handleAcceptAndPay = () => {
@@ -123,7 +125,7 @@ const EmpresasTyC = ({ planKey }: EmpresasTyCProps) => {
                 <p className="text-sm text-muted-foreground">CLOSWORK - MIO MOBILE S.A. DE C.V.</p>
               </CardHeader>
               <CardContent>
-                <EmpresasTyCContent />
+                <EmpresasTyCContent onScrollToBottom={() => setHasScrolledToBottom(true)} />
               </CardContent>
             </Card>
           </ScrollReveal>
@@ -134,10 +136,16 @@ const EmpresasTyC = ({ planKey }: EmpresasTyCProps) => {
                 size="lg"
                 className="text-lg px-10 gap-2"
                 onClick={handleAcceptAndPay}
+                disabled={!hasScrolledToBottom}
               >
                 Acepto los términos — Proceder al pago
                 <ExternalLink className="h-4 w-4" />
               </Button>
+              {!hasScrolledToBottom && (
+                <p className="text-sm text-amber-600 font-medium">
+                  Desplázate hasta el final de los términos para habilitar el botón
+                </p>
+              )}
               <p className="text-xs text-muted-foreground text-center max-w-md">
                 Al hacer clic, confirmas que has leído y aceptas los Términos y Condiciones del plan {plan.name}.
                 Serás redirigido a Stripe para completar el pago de forma segura.
