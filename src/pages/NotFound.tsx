@@ -21,9 +21,8 @@ const NotFound = () => {
         <meta name="description" content="La página que buscas no existe. Regresa al inicio de Closwork." />
         
         {/* Favicons */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </Helmet>
       
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">

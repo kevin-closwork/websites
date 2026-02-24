@@ -112,9 +112,8 @@ const EmpresasTycBasico = () => {
         <link rel="canonical" href="/empresas-tyc-basico" />
         
         {/* Favicons */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />

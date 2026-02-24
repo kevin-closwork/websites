@@ -69,9 +69,8 @@ const Solicitud = () => {
         <link rel="canonical" href="/solicitud" />
         
         {/* Favicons */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         
         {/* Meta Pixel Code for Directorio Beta Plan - Using main pixel */}
         {selectedPlan === 'Directorio Beta' && (

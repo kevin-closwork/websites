@@ -22,9 +22,8 @@ const GraciasEmpresa = () => {
         <link rel="canonical" href="/gracias-empresa" />
         
         {/* Favicons */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </Helmet>
 
       <div className="max-w-2xl mx-auto text-center">
