@@ -66,7 +66,7 @@ const Navbar = () => {
               className="bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
               asChild
             >
-              <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Registrarte</a>
+              <a href="https://app.closwork.com/register/role" target="_blank" rel="noopener noreferrer">Registrarte</a>
             </Button>
           </div>
 
@@ -126,7 +126,7 @@ const Navbar = () => {
                     onClick={() => setIsOpen(false)}
                     asChild
                   >
-                    <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Registrarte</a>
+                    <a href="https://app.closwork.com/register/role" target="_blank" rel="noopener noreferrer">Registrarte</a>
                   </Button>
                 </div>
               </div>

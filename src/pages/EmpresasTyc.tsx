@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import EmpresasTyCContent from "@/components/EmpresasTyCContent";
 
 interface PlanConfig {
   name: string;
@@ -48,7 +49,7 @@ const PLANS: Record<string, PlanConfig> = {
     name: "Scale",
     badge: "💎 SCALE",
     price: "$1,999 MXN/mes",
-    stripeUrl: "https://buy.stripe.com/PLACEHOLDER_SCALE_URL",
+    stripeUrl: "https://buy.stripe.com/5kQ8wO5UZ5PMc0H2AL6Na09",
     features: [
       "3 socios comerciales simultáneamente",
       "Garantía extendida",
@@ -118,69 +119,11 @@ const EmpresasTyC = ({ planKey }: EmpresasTyCProps) => {
           <ScrollReveal variant="fade-up" delay={2}>
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl">Términos y Condiciones — Plan {plan.name}</CardTitle>
+                <CardTitle className="text-xl">Términos y Condiciones de Uso de los Servicios — Plan {plan.name}</CardTitle>
+                <p className="text-sm text-muted-foreground">CLOSWORK - MIO MOBILE S.A. DE C.V.</p>
               </CardHeader>
-              <CardContent className="prose prose-sm max-w-none text-muted-foreground space-y-4">
-                <p>
-                  Al contratar el plan <strong>{plan.name}</strong> de Closwork, el usuario (en adelante "La Empresa") acepta los
-                  siguientes términos:
-                </p>
-
-                <h4 className="text-foreground font-semibold">1. Objeto del servicio</h4>
-                <p>
-                  Closwork proporcionará acceso a su plataforma de conexión entre empresas y socios comerciales (closers) verificados,
-                  conforme a las características del plan seleccionado.
-                </p>
-
-                <h4 className="text-foreground font-semibold">2. Duración y facturación</h4>
-                <p>
-                  La suscripción tiene una duración mensual a partir de la fecha de pago. El cobro de <strong>{plan.price}</strong> se
-                  realizará de forma recurrente salvo cancelación previa. La Empresa puede cancelar en cualquier momento; el acceso se
-                  mantiene hasta el fin del periodo pagado.
-                </p>
-
-                <h4 className="text-foreground font-semibold">3. Garantía de satisfacción</h4>
-                <p>
-                  Si después de 3 meses La Empresa no está satisfecha con los resultados obtenidos, Closwork reembolsará la inversión
-                  correspondiente al último mes cobrado, sujeto a evaluación del caso.
-                </p>
-
-                <h4 className="text-foreground font-semibold">4. Garantía extendida</h4>
-                <p>
-                  Si el socio comercial asignado no cumple con las expectativas de La Empresa, Closwork se compromete a realizar el
-                  reemplazo correspondiente sin costo adicional dentro del periodo activo de suscripción.
-                </p>
-
-                <h4 className="text-foreground font-semibold">5. Responsabilidades de La Empresa</h4>
-                <p>
-                  La Empresa se compromete a proporcionar información veraz sobre sus productos/servicios, mantener comunicación activa
-                  con los socios comerciales asignados y respetar las comisiones pactadas por resultados generados.
-                </p>
-
-                <h4 className="text-foreground font-semibold">6. Limitación de responsabilidad</h4>
-                <p>
-                  Closwork actúa como intermediario entre La Empresa y los socios comerciales. No garantiza un volumen específico de
-                  ventas. Los resultados dependen de múltiples factores, incluyendo la oferta de La Empresa y las condiciones del
-                  mercado.
-                </p>
-
-                <h4 className="text-foreground font-semibold">7. Privacidad y datos</h4>
-                <p>
-                  La información proporcionada por La Empresa será tratada conforme a nuestra Política de Privacidad. Los datos no
-                  serán compartidos con terceros fuera del alcance del servicio contratado.
-                </p>
-
-                <h4 className="text-foreground font-semibold">8. Modificaciones</h4>
-                <p>
-                  Closwork se reserva el derecho de modificar estos términos con previo aviso de 30 días. El uso continuado del
-                  servicio tras la notificación implica la aceptación de los nuevos términos.
-                </p>
-
-                <h4 className="text-foreground font-semibold">9. Jurisdicción</h4>
-                <p>
-                  Para cualquier controversia derivada de estos términos, las partes se someten a la jurisdicción de los tribunales de
-                  Guadalajara, Jalisco, México.
-                </p>
+              <CardContent>
+                <EmpresasTyCContent />
               </CardContent>
             </Card>
           </ScrollReveal>
