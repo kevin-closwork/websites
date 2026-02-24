@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { ChatWindow } from "@/components/ChatWindow";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Plans from "@/components/Plans";
@@ -443,7 +442,6 @@ const Index = () => {
         </main>
 
         <Footer />
-        <ChatWindow />
       </div>
     </TooltipProvider>
   );
