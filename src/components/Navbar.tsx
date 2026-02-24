@@ -55,11 +55,18 @@ const Navbar = () => {
               <Link to="/solicitud">Contacto</Link>
             </Button>
             <Button
+              variant="ghost"
+              className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+              asChild
+            >
+              <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Iniciar sesión</a>
+            </Button>
+            <Button
               variant="default"
               className="bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
               asChild
             >
-              <Link to="/precios">Ver Planes</Link>
+              <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Registrarte</a>
             </Button>
           </div>
 
@@ -106,12 +113,20 @@ const Navbar = () => {
                     <Link to="/solicitud">Contacto</Link>
                   </Button>
                   <Button
+                    variant="ghost"
+                    className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+                    onClick={() => setIsOpen(false)}
+                    asChild
+                  >
+                    <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Iniciar sesión</a>
+                  </Button>
+                  <Button
                     variant="default"
                     className="w-full bg-primary text-white hover:bg-primary/90 rounded-lg font-medium"
                     onClick={() => setIsOpen(false)}
                     asChild
                   >
-                    <Link to="/precios">Ver Planes</Link>
+                    <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Registrarte</a>
                   </Button>
                 </div>
               </div>

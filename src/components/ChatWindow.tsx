@@ -394,14 +394,15 @@ export const ChatWindow = () => {
           }}
         >
           <div className="bg-gradient-hero p-3 sm:p-4 text-primary-foreground relative">
-            <h3 className="text-xs sm:text-sm font-semibold pr-8">{language === 'en' ? "Your personal Closwork assistant" : "Tu asistente personal de Closwork"}</h3>
+            <h3 className="text-xs sm:text-sm font-semibold pr-12">{language === 'en' ? "Your personal Closwork assistant" : "Tu asistente personal de Closwork"}</h3>
             <Button
               onClick={() => setIsOpen(false)}
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-7 w-7 sm:h-8 sm:w-8 text-primary-foreground hover:bg-white/20 rounded-full"
+              className="absolute top-2 right-2 h-9 w-9 sm:h-10 sm:w-10 text-primary-foreground hover:bg-white/30 bg-white/20 rounded-full border-2 border-white/50"
+              aria-label="Cerrar chat"
             >
-              <X size={16} className="sm:w-4 sm:h-4" />
+              <X size={22} className="sm:w-6 sm:h-6" strokeWidth={2.5} />
             </Button>
           </div>
 
