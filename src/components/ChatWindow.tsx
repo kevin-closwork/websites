@@ -55,12 +55,6 @@ const menuOptions = [
   "Más información",
 ];
 
-const menuOptionsEn = [
-  "I'm a Company",
-  "I'm a Closer",
-  "More Information",
-];
-
 type ChatBridgeEvent = CustomEvent<{ text: string }>;
 
 export const ChatWindow = () => {
@@ -393,13 +387,13 @@ export const ChatWindow = () => {
             boxShadow: '0 10px 40px -10px hsl(210, 100%, 21%, 0.3), 0 0 0 1px hsl(210, 100%, 21%, 0.1)'
           }}
         >
-          <div className="bg-gradient-hero p-3 sm:p-4 text-primary-foreground relative">
-            <h3 className="text-xs sm:text-sm font-semibold pr-12">{language === 'en' ? "Your personal Closwork assistant" : "Tu asistente personal de Closwork"}</h3>
+          <div className="bg-white border-b border-slate-200 p-3 sm:p-4 relative">
+            <h3 className="text-xs sm:text-sm font-semibold pr-12 text-slate-800">Tu asistente personal de Closwork</h3>
             <Button
               onClick={() => setIsOpen(false)}
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-9 w-9 sm:h-10 sm:w-10 text-primary-foreground hover:bg-white/30 bg-white/20 rounded-full border-2 border-white/50"
+              className="absolute top-2 right-2 h-9 w-9 sm:h-10 sm:w-10 text-slate-700 hover:bg-slate-100 rounded-full border border-slate-200"
               aria-label="Cerrar chat"
             >
               <X size={22} className="sm:w-6 sm:h-6" strokeWidth={2.5} />
@@ -438,7 +432,7 @@ export const ChatWindow = () => {
                         onClick={() => navigate("/empresas")}
                         className="text-xs text-muted-foreground hover:text-primary transition-colors underline mt-1"
                         >
-                        {language === 'en' ? "Learn more about companies" : "Más info para empresas"}
+                        Más info para empresas
                         </button>
                     )}
                   </div>
@@ -476,10 +470,10 @@ export const ChatWindow = () => {
             {(messages.length === 1 && messages[0].id === "greeting") || showMenu ? (
               <div className="space-y-3 mt-6">
                 <p className="text-sm text-muted-foreground text-center mb-4">
-                  {language === 'en' ? "Select an option:" : "Selecciona una opción:"}
+                  Selecciona una opción:
                 </p>
                 <div className="flex flex-col gap-3 items-center">
-                  {(language === 'en' ? menuOptionsEn : menuOptions).map((option, idx) => (
+                  {menuOptions.map((option, idx) => (
                     <QuickReplyButton
                       key={option}
                       text={option}
@@ -503,7 +497,7 @@ export const ChatWindow = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
-                placeholder={language === 'en' ? "Type your message..." : "Escribe tu mensaje..."}
+                placeholder="Escribe tu mensaje..."
                 className="flex-1 rounded-full bg-background text-sm sm:text-base"
               />
               <Button
