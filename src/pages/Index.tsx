@@ -2,6 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ChatWindow } from "@/components/ChatWindow";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Plans from "@/components/Plans";
 import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -326,132 +327,7 @@ const Index = () => {
           </section>
 
           {/* Planes */}
-          <section id="pricing" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="fade-up">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4">
-                Planes diseñados para tu crecimiento
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
-                Elige el plan que mejor se adapte a las necesidades de tu empresa. Todos incluyen nuestra garantía de satisfacción.
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <ScrollReveal variant="fade-up" delay={1}>
-              <Card className="landing-section-card-hover h-full">
-                <CardHeader>
-                  <Badge variant="outline" className="w-fit mb-2">🎯 STARTER</Badge>
-                  <CardTitle className="text-2xl">$899 MXN/mes</CardTitle>
-                  <CardDescription>Prueba sin riesgo, cambia cuando quieras</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {["1 socio comercial verificado activo", "Garantía extendida", "Garantía de satisfacción", "Sesión consultiva inicial (45 min)", "WhatsApp support"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      <Check className="h-4 w-4 text-primary shrink-0" />
-                      {f.includes("Garantía") ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="flex items-center gap-1 cursor-help">
-                              {f}
-                              <HelpCircle className="h-3.5 w-3.5" />
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent className="max-w-xs">
-                            {f.includes("extendida")
-                              ? "Si el socio comercial asignado no cumple con tus expectativas, nos comprometemos a realizar el reemplazo correspondiente."
-                              : "Si después de 3 meses no estás satisfecho, te reembolsamos tu inversión."}
-                          </TooltipContent>
-                        </Tooltip>
-                      ) : (
-                        f
-                      )}
-                    </div>
-                  ))}
-                  <p className="text-xs text-muted-foreground pt-2">Socio comercial adicional: +$699/mes</p>
-                  <Button className="w-full mt-4" variant="outline" onClick={() => navigate("/empresas-tyc-basico")}>Empezar Ahora</Button>
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-              <ScrollReveal variant="scale" delay={2}>
-              <Card className="border-2 border-primary shadow-lg landing-section-card-hover h-full">
-                <CardHeader>
-                  <Badge className="w-fit mb-2 bg-primary">🚀 Más Popular</Badge>
-                  <Badge variant="outline" className="w-fit mb-2">GROWTH</Badge>
-                  <CardTitle className="text-2xl">$1,299 MXN/mes</CardTitle>
-                  <CardDescription>Dobla tus probabilidades, diferentes estilos</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {["2 socios comerciales simultáneamente", "Garantía extendida", "Garantía de satisfacción", "1 sesión consultiva por mes", "Prioridad en asignación de socios", "WhatsApp support", "Acceso a eventos Closwork"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      <Check className="h-4 w-4 text-primary shrink-0" />
-                      {f.includes("Garantía") ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="flex items-center gap-1 cursor-help">
-                              {f}
-                              <HelpCircle className="h-3.5 w-3.5" />
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent className="max-w-xs">
-                            {f.includes("extendida")
-                              ? "Si el socio comercial asignado no cumple con tus expectativas, nos comprometemos a realizar el reemplazo correspondiente."
-                              : "Si después de 3 meses no estás satisfecho, te reembolsamos tu inversión."}
-                          </TooltipContent>
-                        </Tooltip>
-                      ) : (
-                        f
-                      )}
-                    </div>
-                  ))}
-                  <p className="text-xs text-muted-foreground pt-2">Socio comercial adicional: +$699/mes</p>
-                  <Button className="w-full mt-4" onClick={() => navigate("/empresas-tyc-growth")}>Comenzar Growth</Button>
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-              <ScrollReveal variant="fade-up" delay={3}>
-              <Card className="landing-section-card-hover h-full">
-                <CardHeader>
-                  <Badge variant="outline" className="w-fit mb-2">💎 SCALE</Badge>
-                  <CardTitle className="text-2xl">$1,999 MXN/mes</CardTitle>
-                  <CardDescription>Máximo rendimiento y escalabilidad</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {["3 socios comerciales simultáneamente", "Garantía extendida", "Garantía de satisfacción", "Hasta 2 sesiones consultivas por mes", "Prioridad VIP: asignación en <48h", "WhatsApp support prioritario (<4h)", "Acceso a eventos Closwork"].map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      <Check className="h-4 w-4 text-primary shrink-0" />
-                      {f.includes("Garantía") ? (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="flex items-center gap-1 cursor-help">
-                              {f}
-                              <HelpCircle className="h-3.5 w-3.5" />
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent className="max-w-xs">
-                            {f.includes("extendida")
-                              ? "Si el socio comercial asignado no cumple con tus expectativas, nos comprometemos a realizar el reemplazo correspondiente."
-                              : "Si después de 3 meses no estás satisfecho, te reembolsamos tu inversión."}
-                          </TooltipContent>
-                        </Tooltip>
-                      ) : (
-                        f
-                      )}
-                    </div>
-                  ))}
-                  <p className="text-xs text-muted-foreground pt-2">Socio comercial adicional: +$299/mes</p>
-                  <Button className="w-full mt-4" variant="outline" onClick={() => navigate("/empresas-tyc-scale")}>Comenzar Scale</Button>
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-            </div>
-            <ScrollReveal variant="fade-up" delay={2}>
-            <div className="text-center mt-8">
-              <p className="text-muted-foreground mb-2">¿Necesitas una solución personalizada?</p>
-              <Button variant="secondary" onClick={openWhatsApp}>Hablar con un Especialista</Button>
-            </div>
-            </ScrollReveal>
-          </section>
+          <Plans />
 
           {/* Ahorros */}
           <section id="ahorros" className="w-full bg-slate-50 relative overflow-visible">
