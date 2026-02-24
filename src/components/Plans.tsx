@@ -261,7 +261,7 @@ const Plans = () => {
 
   return (
     <TooltipProvider>
-      <section id="planes" className="py-20 bg-white">
+      <section id="pricing" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div 
           ref={headerRef}

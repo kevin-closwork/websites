@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ChatWindow } from "@/components/ChatWindow";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -80,17 +80,19 @@ const Index = () => {
                 <Button
                   size="lg"
                   className="bg-white text-[#1a5ca0] hover:bg-white/95 text-lg px-8 font-semibold"
-                  onClick={() => navigate("/solicitud")}
+                  asChild
                 >
-                  Desplegar Sales Team
+                  <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
+                    Registra tu empresa
+                  </a>
                 </Button>
                 <p className="text-sm text-white/80">Setup en 5 minutos • Cancelación flexible</p>
               </div>
               <p className="text-sm text-white/90 mb-8">
                 ¿Eres un vendedor? Comienza tu camino{" "}
-                <Link to="/closer-tyc" className="text-white font-semibold hover:underline underline-offset-2">
+                <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer" className="text-white font-semibold hover:underline underline-offset-2">
                   aquí
-                </Link>
+                </a>
               </p>
             </div>
             </ScrollReveal>

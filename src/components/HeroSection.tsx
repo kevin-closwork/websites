@@ -8,7 +8,7 @@ const HeroSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleJoinClick = () => {
-    const plansSection = document.getElementById('planes');
+    const plansSection = document.getElementById('pricing');
     if (plansSection) {
       plansSection.scrollIntoView({ behavior: 'smooth' });
     }
