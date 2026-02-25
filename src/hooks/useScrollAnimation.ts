@@ -3,16 +3,19 @@ import { useEffect, useRef, useState } from 'react';
 export const useScrollAnimation = (options?: IntersectionObserverInit) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const hasBeenVisible = useRef(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          hasBeenVisible.current = true;
           setIsVisible(true);
-          // Agregar clase visible al elemento
-          if (ref.current) {
-            ref.current.classList.add('visible');
-          }
+          el.classList.add('visible');
+          observer.unobserve(el);
         }
       },
       {
@@ -22,15 +25,8 @@ export const useScrollAnimation = (options?: IntersectionObserverInit) => {
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
+    observer.observe(el);
+    return () => observer.unobserve(el);
   }, [options]);
 
   return { ref, isVisible };
