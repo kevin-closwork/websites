@@ -155,6 +155,16 @@ const Index = () => {
                   aquí
                 </a>
               </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                <span className="text-sm text-white/80">Acelerados en:</span>
+                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
+                  <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-10 sm:h-12 w-auto brightness-0 invert" />
+                </a>
+                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
+                  <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-6 sm:h-8 w-auto brightness-0 invert" />
+                </a>
+              </div>
             </div>
             </ScrollReveal>
           </section>
