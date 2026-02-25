@@ -88,16 +88,14 @@ const Footer = () => {
         </div>
 
         {/* Acelerados en */}
-        <div className="flex flex-col items-center gap-6 mt-8 pt-8 border-t border-gray-600">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-8 pt-8 border-t border-gray-600">
           <span className="text-sm text-gray-400">Acelerados en:</span>
-          <div className="flex flex-wrap justify-center items-center gap-8">
-            <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-12 sm:h-16 w-auto" />
-            </a>
-            <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
-              <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-8 sm:h-10 w-auto" />
-            </a>
-          </div>
+          <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-12 sm:h-16 w-auto" />
+          </a>
+          <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+            <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-8 sm:h-10 w-auto" />
+          </a>
         </div>
 
         {/* Copyright y frase */}
