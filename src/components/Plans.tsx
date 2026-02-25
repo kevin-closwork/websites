@@ -107,15 +107,8 @@ const Plans = () => {
     window.location.href = tycRoutes[planKey];
   };
 
-  const PlanCard = ({ plan, index }: { plan: typeof plans[0], index: number }) => {
-    const { ref, isVisible } = useScrollAnimation();
-    
-    return (
-      <div 
-        ref={ref}
-        className={`group relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1 scroll-animate ${isVisible ? 'visible' : ''}`}
-        style={{ transitionDelay: `${index * 0.15}s` }}
-      >
+  const PlanCard = ({ plan, index }: { plan: typeof plans[0], index: number }) => (
+    <div className="group relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1" style={{ transitionDelay: `${index * 0.15}s` }}>
         <div className={`group relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1 ${
           plan.popular 
             ? 'bg-gradient-to-br from-primary via-primary-glow to-primary text-white shadow-2xl shadow-primary/20 scale-105 border-2 border-primary/30' 
@@ -255,9 +248,8 @@ const Plans = () => {
             </div>
           )}
         </div>
-      </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <TooltipProvider>
