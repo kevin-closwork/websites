@@ -123,6 +123,11 @@ export default {
 					'scroll': {
 						'0%': { transform: 'translateX(0)' },
 						'100%': { transform: 'translateX(-50%)' }
+					},
+					// Cursor blink for typewriter
+					'cursor-blink': {
+						'0%, 50%': { opacity: '1' },
+						'51%, 100%': { opacity: '0' }
 					}
 				},
 				animation: {
@@ -141,7 +146,8 @@ export default {
 					'float': 'float 6s ease-in-out infinite',
 					'stepPulse': 'stepPulse 3s ease-in-out infinite',
 					'bounce-subtle': 'bounce-subtle 4s ease-in-out infinite',
-					'scroll': 'scroll 30s linear infinite'
+					'scroll': 'scroll 30s linear infinite',
+					'cursor-blink': 'cursor-blink 1s step-end infinite'
 				},
 				animationDelay: {
 					'1000': '1s',

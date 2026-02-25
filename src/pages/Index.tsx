@@ -124,7 +124,7 @@ const Index = () => {
                       aria-hidden
                     >
                       {typedPlaceholder}
-                      <span className="animate-pulse">|</span>
+                      <span className="inline-block w-0.5 h-4 sm:h-5 ml-0.5 bg-current align-middle animate-cursor-blink" aria-hidden />
                     </span>
                   )}
                 </div>
