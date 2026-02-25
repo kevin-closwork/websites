@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Plans from "@/components/Plans";
 import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -15,18 +15,68 @@ import {
 } from "@/components/ui/tooltip";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
+const HERO_PHRASES = [
+  "Necesito vender mi ERP",
+  "Busco un vendedor bajo comisión",
+  "Mi empresa quiere vender más",
+  "Quiero cerrar más ventas B2B",
+  "Necesito socios comerciales",
+];
+
 const Index = () => {
   const [heroMessage, setHeroMessage] = useState("");
+  const [typedPlaceholder, setTypedPlaceholder] = useState("");
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (inputFocused || heroMessage) return;
+    const phrase = HERO_PHRASES[phraseIndex];
+    const timeout = setTimeout(
+      () => {
+        if (!isDeleting) {
+          if (typedPlaceholder.length < phrase.length) {
+            setTypedPlaceholder(phrase.slice(0, typedPlaceholder.length + 1));
+          } else {
+            setIsDeleting(true);
+          }
+        } else {
+          if (typedPlaceholder.length > 0) {
+            setTypedPlaceholder(typedPlaceholder.slice(0, -1));
+          } else {
+            setIsDeleting(false);
+            setPhraseIndex((i) => (i + 1) % HERO_PHRASES.length);
+          }
+        }
+      },
+      isDeleting ? 40 : typedPlaceholder.length === phrase.length ? 2000 : 80
+    );
+    return () => clearTimeout(timeout);
+  }, [typedPlaceholder, phraseIndex, isDeleting, inputFocused, heroMessage]);
 
   const handleHeroSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const text = heroMessage.trim();
     if (!text) return;
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("chat:send", { detail: { text } }));
-    }
     setHeroMessage("");
+
+    let attempts = 0;
+    const sendToBotpress = (msg: string) => {
+      const bp = (window as Window & { botpress?: { open: () => void; on: (ev: string, cb: () => void) => () => void; sendMessage: (m: string) => Promise<void> } }).botpress;
+      if (bp) {
+        bp.open();
+        const unsub = bp.on("webchat:opened", () => {
+          bp.sendMessage(msg);
+          unsub?.();
+        });
+        setTimeout(() => bp.sendMessage(msg).catch(() => {}), 300);
+      } else if (attempts++ < 40) {
+        setTimeout(() => sendToBotpress(msg), 150);
+      }
+    };
+    if (typeof window !== "undefined") sendToBotpress(text);
   };
 
   const openWhatsApp = () => {
@@ -60,12 +110,24 @@ const Index = () => {
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
                   <Sparkles size={18} className="sm:w-5 sm:h-5 text-white" />
                 </div>
-                <input
-                  value={heroMessage}
-                  onChange={(e) => setHeroMessage(e.target.value)}
-                  placeholder=" ✨ Escribe aquí para iniciar tu historia con nosotros. ✨"
-                  className="flex-1 bg-transparent border-none focus:outline-none text-sm sm:text-base text-foreground placeholder:text-muted-foreground min-w-0"
-                />
+                <div className="flex-1 relative min-w-0">
+                  <input
+                    value={heroMessage}
+                    onChange={(e) => setHeroMessage(e.target.value)}
+                    onFocus={() => setInputFocused(true)}
+                    onBlur={() => setInputFocused(false)}
+                    className="w-full bg-transparent border-none focus:outline-none text-sm sm:text-base text-foreground min-w-0 relative z-10"
+                  />
+                  {!heroMessage && !inputFocused && (
+                    <span
+                      className="absolute left-0 top-1/2 -translate-y-1/2 text-sm sm:text-base text-muted-foreground pointer-events-none whitespace-nowrap"
+                      aria-hidden
+                    >
+                      {typedPlaceholder}
+                      <span className="animate-pulse">|</span>
+                    </span>
+                  )}
+                </div>
                 <button
                   type="submit"
                   className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-primary hover:text-primary-glow transition-colors flex-shrink-0"
