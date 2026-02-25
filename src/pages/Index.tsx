@@ -140,7 +140,7 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
                 <Button
                   size="lg"
-                  className="bg-white text-[#1a5ca0] hover:bg-white/95 text-lg px-8 font-semibold"
+                  className="bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold"
                   asChild
                 >
                   <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">

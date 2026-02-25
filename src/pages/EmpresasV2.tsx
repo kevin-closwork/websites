@@ -791,8 +791,21 @@ const EmpresasV2 = () => {
               </div>
             </div>
 
+            {/* Acelerados en */}
+            <div className="flex flex-col items-center gap-6 mt-12 pt-8 border-t border-slate-700">
+              <span className="text-sm text-zinc-400">Acelerados en:</span>
+              <div className="flex flex-wrap justify-center items-center gap-8">
+                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-12 sm:h-16 w-auto filter brightness-0 invert" />
+                </a>
+                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity">
+                  <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-8 sm:h-10 w-auto" />
+                </a>
+              </div>
+            </div>
+
             {/* Bottom Section */}
-            <div className="border-t border-slate-700 mt-12 pt-8">
+            <div className="border-t border-slate-700 mt-8 pt-8">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-sm text-muted-foreground">
                   © 2024 Closwork. Todos los derechos reservados.
