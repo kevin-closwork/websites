@@ -1,5 +1,11 @@
 # 📄 Contenido Completo de la Landing Page - Closwork
 
+## 📝 DEFINICIÓN DE MARCA
+
+**Closwork** es una plataforma que conecta a **empresas, coaches e infoproductores** con **vendedores especializados (closers)** para cerrar ventas de **alto valor (high ticket)**.
+
+---
+
 ## 🎯 HERO SECTION
 
 ### Pre-Título Badge
@@ -34,17 +40,21 @@
 ### Subtítulo
 **"Un proceso simple y transparente que conecta empresas con los mejores closers de LATAM en 3 pasos"**
 
-### Paso 01: Publica tu empresa/oferta
-- **Descripción**: "Registra tu empresa y publica las oportunidades de venta que necesitas promocionar. Define comisiones y requisitos."
-- **Icono**: Building2
+### Enfoque para empresas (modelo de resultados)
 
-### Paso 02: Te conectamos con un socio comercial validado
-- **Descripción**: "Nuestro algoritmo te conecta con closers verificados que tienen experiencia en tu sector y mercado objetivo."
+El modelo de Closwork se basa en **resultados bajo un esquema de comisión por venta**, lo que **reduce el riesgo financiero** para el negocio. El proceso se resume en:
+
+### Paso 01: Perfilado
+- **Descripción**: "Defines tu tipo de negocio, el precio de tu producto (ticket) y el perfil de vendedor que necesitas."
+- **Icono**: Building2 o Target
+
+### Paso 02: Conexión
+- **Descripción**: "Te asignan un closer certificado con experiencia previa en tu nicho de mercado."
 - **Icono**: Users
 
-### Paso 03: Pagas comisión solo cuando se concreten ventas
-- **Descripción**: "Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio."
-- **Icono**: TrendingUp
+### Paso 03: Crecimiento
+- **Descripción**: "El closer gestiona tus prospectos (leads) y las llamadas son monitoreadas mediante inteligencia artificial para asegurar la calidad."
+- **Icono**: TrendingUp o Zap
 
 ---
 
@@ -257,7 +267,7 @@
 ## 📞 FOOTER
 
 ### Sobre Nosotros
-**"Closwork es una plataforma innovadora diseñada para revolucionar las ventas B2B, ofreciendo herramientas avanzadas y soluciones personalizadas."**
+**"Closwork conecta empresas, coaches e infoproductores con closers especializados para ventas high ticket, con comisión por resultados y calidad respaldada por IA en las llamadas."**
 
 ### Contacto
 - **Email**: hola@closwork.com
@@ -328,13 +338,15 @@
 
 **"El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Sin nómina, solo resultados."**
 
+**Ángulo high ticket**: Plataforma para **closers** que cierran ofertas de alto valor; encaje natural para **empresas, coaches e infoproductores** que venden programas, mentorías o servicios premium.
+
 ### Puntos Clave
 1. ✅ Sin costos fijos
-2. ✅ Pago solo por resultados
+2. ✅ Comisión por venta (riesgo acotado para el negocio)
 3. ✅ Setup rápido (5 minutos)
 4. ✅ Cancelación flexible
-5. ✅ Socios comerciales verificados
-6. ✅ Conecta en menos de 48 horas
+5. ✅ Closers certificados y alineados al nicho
+6. ✅ Gestión de leads y **monitoreo de llamadas con IA** (calidad)
 7. ✅ Ahorro del 60-80% vs modelo tradicional
 
 ---
@@ -396,14 +408,15 @@
 
 ## 💡 MENSAJES CLAVE
 
-1. **Sin riesgo**: Sin costos fijos, solo pagas por resultados
-2. **Velocidad**: Setup en 5 minutos, despliegue en 24 horas
-3. **Flexibilidad**: Cancelación flexible, ajusta cuando quieras
-4. **Verificación**: Socios comerciales verificados y validados
-5. **Ahorro**: 60-80% de ahorro vs modelo tradicional
-6. **Garantía**: Garantía de satisfacción y reemplazo
-7. **Comunidad**: Red activa de closers en LATAM
-8. **Resultados**: Enfoque 100% en resultados, no en procesos
+1. **Audiencia**: Empresas, coaches e infoproductores que venden **high ticket**
+2. **Sin riesgo**: Comisión por venta; sin costos fijos, pagas por resultados
+3. **Velocidad**: Setup en 5 minutos, despliegue en 24 horas
+4. **Flexibilidad**: Cancelación flexible, ajusta cuando quieras
+5. **Verificación**: Closers certificados con experiencia en tu nicho
+6. **Calidad**: Llamadas monitoreadas con IA
+7. **Ahorro**: 60-80% de ahorro vs modelo tradicional
+8. **Garantía**: Garantía de satisfacción y reemplazo
+9. **Comunidad**: Red activa de closers en LATAM
 
 ---
 
