@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect } from "react";
-import PricingSection from "@/components/landing/PricingSection";
+import PricingSection from "@/components/pricing/PricingSection";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";

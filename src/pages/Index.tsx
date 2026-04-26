@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Plans from "@/components/Plans";
+import PricingSection from "@/components/pricing/PricingSection";
 import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -400,7 +400,7 @@ const Index = () => {
           </section>
 
           {/* Planes */}
-          <Plans />
+          <PricingSection />
 
           {/* Ahorros */}
           <section id="ahorros" className="w-full bg-slate-50 relative overflow-visible">

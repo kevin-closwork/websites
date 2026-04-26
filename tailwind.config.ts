@@ -128,7 +128,11 @@ export default {
 					'cursor-blink': {
 						'0%, 50%': { opacity: '1' },
 						'51%, 100%': { opacity: '0' }
-					}
+					},
+					'pricing-fade-up': {
+						from: { opacity: '0', transform: 'translateY(16px)' },
+						to: { opacity: '1', transform: 'translateY(0)' },
+					},
 				},
 				animation: {
 					'accordion-down': 'accordion-down 0.2s ease-out',
@@ -147,7 +151,8 @@ export default {
 					'stepPulse': 'stepPulse 3s ease-in-out infinite',
 					'bounce-subtle': 'bounce-subtle 4s ease-in-out infinite',
 					'scroll': 'scroll 30s linear infinite',
-					'cursor-blink': 'cursor-blink 1s step-end infinite'
+					'cursor-blink': 'cursor-blink 1s step-end infinite',
+					'pricing-fade-up': 'pricing-fade-up 0.6s ease-out forwards',
 				},
 				animationDelay: {
 					'1000': '1s',
