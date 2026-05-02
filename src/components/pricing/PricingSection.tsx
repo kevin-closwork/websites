@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PricingCard } from "./PricingCard";
 import { PricingToggle } from "./PricingToggle";
-import { CurrencySelector } from "./CurrencySelector";
 import { ComparisonTable } from "./ComparisonTable";
-import { PRICING_TIERS, EXCHANGE_RATE } from "./pricing.data";
-import type { BillingPeriod, Currency, PricingTier, StripePlanKey } from "./pricing.types";
+import { PRICING_TIERS } from "./pricing.data";
+import type { BillingPeriod, PricingTier, StripePlanKey } from "./pricing.types";
 import { getStripePrice, getStripeTracking } from "@/lib/stripeConfig";
 import { pixelEvents } from "@/lib/pixelEvents";
 
@@ -14,9 +13,11 @@ const TYC_ROUTES: Record<StripePlanKey, string> = {
   planScale: "/empresas-tyc-scale",
 };
 
+const PRICING_DISCLAIMER =
+  "Precios en pesos mexicanos (MXN), antes de impuestos. Plan anual: descuento del 20% sobre la tarifa mensual, facturado por periodo anual; lo mostrado es el equivalente mensual.";
+
 export function PricingSection() {
   const [period, setPeriod] = useState<BillingPeriod>("monthly");
-  const [currency, setCurrency] = useState<Currency>("USD");
   const [cardsVisible, setCardsVisible] = useState(false);
   const revealRef = useRef<HTMLDivElement>(null);
 
@@ -42,11 +43,6 @@ export function PricingSection() {
     window.location.href = TYC_ROUTES[key];
   }, []);
 
-  const footnote =
-    currency === "USD"
-      ? `Todos los precios en USD. Equivalentes en MXN al tipo de cambio ~$${EXCHANGE_RATE} MXN/USD. Precios sujetos a cambio.`
-      : `Todos los precios en MXN. Tipo de cambio referencia: $${EXCHANGE_RATE} MXN/USD.`;
-
   return (
     <section
       id="pricing"
@@ -71,13 +67,8 @@ export function PricingSection() {
           </p>
         </header>
 
-        <div className="mb-12 flex flex-col items-stretch gap-4 min-[900px]:mb-14 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between">
-          <div className="flex justify-center min-[900px]:flex-1">
-            <PricingToggle period={period} onChange={setPeriod} />
-          </div>
-          <div className="flex justify-center min-[900px]:justify-end">
-            <CurrencySelector currency={currency} onChange={setCurrency} />
-          </div>
+        <div className="mb-12 flex justify-center min-[900px]:mb-14">
+          <PricingToggle period={period} onChange={setPeriod} />
         </div>
 
         <div
@@ -88,7 +79,6 @@ export function PricingSection() {
             <PricingCard
               key={tier.id}
               tier={tier}
-              currency={currency}
               period={period}
               animationDelay={0.1 * (index + 1)}
               visible={cardsVisible}
@@ -97,10 +87,10 @@ export function PricingSection() {
           ))}
         </div>
 
-        <ComparisonTable currency={currency} period={period} />
+        <ComparisonTable period={period} />
 
         <p className="mx-auto mt-10 max-w-3xl text-center text-[11px] leading-relaxed text-[#8C919A]">
-          {footnote}
+          {PRICING_DISCLAIMER}
         </p>
       </div>
     </section>

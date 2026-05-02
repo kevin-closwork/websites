@@ -1,43 +1,45 @@
 import { useMemo } from "react";
-import type { BillingPeriod, Currency } from "./pricing.types";
+import type { BillingPeriod } from "./pricing.types";
 import {
   COMPARISON_ROWS,
   PRICING_TIERS,
   convertUsdToCurrencyAmount,
-  formatMoney,
-  getDisplayMonthlyAmount,
+  formatMxnMoney,
+  formatMxnPerMonth,
+  getDisplayMonthlyMxn,
 } from "./pricing.data";
 
 interface ComparisonTableProps {
-  currency: Currency;
   period: BillingPeriod;
 }
 
-export function ComparisonTable({ currency, period }: ComparisonTableProps) {
+export function ComparisonTable({ period }: ComparisonTableProps) {
   const rows = useMemo(() => {
     const tiers = PRICING_TIERS;
-    const fmt = (idx: number) =>
-      formatMoney(
-        getDisplayMonthlyAmount(tiers[idx].monthlyPriceUSD, period, currency),
-        currency
-      );
+
+    const fmt = (idx: number) => {
+      const t = tiers[idx];
+      if (t.contactSalesOnly) return "Cotización a medida";
+      const m = getDisplayMonthlyMxn(t.monthlyPriceMxn, period);
+      return formatMxnPerMonth(m);
+    };
 
     const priceCells: [string, string, string] = [
-      `7d gratis → ${fmt(0)}/mes`,
-      `${fmt(1)}/mes + 3%`,
-      `${fmt(2)}/mes + 3%`,
+      `7 días gratis → ${fmt(0)}`,
+      `${fmt(1)} + 3%`,
+      fmt(2),
     ];
 
     const setupCells: [string, string, string] = [
       "-",
       "-",
-      formatMoney(convertUsdToCurrencyAmount(1500, currency), currency),
+      formatMxnMoney(convertUsdToCurrencyAmount(1500, "MXN")),
     ];
 
-    const thr = formatMoney(convertUsdToCurrencyAmount(200, currency), currency);
+    const thr = formatMxnMoney(tiers[1].promo!.thresholdMXN);
     const promoCells: [string, string, string] = [
       "-",
-      `Membresía gratis si comisión ≥ ${thr}`,
+      `Membresía gratis si comisión Closwork ≥ ${thr} en el mes`,
       "-",
     ];
 
@@ -52,7 +54,7 @@ export function ComparisonTable({ currency, period }: ComparisonTableProps) {
     ];
 
     return [...dynamic, ...COMPARISON_ROWS.slice(3)];
-  }, [currency, period]);
+  }, [period]);
 
   return (
     <div className="mt-14 w-full" style={{ fontFamily: "'Manrope', system-ui, sans-serif" }}>

@@ -1,15 +1,15 @@
 import { Check, X } from "lucide-react";
-import type { BillingPeriod, Currency, PricingTier } from "./pricing.types";
+import type { BillingPeriod, PricingTier } from "./pricing.types";
 import {
-  formatMoney,
+  formatMxnMoney,
+  formatMxnPerMonth,
   convertUsdToCurrencyAmount,
-  getDisplayMonthlyAmount,
-  getStrikethroughMonthlyAmount,
+  getDisplayMonthlyMxn,
+  getStrikethroughMonthlyMxn,
 } from "./pricing.data";
 
 interface PricingCardProps {
   tier: PricingTier;
-  currency: Currency;
   period: BillingPeriod;
   animationDelay: number;
   visible: boolean;
@@ -18,26 +18,19 @@ interface PricingCardProps {
 
 export function PricingCard({
   tier,
-  currency,
   period,
   animationDelay,
   visible,
   onSelectPlan,
 }: PricingCardProps) {
-  const displayMonthly = getDisplayMonthlyAmount(tier.monthlyPriceUSD, period, currency);
-  const strike = getStrikethroughMonthlyAmount(tier.monthlyPriceUSD, period, currency);
+  const displayMonthly = getDisplayMonthlyMxn(tier.monthlyPriceMxn, period);
+  const strike = getStrikethroughMonthlyMxn(tier.monthlyPriceMxn, period);
+  const showNumericPrice = !tier.contactSalesOnly;
 
-  const thresholdAmt = tier.promo
-    ? formatMoney(convertUsdToCurrencyAmount(tier.promo.thresholdUSD, currency), currency)
-    : "";
-  const closeAmt = tier.promo
-    ? formatMoney(convertUsdToCurrencyAmount(tier.promo.exampleCloseUSD, currency), currency)
-    : "";
+  const thresholdAmt = tier.promo ? formatMxnMoney(tier.promo.thresholdMXN) : "";
+  const revenueAmt = tier.promo ? formatMxnMoney(tier.promo.exampleRevenueMXN) : "";
   const commAmt = tier.promo
-    ? formatMoney(
-        convertUsdToCurrencyAmount(tier.promo.exampleCloseUSD * 0.03, currency),
-        currency
-      )
+    ? formatMxnMoney(Math.round(tier.promo.exampleRevenueMXN * 0.03))
     : "";
 
   const promoDescription = tier.promo
@@ -45,12 +38,12 @@ export function PricingCard({
     : "";
 
   const promoExample = tier.promo
-    ? `Ejemplo: Tu closer cierra ${closeAmt}. 3% = ${commAmt}. Supera ${thresholdAmt}, no pagas membresía. Solo pagas ${commAmt}.`
+    ? `Ejemplo: ingresos del mes ${revenueAmt} → 3% = ${commAmt} de comisión Closwork (supera ${thresholdAmt}). Membresía gratis ese mes.`
     : "";
 
   const setupFeeFormatted =
     tier.setupFeeUSD != null
-      ? formatMoney(convertUsdToCurrencyAmount(tier.setupFeeUSD, currency), currency)
+      ? formatMxnMoney(convertUsdToCurrencyAmount(tier.setupFeeUSD, "MXN"))
       : "";
 
   const isPrimary = tier.ctaVariant === "primary";
@@ -88,24 +81,39 @@ export function PricingCard({
       </div>
 
       <div className="mb-4">
-        <div className="flex flex-wrap items-baseline gap-2">
-          {period === "annual" && strike != null && (
-            <span className="text-xl font-extrabold text-[#8C919A] line-through decoration-[#8C919A]">
-              {formatMoney(strike, currency)}
-            </span>
-          )}
-          <span
-            className="text-[2.4rem] font-extrabold leading-none tracking-tight text-[#1A1A2E]"
-            style={{ fontWeight: 800, letterSpacing: "-1.5px" }}
-          >
-            {formatMoney(displayMonthly, currency)}
-          </span>
-          <span className="text-sm font-semibold text-[#5A6170]">/mes</span>
-        </div>
-        {period === "annual" && (
-          <p className="mt-1 text-[11px] font-medium text-[#8C919A]">Cobrado anualmente</p>
+        {showNumericPrice ? (
+          <>
+            <div className="flex flex-wrap items-baseline gap-2">
+              <span
+                className="text-[2.4rem] font-extrabold leading-none tracking-tight text-[#1A1A2E]"
+                style={{ fontWeight: 800, letterSpacing: "-1.5px" }}
+              >
+                {formatMxnPerMonth(displayMonthly)}
+              </span>
+            </div>
+            {period === "annual" && strike != null && (
+              <>
+                <p className="mt-2 text-base font-extrabold text-[#8C919A] line-through decoration-[#8C919A]">
+                  {formatMxnPerMonth(strike)}
+                </p>
+                <p className="mt-1 text-[11px] font-medium text-[#8C919A]">Cobrado anualmente</p>
+              </>
+            )}
+          </>
+        ) : (
+          <div>
+            <p
+              className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-[#1A1A2E]"
+              style={{ fontWeight: 800, letterSpacing: "-1px" }}
+            >
+              Cotización a medida
+            </p>
+            <p className="mt-2 text-[13px] font-medium text-[#5A6170]">{tier.priceSubtitle}</p>
+          </div>
         )}
-        <p className="mt-2 text-[13px] font-medium text-[#5A6170]">{tier.priceSubtitle}</p>
+        {showNumericPrice && (
+          <p className="mt-2 text-[13px] font-medium text-[#5A6170]">{tier.priceSubtitle}</p>
+        )}
       </div>
 
       <p className="mb-4 text-[13px] leading-relaxed text-[#5A6170]">{tier.description}</p>

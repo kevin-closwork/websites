@@ -15,8 +15,8 @@ export interface PromoCopy {
   title: string;
   description: string;
   limit: string;
-  thresholdUSD: number;
-  exampleCloseUSD: number;
+  thresholdMXN: number;
+  exampleRevenueMXN: number;
 }
 
 export interface SetupInfo {
@@ -27,7 +27,10 @@ export interface PricingTier {
   id: string;
   name: string;
   tag: string;
-  monthlyPriceUSD: number;
+  /** Tarifa de lista en MXN/mes (0 si solo cotización). */
+  monthlyPriceMxn: number;
+  /** Sin importe fijo; el switch no cambia el precio mostrado. */
+  contactSalesOnly?: boolean;
   priceSubtitle: string;
   description: string;
   features: PricingFeature[];

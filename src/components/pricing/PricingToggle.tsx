@@ -29,8 +29,8 @@ export function PricingToggle({ period, onChange }: PricingToggleProps) {
         ))}
       </div>
       {period === "annual" && (
-        <span className="rounded-full bg-[#E8F5EE] px-2.5 py-1 text-[11px] font-semibold text-[#2D7A4A] transition-opacity duration-300">
-          Ahorra 20%
+        <span className="max-w-[min(100%,280px)] rounded-full bg-[#E8F5EE] px-2.5 py-1 text-center text-[11px] font-semibold leading-snug text-[#2D7A4A] transition-opacity duration-300 sm:max-w-none">
+          Ahorra 20% en la tarifa mensual equivalente
         </span>
       )}
     </div>

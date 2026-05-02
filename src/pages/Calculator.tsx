@@ -21,7 +21,7 @@ function getTierByPlanKey(planKey: string) {
 }
 
 function monthlyMembershipMxn(tier: (typeof PRICING_TIERS)[number]) {
-  return convertUsdToCurrencyAmount(tier.monthlyPriceUSD, "MXN");
+  return tier.monthlyPriceMxn;
 }
 
 function setupFeeMxn(tier: (typeof PRICING_TIERS)[number]) {

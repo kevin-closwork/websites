@@ -8,31 +8,47 @@ export function convertUsdToCurrencyAmount(usd: number, currency: Currency): num
   return Math.round(usd);
 }
 
-export function getAdjustedMonthlyUsd(monthlyPriceUSD: number, period: BillingPeriod): number {
-  if (period === "annual")
-    return Math.floor(monthlyPriceUSD * (1 - ANNUAL_DISCOUNT));
-  return monthlyPriceUSD;
+/** Equivalente mensual con descuento anual (20%), redondeado. */
+export function getAdjustedMonthlyMxn(monthlyPriceMxn: number, period: BillingPeriod): number {
+  if (period === "annual") return Math.round(monthlyPriceMxn * (1 - ANNUAL_DISCOUNT));
+  return monthlyPriceMxn;
 }
 
-export function getDisplayMonthlyAmount(
-  monthlyPriceUSD: number,
-  period: BillingPeriod,
-  currency: Currency
+export function getDisplayMonthlyMxn(
+  monthlyPriceMxn: number,
+  period: BillingPeriod
 ): number {
-  return convertUsdToCurrencyAmount(getAdjustedMonthlyUsd(monthlyPriceUSD, period), currency);
+  return getAdjustedMonthlyMxn(monthlyPriceMxn, period);
 }
 
-export function getStrikethroughMonthlyAmount(
-  monthlyPriceUSD: number,
-  period: BillingPeriod,
-  currency: Currency
+export function getStrikethroughMonthlyMxn(
+  monthlyPriceMxn: number,
+  period: BillingPeriod
 ): number | null {
   if (period !== "annual") return null;
-  return convertUsdToCurrencyAmount(monthlyPriceUSD, currency);
+  return monthlyPriceMxn;
+}
+
+/** Número con separador de miles (México). */
+export function formatMxnNumber(amount: number): string {
+  return amount.toLocaleString("es-MX", { maximumFractionDigits: 0 });
+}
+
+/** Ej. $799 MXN/mes */
+export function formatMxnPerMonth(amount: number): string {
+  return `$${formatMxnNumber(amount)} MXN/mes`;
+}
+
+/** Solo importe + MXN, para líneas que añaden “/mes” aparte. */
+export function formatMxnMoney(amount: number): string {
+  return `$${formatMxnNumber(amount)} MXN`;
 }
 
 export function formatMoney(amount: number, currency: Currency, withSuffix = true): string {
-  const formatted = amount.toLocaleString("en-US");
+  const formatted =
+    currency === "MXN"
+      ? formatMxnNumber(amount)
+      : amount.toLocaleString("en-US");
   if (currency === "USD") return `$${formatted}`;
   return withSuffix ? `$${formatted} MXN` : `$${formatted}`;
 }
@@ -46,7 +62,7 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "acceso-directo",
     name: "Acceso Directo",
     tag: "Prueba gratis",
-    monthlyPriceUSD: 49,
+    monthlyPriceMxn: 799,
     priceSubtitle: "7 días gratis para probar",
     description:
       "Publica tu oportunidad y elige entre closers verificados que aplican a tu vacante. Tú gestionas la relación.",
@@ -68,7 +84,7 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "concierge",
     name: "Concierge",
     tag: "Closer certificado",
-    monthlyPriceUSD: 299,
+    monthlyPriceMxn: 4900,
     priceSubtitle: "+ 3% sobre cada venta cerrada",
     description:
       "Closwork selecciona y asigna un Closer Certificado HTC. Revisamos tu oferta antes de activar.",
@@ -78,10 +94,10 @@ export const PRICING_TIERS: PricingTier[] = [
     promo: {
       title: "PROMO DE LANZAMIENTO",
       description:
-        "Si el 3% de comisión genera {threshold} o más para Closwork en el mes, la membresía de ese mes es gratis.",
+        "Si el 3% de comisión Closwork es de {threshold} o más en el mes, la membresía de ese mes es gratis.",
       limit: "Aplica los primeros 3 meses. Primeros 50 clientes o hasta agosto 2026.",
-      thresholdUSD: 200,
-      exampleCloseUSD: 7000,
+      thresholdMXN: 4000,
+      exampleRevenueMXN: 140000,
     },
     features: [
       { text: "Closer Certificado HTC asignado", included: true },
@@ -101,8 +117,9 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "enterprise",
     name: "Enterprise",
     tag: "Equipo completo",
-    monthlyPriceUSD: 497,
-    priceSubtitle: "+ 3% sobre ventas cerradas",
+    monthlyPriceMxn: 0,
+    contactSalesOnly: true,
+    priceSubtitle: "+ 3% sobre ventas cerradas · Propuesta según volumen",
     description:
       "Armamos tu equipo comercial externo. Evaluamos tu oferta, diseñamos el proceso y asignamos closers de élite.",
     commissionLine: "+ 3% sobre ventas cerradas",
