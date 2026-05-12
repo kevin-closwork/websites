@@ -7,13 +7,16 @@ export function BlogHeader() {
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
+          <Link
+            to="/"
+            className="flex-shrink-0 flex items-center hover:opacity-90 transition-opacity"
+          >
             <img
-              src="https://i.imgur.com/NgAumU4.png"
+              src="https://i.imgur.com/zi6UAt6.png"
               alt="Closwork"
-              className="h-8 w-auto"
+              className="h-12 md:h-14 lg:h-16 w-auto object-contain"
+              style={{ filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05))" }}
             />
-            <span className="font-bold text-xl text-secondary">Closwork</span>
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
             <Link to="/blog">
