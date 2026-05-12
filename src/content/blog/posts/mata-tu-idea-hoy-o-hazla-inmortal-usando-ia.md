@@ -44,6 +44,6 @@ Lo que vi en la sala fue exactamente eso: estudiantes y emprendedores con ideas 
 
 Regresar a Tepic a hablar de estos temas fue personal. Construir Closwork me ha enseñado que la validación no es un paso del proceso, es el proceso. Y compartir eso con gente que está arrancando fue un recordatorio de por qué hacemos lo que hacemos.
 
-Gracias a [UC Universidad Continental](https://www.facebook.com/UCUniversidadContinental) por la invitación y a todos los que se conectaron en vivo y presencial.
+Gracias a [UC Universidad Continental](https://www.facebook.com/profile.php?id=61563500283254) por la invitación y a todos los que se conectaron en vivo y presencial.
 
 Si quieres saber más sobre cómo estamos usando estos principios para conectar empresas con fuerza comercial en LATAM, [conoce Closwork](/).
