@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogMarkdown } from "@/components/blog/BlogMarkdown";
-import { getPostBySlug } from "@/lib/blog";
+import { getPostBySlug, parseBlogDate } from "@/lib/blog";
 import NotFound from "@/pages/NotFound";
 import { format } from "date-fns";
 import { es } from "date-fns/locale/es";
@@ -23,7 +23,7 @@ const BlogPost = () => {
 
   let formattedDate: string = post.date;
   try {
-    formattedDate = format(new Date(post.date), "d MMMM yyyy", { locale: es });
+    formattedDate = format(parseBlogDate(post.date), "d MMMM yyyy", { locale: es });
   } catch {
     /* keep raw */
   }

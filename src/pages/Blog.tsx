@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { BlogHeader } from "@/components/blog/BlogHeader";
 import { Link } from "react-router-dom";
 import { Calendar, Clock } from "lucide-react";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, parseBlogDate } from "@/lib/blog";
 import { format } from "date-fns";
 import { es } from "date-fns/locale/es";
 
@@ -61,7 +61,7 @@ const Blog = () => {
                           <time dateTime={post.date}>
                             {(() => {
                               try {
-                                return format(new Date(post.date), "d MMMM yyyy", {
+                                return format(parseBlogDate(post.date), "d MMMM yyyy", {
                                   locale: es,
                                 });
                               } catch {

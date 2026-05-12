@@ -85,6 +85,16 @@ function normalizeDate(value: unknown): string {
   return "";
 }
 
+/** `YYYY-MM-DD` como día civil local — evita mostrar el día anterior en LATAM (`new Date("2026-01-12")` es UTC midnight). */
+export function parseBlogDate(ymd: string): Date {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd.trim());
+  if (!m) return new Date(ymd);
+  const y = Number(m[1]);
+  const mo = Number(m[2]) - 1;
+  const d = Number(m[3]);
+  return new Date(y, mo, d);
+}
+
 export function parsePost(path: string, raw: string): BlogPost | null {
   const { data, content } = splitFrontmatter(raw);
   const fm = data as Partial<BlogFrontmatter>;
@@ -124,7 +134,8 @@ export function getAllPosts(): BlogPost[] {
     }
   }
   return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) =>
+      parseBlogDate(b.date).getTime() - parseBlogDate(a.date).getTime()
   );
 }
 

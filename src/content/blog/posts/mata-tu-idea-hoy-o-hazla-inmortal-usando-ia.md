@@ -1,7 +1,7 @@
 ---
 title: "Mata tu idea hoy (o hazla inmortal) usando IA"
 description: "Kevin De Alba dio una conferencia en UC Universidad Continental sobre cómo usar inteligencia artificial para validar ideas de negocio antes de invertir meses en ellas."
-date: "2026-01-10"
+date: "2026-01-12"
 author: "Kevin De Alba"
 tags:
   - IA
@@ -13,7 +13,7 @@ draft: false
 
 ## De regreso a casa, pero con otra conversación
 
-El sábado 10 de enero tuve la oportunidad de dar una conferencia en UC Universidad Continental, en Tepic. Mi ciudad natal. El tema: cómo usar inteligencia artificial para validar (o matar) una idea de negocio antes de quemar tiempo y dinero en ella.
+El domingo 12 de enero tuve la oportunidad de dar una conferencia en UC Universidad Continental, en Tepic. Mi ciudad natal. El tema: cómo usar inteligencia artificial para validar (o matar) una idea de negocio antes de quemar tiempo y dinero en ella.
 
 ![Kevin De Alba en la conferencia en UC Universidad Continental](https://i.imgur.com/J7KZa7c.jpeg)
 
