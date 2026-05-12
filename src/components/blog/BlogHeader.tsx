@@ -30,11 +30,6 @@ export function BlogHeader() {
                 Inicio
               </Button>
             </Link>
-            <Link to="/solicitud?type=empresa">
-              <Button size="sm" className="hidden sm:inline-flex">
-                Solicitud
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
