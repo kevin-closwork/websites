@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Calendar, Clock } from "lucide-react";
 import { getAllPosts } from "@/lib/blog";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { es } from "date-fns/locale/es";
 
 const Blog = () => {
   const posts = getAllPosts();

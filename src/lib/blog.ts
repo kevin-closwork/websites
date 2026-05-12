@@ -1,4 +1,5 @@
 import matter from "gray-matter";
+import { blogMarkdownRaw } from "@/content/blog/loader";
 
 export interface BlogFrontmatter {
   title: string;
@@ -18,12 +19,6 @@ export interface BlogPost extends BlogFrontmatter {
   content: string;
   readingTimeMinutes: number;
 }
-
-const rawModules = import.meta.glob("../content/blog/posts/**/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-}) as Record<string, string>;
 
 function slugFromPath(filePath: string): string {
   const normalized = filePath.replace(/\\/g, "/");
@@ -72,9 +67,13 @@ export function parsePost(path: string, raw: string): BlogPost | null {
 
 export function getAllPosts(): BlogPost[] {
   const posts: BlogPost[] = [];
-  for (const [path, raw] of Object.entries(rawModules)) {
-    const post = parsePost(path, raw);
-    if (post) posts.push(post);
+  for (const [path, raw] of Object.entries(blogMarkdownRaw)) {
+    try {
+      const post = parsePost(path, raw);
+      if (post) posts.push(post);
+    } catch (e) {
+      console.error("[blog] parse error:", path, e);
+    }
   }
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

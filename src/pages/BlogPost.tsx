@@ -6,7 +6,7 @@ import { BlogMarkdown } from "@/components/blog/BlogMarkdown";
 import { getPostBySlug } from "@/lib/blog";
 import NotFound from "@/pages/NotFound";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { es } from "date-fns/locale/es";
 import { ArrowLeft } from "lucide-react";
 
 const BlogPost = () => {
