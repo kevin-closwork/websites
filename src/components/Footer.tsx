@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 const Footer = () => {
   const quickLinks = [
     { label: "Inicio", href: "/", isRoute: true },
+    { label: "Blog", href: "/blog", isRoute: true },
     { label: "About Us", href: "/#como-funciona", isRoute: false },
     { label: "Características", href: "/#beneficios", isRoute: false },
     { label: "Precios", href: "/#pricing", isRoute: false },

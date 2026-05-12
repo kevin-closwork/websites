@@ -52,6 +52,13 @@ const Navbar = () => {
               className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
               asChild
             >
+              <Link to="/blog">Blog</Link>
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+              asChild
+            >
               <Link to="/solicitud">Contacto</Link>
             </Button>
             <Button
@@ -104,6 +111,14 @@ const Navbar = () => {
                 )}
 
                 <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+                    onClick={() => setIsOpen(false)}
+                    asChild
+                  >
+                    <Link to="/blog">Blog</Link>
+                  </Button>
                   <Button
                     variant="ghost"
                     className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
