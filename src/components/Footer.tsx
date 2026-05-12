@@ -1,5 +1,23 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
+
+const socialLinks = [
+  {
+    label: "Instagram de Closwork",
+    href: "https://www.instagram.com/closwork.app/",
+    Icon: Instagram,
+  },
+  {
+    label: "Facebook de Closwork",
+    href: "https://www.facebook.com/profile.php?id=61577870785859",
+    Icon: Facebook,
+  },
+  {
+    label: "LinkedIn de Closwork",
+    href: "https://www.linkedin.com/company/closwork/",
+    Icon: Linkedin,
+  },
+] as const;
 
 const Footer = () => {
   const quickLinks = [
@@ -50,6 +68,21 @@ const Footer = () => {
               <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-300">
                 <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-[#ec4899] flex-shrink-0" />
                 <span>Guadalajara, Jal.</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1 pt-3">
+                <span className="text-xs text-gray-500 mr-2 w-full sm:w-auto">Síguenos:</span>
+                {socialLinks.map(({ label, href, Icon }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-lg p-2 text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                    aria-label={label}
+                  >
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </a>
+                ))}
               </div>
             </div>
           </div>
