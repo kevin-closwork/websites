@@ -191,10 +191,9 @@ const EmpresasTyCContent = ({ onScrollToBottom }: EmpresasTyCContentProps) => {
       <table className="mt-2 w-full text-sm border-collapse">
         <tbody>
           <tr><td className="font-semibold py-1 pr-4">Nombre comercial de la Empresa</td><td>Closwork</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Denominación social</td><td>Por definir</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Denominación social</td><td>CLOSWORK S.A.S DE C.V.</td></tr>
           <tr><td className="font-semibold py-1 pr-4">Nacionalidad de la Empresa</td><td>Mexicana</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Domicilio</td><td>Por definir</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">RFC</td><td>Por definir</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Domicilio</td><td>CALLE C 154 15 DE MAYO, TEPIC NAY</td></tr>
           <tr><td className="font-semibold py-1 pr-4">Correos electrónicos / Teléfonos / Otros medios de contacto</td><td>1.<br />2.</td></tr>
           <tr><td className="font-semibold py-1 pr-4">Liga o link del sitio en el que se muestran los Servicios</td><td><a href="https://closwork.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">https://closwork.com/</a></td></tr>
         </tbody>
