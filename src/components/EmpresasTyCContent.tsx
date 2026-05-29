@@ -56,6 +56,7 @@ const EmpresasTyCContent = ({ onScrollToBottom }: EmpresasTyCContentProps) => {
       <h3 className="font-semibold text-base mb-2">Modelo Económico</h3>
       <p>El uso de la Plataforma conlleva el pago de las siguientes contraprestaciones a favor de la Empresa:</p>
       <p className="mt-2"><strong>4.1 Suscripción Mensual:</strong> El Cliente pagará una cuota fija mensual por concepto de mantenimiento de cuenta, acceso a la base de datos de vendedores y uso de herramientas de gestión. Esta cuota se cobrará por períodos adelantados.</p>
+      <p className="mt-2"><strong>4.2 Comisión por Venta:</strong> El Cliente se obliga irrevocablemente a pagar a la Empresa una comisión equivalente al 2% (dos por ciento) sobre el monto total (antes de IVA) de cada transacción o venta que sea efectivamente cobrada y que derive de un contacto iniciado a través de la Plataforma.</p>
       <p className="mt-2"><strong>4.3 Mecanismo de Reporte:</strong> La Empresa se reserva el derecho de solicitar al Cliente estados de cuenta o facturación anonimizada que respalde el volumen de ventas reportado. El ocultamiento de ventas será causa de rescisión inmediata sin responsabilidad para Closwork.</p>
       <p className="mt-2"><strong>4.4 Impuestos:</strong> Todas las cantidades pactadas serán incrementadas con el Impuesto al Valor Agregado (IVA) correspondiente.</p>
     </div>
@@ -66,7 +67,7 @@ const EmpresasTyCContent = ({ onScrollToBottom }: EmpresasTyCContentProps) => {
       <ol className="list-decimal list-inside space-y-1 ml-4 mt-2">
         <li><strong>Exclusividad de Mediación:</strong> El Cliente y el Vendedor se obligan a no eludir, de manera directa o indirecta, el pago de las comisiones pactadas en estos Términos. Queda estrictamente prohibido realizar transacciones, pagos o contrataciones de servicios derivados de un contacto iniciado en la Plataforma fuera de la infraestructura digital de Closwork.</li>
         <li><strong>Periodo de Restricción:</strong> Esta prohibición de contacto directo para fines de contratación mercantil externa tendrá una vigencia de 12 (doce) meses contados a partir de la fecha del primer contacto entre el Cliente y el Vendedor dentro de la Plataforma.</li>
-        <li><strong>Pena Convencional:</strong> En caso de que Closwork detecte que un Cliente y un Vendedor han perfeccionado una venta o relación comercial derivada de la Plataforma sin reportar la comisión correspondiente, el Cliente infractor se obliga a pagar a la Empresa, por concepto de pena convencional, la cantidad equivalente a 12 meses de suscripción nivel Premium o el triple del monto de la comisión eludida, lo que resulte mayor, sin perjuicio del derecho de la Empresa de ejercer acciones legales por daños y perjuicios.</li>
+        <li><strong>Pena Convencional:</strong> En caso de que Closwork detecte que un Cliente y un Vendedor han perfeccionado una venta o relación comercial derivada de la Plataforma sin reportar la comisión correspondiente, el Cliente infractor se obliga a pagar a la Empresa, por concepto de pena convencional, la cantidad equivalente a [Insertar Monto, ej: 12 meses de suscripción nivel Premium] o el triple del monto de la comisión eludida, lo que resulte mayor, sin perjuicio del derecho de la Empresa de ejercer acciones legales por daños y perjuicios.</li>
         <li><strong>Sanción Administrativa:</strong> El incumplimiento de esta cláusula facultará a Closwork para la cancelación inmediata y definitiva de las cuentas de ambos Usuarios involucrados, perdiendo estos cualquier derecho sobre suscripciones vigentes.</li>
       </ol>
     </div>
@@ -190,11 +191,12 @@ const EmpresasTyCContent = ({ onScrollToBottom }: EmpresasTyCContentProps) => {
       <table className="mt-2 w-full text-sm border-collapse">
         <tbody>
           <tr><td className="font-semibold py-1 pr-4">Nombre comercial de la Empresa</td><td>Closwork</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Denominación social</td><td>MIO MOBILE S.A. DE C.V.</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Denominación social</td><td>Por definir</td></tr>
           <tr><td className="font-semibold py-1 pr-4">Nacionalidad de la Empresa</td><td>Mexicana</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Domicilio</td><td>CALLE C 154, 15 DE MAYO, TEPIC, NAYARIT</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Correos electrónicos / Teléfonos</td><td>hola@closwork.com</td></tr>
-          <tr><td className="font-semibold py-1 pr-4">Liga o link del sitio</td><td><a href="https://closwork.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">https://closwork.com/</a></td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Domicilio</td><td>Por definir</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">RFC</td><td>Por definir</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Correos electrónicos / Teléfonos / Otros medios de contacto</td><td>1.<br />2.</td></tr>
+          <tr><td className="font-semibold py-1 pr-4">Liga o link del sitio en el que se muestran los Servicios</td><td><a href="https://closwork.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">https://closwork.com/</a></td></tr>
         </tbody>
       </table>
       <p className="mt-4">Los presentes Términos son de aplicación únicamente en la medida en que así lo autorice la ley. Cualquier utilización de los Servicios requiere la aceptación sin reserva de los presentes Términos.</p>
