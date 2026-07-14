@@ -50,7 +50,7 @@ const TycConcierge = () => {
         acceptedAt: new Date().toISOString(),
         userAgent: navigator.userAgent,
         timestamp: new Date().toISOString(),
-        termsVersion: "1.0",
+        termsVersion: "2.0",
         plan: "planConcierge",
       });
 
@@ -129,7 +129,7 @@ const TycConcierge = () => {
                   Términos y Condiciones del Servicio Closwork — Concierge
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 1.0
+                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 2.0
                 </p>
               </CardHeader>
               <CardContent>
