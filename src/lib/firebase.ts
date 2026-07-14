@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
 // Firebase configuration - Project needs to be properly set up
 const firebaseConfig = {
@@ -18,7 +17,6 @@ const firebaseConfig = {
 let app = null;
 let analytics = null;
 let db = null;
-let auth = null;
 
 // Check if we're in a browser environment
 const isBrowser = typeof window !== 'undefined';
@@ -28,7 +26,8 @@ if (isBrowser) {
     app = initializeApp(firebaseConfig);
     analytics = getAnalytics(app);
     db = getFirestore(app);
-    auth = getAuth(app);
+    // Auth is not used for TyC/form writes; skip getAuth() so Identity Toolkit
+    // is not called when Authentication is not enabled in the Firebase console.
     console.log('✅ Firebase initialized successfully');
   } catch (error) {
     console.error('❌ Firebase initialization failed:', error);
@@ -37,10 +36,9 @@ if (isBrowser) {
     app = null;
     analytics = null;
     db = null;
-    auth = null;
   }
 } else {
   console.log('⚠️ Not in browser environment, using localStorage fallback');
 }
 
-export { app, analytics, db, auth };
+export { app, analytics, db };
