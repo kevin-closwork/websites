@@ -267,8 +267,10 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <h3 className="font-semibold text-base mb-2">7. PRECIO, FACTURACIÓN Y FORMA DE PAGO</h3>
         <p>
           <strong>7.1. Contraprestación.</strong> El Cliente pagará una cuota fija mensual de $249.00 USD
-          (doscientos cuarenta y nueve dólares estadounidenses 00/100 M.E.) más el I.V.A. correspondiente, con
-          independencia del número o monto de ventas cerradas.
+          (doscientos cuarenta y nueve dólares estadounidenses 00/100 M.E.), I.V.A. incluido, con independencia
+          del número o monto de ventas cerradas. Al tratarse de un precio expresado en dólares
+          estadounidenses, el importe cobrado en moneda local podrá variar según el tipo de cambio del día en
+          que se realice el cargo.
         </p>
         <p className="mt-2">
           <strong>7.2. Cobro recurrente.</strong> El pago se realiza mediante Stripe. Al aceptar estos
