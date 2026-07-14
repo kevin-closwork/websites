@@ -99,6 +99,22 @@ export type EmpresasTycData = {
   plan?: 'planBasico' | 'planGrowth' | 'planScale';
 };
 
+// Tipos de datos para Concierge TyC
+export type ConciergeTycData = {
+  id?: string;
+  created_at: any;
+  updated_at: any;
+  fullName: string;
+  address: string;
+  rfc?: string;
+  accepted: boolean;
+  acceptedAt: string;
+  userAgent: string;
+  timestamp: string;
+  termsVersion: string;
+  plan: 'planConcierge';
+};
+
 // Funciones para CloserForm
 export const addCloserFormData = async (data: Omit<CloserFormData, 'id' | 'created_at' | 'updated_at'>) => {
   try {
@@ -330,5 +346,28 @@ export const getEmpresasTycData = async () => {
   } catch (error) {
     console.error('Error getting empresas TYC data:', error);
     throw error;
+  }
+};
+
+// Funciones para Concierge TyC
+export const addConciergeTycData = async (
+  data: Omit<ConciergeTycData, 'id' | 'created_at' | 'updated_at'>
+) => {
+  try {
+    const cleanData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== undefined && value !== '')
+    );
+
+    const docData = {
+      ...cleanData,
+      created_at: serverTimestamp(),
+      updated_at: serverTimestamp(),
+    };
+
+    const docRef = await addDoc(collection(db, 'concierge_tyc'), docData);
+    return { id: docRef.id, ...cleanData };
+  } catch (error) {
+    console.error('Error al agregar registro de Concierge TYC:', error);
+    throw new Error('Error al guardar el registro. Por favor, intenta nuevamente.');
   }
 };

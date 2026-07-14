@@ -5,11 +5,16 @@ import { ArrowLeft, Check, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import ConciergeTyCContent from "@/components/ConciergeTyCContent";
 import { getStripeCheckoutUrl } from "@/lib/stripeConfig";
+import { addConciergeTycData } from "@/lib/firestoreService";
+import { useToast } from "@/hooks/use-toast";
 
 const FEATURES = [
   "Diagnóstico inicial de oferta y flujo de leads",
@@ -21,10 +26,49 @@ const FEATURES = [
 
 const TycConcierge = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [rfc, setRfc] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAcceptAndPay = () => {
-    window.location.href = getStripeCheckoutUrl("planConcierge");
+  const isFormValid = fullName.trim().length > 0 && address.trim().length > 0;
+  const canSubmit = hasScrolledToBottom && isFormValid && !isSubmitting;
+
+  const handleAcceptAndPay = async () => {
+    if (!canSubmit) return;
+
+    setIsSubmitting(true);
+
+    try {
+      await addConciergeTycData({
+        fullName: fullName.trim(),
+        address: address.trim(),
+        ...(rfc.trim() ? { rfc: rfc.trim().toUpperCase() } : {}),
+        accepted: true,
+        acceptedAt: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString(),
+        termsVersion: "1.0",
+        plan: "planConcierge",
+      });
+
+      toast({
+        title: "¡Éxito!",
+        description: "Redirigiendo al proceso de pago...",
+      });
+
+      window.location.href = getStripeCheckoutUrl("planConcierge");
+    } catch (error) {
+      console.error("Error submitting Concierge TyC:", error);
+      toast({
+        title: "Error",
+        description: "Hubo un error al guardar tus datos. Por favor, intenta nuevamente.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -94,25 +138,84 @@ const TycConcierge = () => {
             </Card>
           </ScrollReveal>
 
-          <ScrollReveal variant="scale" delay={3}>
+          <ScrollReveal variant="fade-up" delay={3}>
+            <Card className="mt-8 border-2 border-primary">
+              <CardHeader>
+                <CardTitle className="text-xl">Datos de Contratación</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Completa tus datos para aceptar el contrato y continuar al pago.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Nombre completo *</Label>
+                  <Input
+                    id="fullName"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Nombre y apellidos / razón social"
+                    required
+                    disabled={!hasScrolledToBottom || isSubmitting}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="address">Domicilio *</Label>
+                  <Textarea
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Calle, número, colonia, ciudad, estado, C.P."
+                    required
+                    rows={3}
+                    disabled={!hasScrolledToBottom || isSubmitting}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="rfc">
+                    RFC <span className="text-muted-foreground font-normal">(opcional)</span>
+                  </Label>
+                  <Input
+                    id="rfc"
+                    type="text"
+                    value={rfc}
+                    onChange={(e) => setRfc(e.target.value)}
+                    placeholder="Si aplica"
+                    disabled={!hasScrolledToBottom || isSubmitting}
+                  />
+                </div>
+
+                {!hasScrolledToBottom && (
+                  <p className="text-sm text-amber-600 font-medium">
+                    Desplázate hasta el final de los términos para habilitar el formulario
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </ScrollReveal>
+
+          <ScrollReveal variant="scale" delay={4}>
             <div className="mt-8 flex flex-col items-center gap-4">
               <Button
                 size="lg"
                 className="text-lg px-10 gap-2"
                 onClick={handleAcceptAndPay}
-                disabled={!hasScrolledToBottom}
+                disabled={!canSubmit}
               >
-                Acepto los términos — Proceder al pago
-                <ExternalLink className="h-4 w-4" />
+                {isSubmitting ? "Guardando..." : "Acepto los términos — Proceder al pago"}
+                {!isSubmitting && <ExternalLink className="h-4 w-4" />}
               </Button>
-              {!hasScrolledToBottom && (
+              {hasScrolledToBottom && !isFormValid && (
                 <p className="text-sm text-amber-600 font-medium">
-                  Desplázate hasta el final de los términos para habilitar el botón
+                  Completa nombre completo y domicilio para continuar
                 </p>
               )}
               <p className="text-xs text-muted-foreground text-center max-w-md">
                 Al hacer clic, confirmas que has leído y aceptas los Términos y Condiciones del plan
-                Concierge. Serás redirigido a Stripe para completar el pago de forma segura.
+                Concierge. Tus datos se guardarán y serás redirigido a Stripe para completar el pago
+                de forma segura.
               </p>
             </div>
           </ScrollReveal>

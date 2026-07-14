@@ -11,8 +11,8 @@ export const stripeConfig = {
     // SCALE - $1,999 MXN/mes
     planScale: 'https://buy.stripe.com/5kQ8wO5UZ5PMc0H2AL6Na09',
 
-    // CONCIERGE - $249 USD/mes (actualizar si hay Payment Link dedicado)
-    planConcierge: 'https://buy.stripe.com/6oUaEWervfqm5CjgrB6Na0a',
+    // CONCIERGE - $249 USD/mes
+    planConcierge: 'https://buy.stripe.com/4gMcN4abf91Y6Gnfnx6Na0t',
   },
   
   // URLs de éxito y cancelación
