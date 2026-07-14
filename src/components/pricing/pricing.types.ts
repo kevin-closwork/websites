@@ -2,7 +2,7 @@ export type Currency = "USD" | "MXN";
 
 export type BillingPeriod = "monthly" | "annual";
 
-export type StripePlanKey = "planBasico" | "planGrowth" | "planScale";
+export type StripePlanKey = "planBasico" | "planGrowth" | "planScale" | "planConcierge";
 
 export type CtaVariant = "primary" | "secondary-green" | "secondary-blue";
 

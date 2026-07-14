@@ -11,6 +11,7 @@ const TYC_ROUTES: Record<StripePlanKey, string> = {
   planBasico: "/empresas-tyc-basico",
   planGrowth: "/empresas-tyc-growth",
   planScale: "/empresas-tyc-scale",
+  planConcierge: "/tyc-concierge",
 };
 
 const PRICING_DISCLAIMER =

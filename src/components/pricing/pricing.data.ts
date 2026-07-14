@@ -111,7 +111,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Ideal para: Infoproductores, coaches y agencias que generan leads pero necesitan cerrar más.",
     ctaText: "Comenzar ahora",
     ctaVariant: "primary",
-    stripePlanKey: "planGrowth",
+    stripePlanKey: "planConcierge",
   },
   {
     id: "enterprise",
