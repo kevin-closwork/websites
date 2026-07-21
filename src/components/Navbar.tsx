@@ -16,7 +16,7 @@ const Navbar = () => {
   const navLinks = [
     { label: "Cómo funciona", href: "/#como-funciona" },
     { label: "Beneficios", href: "/#beneficios" },
-    { label: "Videos", href: "/#testimonios" },
+    { label: "Testimonios", href: "/#testimonios" },
     { label: "Precios", href: "/#pricing" },
     { label: "Ahorros", href: "/#ahorros" },
   ];

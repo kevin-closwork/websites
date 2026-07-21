@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/pricing/PricingSection";
-import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Check, TrendingDown, HelpCircle } from "lucide-react";
-import VideoShowcase from "@/components/landing/VideoShowcase";
+import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -318,7 +317,44 @@ const Index = () => {
             </div>
           </section>
 
-          <VideoShowcase />
+          {/* Testimonios */}
+          <section id="testimonios" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <ScrollReveal variant="fade-up">
+              <div className="max-w-3xl mx-auto text-center mb-16">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4">
+                  Lo que dicen nuestros usuarios
+                </h2>
+                <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
+                  Historias reales de empresas y closers que han transformado su negocio con Closwork
+                </p>
+              </div>
+            </ScrollReveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { name: "María González", empresa: "TechStart México", rol: "CEO", content: "Closwork nos ayudó a escalar nuestras ventas un 300% en solo 3 meses. Los closers que encontramos son realmente profesionales y conocen el mercado LATAM.", stars: 5 },
+                { name: "Carlos Mendoza", empresa: "Closer Premium", rol: "Socio Comercial", content: "En 6 meses con Closwork he generado más comisiones que en todo el año anterior. La calidad de las oportunidades y el soporte es excepcional.", stars: 5 },
+                { name: "Ana Torres", empresa: "EcommSolutions", rol: "Directora de Ventas", content: "La plataforma nos conectó con el socio comercial perfecto para nuestro nicho. Sin riesgos fijos y con resultados desde el primer mes.", stars: 5 },
+                { name: "Roberto Silva", empresa: "Growth Partners", rol: "Closer Especializado", content: "Closwork me ha permitido trabajar con múltiples empresas al mismo tiempo. La comunidad es increíble y siempre hay nuevas oportunidades.", stars: 5 },
+              ].map((t, i) => (
+                <ScrollReveal key={i} variant={i % 2 === 0 ? "fade-left" : "fade-right"} delay={(i + 1) as 1 | 2 | 3 | 4}>
+                <Card className="landing-section-card-hover h-full">
+                  <CardContent className="pt-6">
+                    <div className="flex gap-1 mb-3">
+                      {Array.from({ length: t.stars }).map((_, j) => (
+                        <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">&quot;{t.content}&quot;</p>
+                    <div>
+                      <p className="font-semibold">{t.name}</p>
+                      <p className="text-xs text-muted-foreground">{t.empresa} • {t.rol}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                </ScrollReveal>
+              ))}
+            </div>
+          </section>
 
           {/* Comunidad */}
           <section id="comunidad" className="w-full bg-slate-50 relative overflow-visible">
