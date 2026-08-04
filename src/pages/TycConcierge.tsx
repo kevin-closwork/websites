@@ -19,8 +19,8 @@ import { useToast } from "@/hooks/use-toast";
 const FEATURES = [
   "Diagnóstico inicial de oferta y flujo de leads",
   "Match y colocación de un Closer certificado",
-  "Supervisión activa y monitoreo de llamadas",
-  "Garantía de reemplazo del Closer",
+  "Supervisión y auditoría mensual de llamadas",
+  "Garantía de arranque y rotación de personal",
   "Punto de contacto único Cliente–Closer",
 ];
 
@@ -50,7 +50,7 @@ const TycConcierge = () => {
         acceptedAt: new Date().toISOString(),
         userAgent: navigator.userAgent,
         timestamp: new Date().toISOString(),
-        termsVersion: "2.0",
+        termsVersion: "3.0",
         plan: "planConcierge",
       });
 
@@ -103,8 +103,11 @@ const TycConcierge = () => {
                   CONCIERGE
                 </Badge>
                 <CardTitle className="text-2xl sm:text-3xl">
-                  Plan Concierge — $249 USD/mes
+                  Plan Concierge — $1,800 USD + $120 USD/mes
                 </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Precio de Lista · I.V.A. incluido · Precio Vigente según pasarela
+                </p>
                 <p className="text-muted-foreground mt-2">
                   Revisa y acepta los términos y condiciones antes de proceder al pago.
                 </p>
@@ -129,7 +132,7 @@ const TycConcierge = () => {
                   Términos y Condiciones del Servicio Closwork — Concierge
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 2.0
+                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 3.0
                 </p>
               </CardHeader>
               <CardContent>

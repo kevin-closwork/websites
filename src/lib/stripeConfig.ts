@@ -11,7 +11,7 @@ export const stripeConfig = {
     // SCALE - $1,999 MXN/mes
     planScale: 'https://buy.stripe.com/5kQ8wO5UZ5PMc0H2AL6Na09',
 
-    // CONCIERGE - $249 USD/mes
+    // CONCIERGE - Precio Vigente en pasarela (lista: $1,800 setup + $120/mes, IVA incl.)
     planConcierge: 'https://buy.stripe.com/4gMcN4abf91Y6Gnfnx6Na0t',
   },
   
@@ -26,7 +26,7 @@ export const stripeConfig = {
     planBasico: 899, // MXN/mes
     planGrowth: 1299, // MXN/mes
     planScale: 1999, // MXN/mes
-    planConcierge: 249, // USD/mes
+    planConcierge: 120, // USD/mes (Cuota Mensual de lista; setup aparte)
   },
   
   // Configuración de monedas
@@ -55,7 +55,7 @@ export const stripeConfig = {
       leadType: 'SCALE - Stripe Checkout',
     },
     planConcierge: {
-      checkoutType: 'CONCIERGE - $249 USD/mes',
+      checkoutType: 'CONCIERGE - $1,800 setup + $120 USD/mes',
       leadType: 'CONCIERGE - Stripe Checkout',
     },
   }
