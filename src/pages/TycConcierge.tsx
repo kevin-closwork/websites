@@ -103,11 +103,9 @@ const TycConcierge = () => {
                   CONCIERGE
                 </Badge>
                 <CardTitle className="text-2xl sm:text-3xl">
-                  Plan Concierge — $1,800 USD + $120 USD/mes
+                  Plan Concierge — $999 USD + $60 USD/mes
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Precio de Lista · I.V.A. incluido · Precio Vigente según pasarela
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">I.V.A. incluido</p>
                 <p className="text-muted-foreground mt-2">
                   Revisa y acepta los términos y condiciones antes de proceder al pago.
                 </p>

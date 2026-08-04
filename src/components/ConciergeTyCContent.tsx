@@ -121,29 +121,15 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
               <tr className="border-b">
                 <td className="py-2 pr-4 font-medium">Cuota de Implementación</td>
                 <td className="py-2">
-                  El pago único previsto en la Cláusula 8.3, correspondiente al diagnóstico inicial, el proceso
-                  de match y la inducción del primer Closer.
+                  El pago único de $999.00 USD previsto en la Cláusula 8.1, correspondiente al diagnóstico
+                  inicial, el proceso de match y la inducción del primer Closer.
                 </td>
               </tr>
               <tr className="border-b">
                 <td className="py-2 pr-4 font-medium">Cuota Mensual</td>
                 <td className="py-2">
-                  El pago recurrente mensual previsto en la Cláusula 8.4, que da acceso continuado al Servicio, a
-                  la supervisión y a las garantías de las Cláusulas 6 y 7.
-                </td>
-              </tr>
-              <tr className="border-b">
-                <td className="py-2 pr-4 font-medium">Precio de Lista</td>
-                <td className="py-2">
-                  El precio ordinario del Servicio conforme a la Cláusula 8.1. Todos los precios se expresan en
-                  dólares estadounidenses y con I.V.A. incluido.
-                </td>
-              </tr>
-              <tr className="border-b">
-                <td className="py-2 pr-4 font-medium">Precio Vigente</td>
-                <td className="py-2">
-                  El precio efectivamente aplicable al Cliente, que es el desplegado en la pasarela de pago al
-                  momento de la contratación y que consta en los Datos de Contratación.
+                  El pago recurrente mensual de $60.00 USD previsto en la Cláusula 8.1, que da acceso
+                  continuado al Servicio, a la supervisión y a las garantías de las Cláusulas 6 y 7.
                 </td>
               </tr>
               <tr className="border-b">
@@ -234,7 +220,7 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <li>Domicilio fiscal completo;</li>
           <li>Nombre y cargo de la persona que acepta en representación del Cliente;</li>
           <li>Correo electrónico y teléfono de contacto;</li>
-          <li>Precio Vigente aplicable y, en su caso, plazo de MSI seleccionado.</li>
+          <li>Plazo de MSI seleccionado, en su caso.</li>
         </ul>
         <p className="mt-2">
           <strong>2.3. Comprobante y versionado.</strong> Closwork conservará constancia electrónica de la
@@ -600,36 +586,54 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
       <div>
         <h3 className="font-semibold text-base mb-2">8. PRECIO, FACTURACIÓN Y FORMA DE PAGO</h3>
         <p>
-          <strong>8.1. Precio de Lista.</strong> El Precio de Lista del Plan Concierge es de{" "}
-          <strong>
-            $1,800.00 USD (mil ochocientos dólares estadounidenses 00/100 M.E.) de Cuota de Implementación
-          </strong>
-          , más una{" "}
-          <strong>
-            Cuota Mensual de $120.00 USD (ciento veinte dólares estadounidenses 00/100 M.E.)
-          </strong>
-          , en ambos casos <strong>con el Impuesto al Valor Agregado incluido</strong>.
+          <strong>8.1. Precio.</strong> El precio del Plan Concierge es el siguiente, en ambos casos{" "}
+          <strong>con el Impuesto al Valor Agregado incluido</strong>:
         </p>
+        <div className="overflow-x-auto mt-3">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="py-2 pr-4 font-semibold">Concepto</th>
+                <th className="py-2 pr-4 font-semibold">Monto</th>
+                <th className="py-2 font-semibold">Periodicidad</th>
+              </tr>
+            </thead>
+            <tbody className="align-top">
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Cuota de Implementación</td>
+                <td className="py-2 pr-4">
+                  <strong>$999.00 USD</strong> (novecientos noventa y nueve dólares estadounidenses 00/100
+                  M.E.)
+                </td>
+                <td className="py-2">Pago único</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 font-medium">Cuota Mensual</td>
+                <td className="py-2 pr-4">
+                  <strong>$60.00 USD</strong> (sesenta dólares estadounidenses 00/100 M.E.)
+                </td>
+                <td className="py-2">Mensual recurrente</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p className="mt-2">
-          <strong>8.2. Precio Vigente y promociones.</strong> Closwork podrá ofrecer precios promocionales por
-          tiempo determinado. El Precio Vigente aplicable al Cliente es el desplegado en la pasarela de pago al
-          momento de la contratación y consta en los Datos de Contratación. La Cuota Mensual promocional se
-          mantendrá sin incremento mientras la Suscripción permanezca activa e ininterrumpida; si la Suscripción
-          se cancela y posteriormente se recontrata, aplicará el Precio Vigente en la fecha de la nueva
-          contratación.
-        </p>
-        <p className="mt-2">
-          <strong>8.3. Cuota de Implementación.</strong> Al inicio del Servicio, el Cliente pagará por única
-          vez la Cuota de Implementación conforme al Precio Vigente, correspondiente al diagnóstico inicial, el
+          <strong>8.2. Cuota de Implementación.</strong> Al inicio del Servicio, el Cliente pagará por única
+          vez la Cuota de Implementación prevista en la Cláusula 8.1, correspondiente al diagnóstico inicial, el
           proceso de match y la inducción del primer Closer. Esta cuota no es reembolsable ni prorrateable, salvo
           en el supuesto de la Cláusula 6.2(b).
         </p>
         <p className="mt-2">
-          <strong>8.4. Cuota Mensual.</strong> El Cliente pagará la Cuota Mensual conforme al Precio Vigente,
+          <strong>8.3. Cuota Mensual.</strong> El Cliente pagará la Cuota Mensual prevista en la Cláusula 8.1,
           con I.V.A. incluido, <strong>con independencia del número o monto de ventas cerradas</strong> y con
           independencia de que el Cliente haga o no uso efectivo de las sesiones de supervisión. Al tratarse de
           precios expresados en dólares estadounidenses, el importe cobrado en moneda local podrá variar según
           el tipo de cambio del día en que se realice el cargo.
+        </p>
+        <p className="mt-2">
+          <strong>8.4. Estabilidad de la Cuota Mensual.</strong> La Cuota Mensual contratada se mantendrá sin
+          incremento mientras la Suscripción permanezca activa e ininterrumpida. Si la Suscripción se cancela y
+          posteriormente se recontrata, aplicará el precio vigente en la fecha de la nueva contratación.
         </p>
         <p className="mt-2">
           <strong>8.5. Alcance del Plan.</strong> El Plan Concierge comprende la colocación, supervisión y
@@ -686,10 +690,10 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           del Cliente.
         </p>
         <p className="mt-2">
-          <strong>8.11. Impuestos y CFDI.</strong> Todos los precios señalados en estos Términos y desplegados
+          <strong>8.11. Impuestos y CFDI.</strong> Todos los precios señalados en la Cláusula 8.1 y desplegados
           en la pasarela de pago <strong>incluyen el Impuesto al Valor Agregado</strong> aplicable. El Cliente
           no deberá cubrir cantidad adicional alguna por dicho concepto, y el monto que se cargue a su método de
-          pago será exactamente el Precio Vigente. Tratándose de clientes con domicilio fiscal fuera de los
+          pago será exactamente el precio contratado. Tratándose de clientes con domicilio fiscal fuera de los
           Estados Unidos Mexicanos, el Servicio podrá considerarse exportación de servicios y quedar sujeto a
           la tasa del 0 % (cero por ciento) de I.V.A. conforme a la Ley del Impuesto al Valor Agregado, sin que
           ello modifique el precio pagado por el Cliente. Cada Parte es responsable de los demás impuestos que
@@ -712,10 +716,10 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           pagado, durante el cual el Cliente conserva el Servicio.
         </p>
         <p className="mt-2">
-          <strong>8.14. Cambios de precio.</strong> Sin perjuicio de lo previsto en la Cláusula 8.2 respecto de
-          la Cuota Mensual promocional, Closwork podrá modificar el precio notificando al Cliente con al menos
-          30 (treinta) días naturales de anticipación al correo registrado. Si el Cliente no cancela antes de la
-          siguiente fecha de cobro, se entenderá que acepta el nuevo precio.
+          <strong>8.14. Cambios de precio.</strong> Sin perjuicio de lo previsto en la Cláusula 8.4, Closwork
+          podrá modificar el precio notificando al Cliente con al menos 30 (treinta) días naturales de
+          anticipación al correo registrado. Si el Cliente no cancela antes de la siguiente fecha de cobro, se
+          entenderá que acepta el nuevo precio.
         </p>
       </div>
 
@@ -1124,8 +1128,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p>
           Este documento no requiere firma autógrafa. La aceptación se acredita con el registro electrónico
           generado por Stripe al momento del pago, que incluye la identidad del Cliente, los Datos de
-          Contratación, el Precio Vigente aplicable, la fecha y hora de aceptación, la versión de estos Términos
-          y el identificador de la transacción.
+          Contratación, el precio contratado, la fecha y hora de aceptación, la versión de estos Términos y el
+          identificador de la transacción.
         </p>
       </div>
     </div>
