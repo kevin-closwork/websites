@@ -10,7 +10,7 @@ import { TrendingUp, Users, Target, Zap, CheckCircle, XCircle } from "lucide-rea
 import { pixelEvents } from "@/lib/pixelEvents";
 import {
   PRICING_TIERS,
-  convertUsdToCurrencyAmount,
+  amountIn,
   EXCHANGE_RATE,
 } from "@/components/pricing/pricing.data";
 
@@ -21,12 +21,12 @@ function getTierByPlanKey(planKey: string) {
 }
 
 function monthlyMembershipMxn(tier: (typeof PRICING_TIERS)[number]) {
-  return tier.monthlyPriceMxn;
+  return amountIn(tier.monthlyPrice, "MXN");
 }
 
 function setupFeeMxn(tier: (typeof PRICING_TIERS)[number]) {
-  if (tier.setupFeeUSD == null) return 0;
-  return convertUsdToCurrencyAmount(tier.setupFeeUSD, "MXN");
+  if (!tier.setupFee) return 0;
+  return amountIn(tier.setupFee, "MXN");
 }
 
 function commissionRateForTier(tierId: string) {

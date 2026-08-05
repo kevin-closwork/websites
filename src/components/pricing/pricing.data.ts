@@ -1,60 +1,52 @@
-import type { BillingPeriod, ComparisonRow, Currency, PricingTier } from "./pricing.types";
+import type {
+  BillingPeriod,
+  ComparisonRow,
+  Currency,
+  Money,
+  PricingTier,
+} from "./pricing.types";
 
+/** Referencia de tipo de cambio usada para fijar los importes de cada plan. */
 export const EXCHANGE_RATE = 20;
 export const ANNUAL_DISCOUNT = 0.2;
 
-export function convertUsdToCurrencyAmount(usd: number, currency: Currency): number {
-  if (currency === "MXN") return Math.round(usd * EXCHANGE_RATE);
-  return Math.round(usd);
+export const CURRENCY_LABELS: Record<Currency, string> = {
+  MXN: "Pesos MXN",
+  USD: "Dólares USD",
+};
+
+export function amountIn(money: Money, currency: Currency): number {
+  return currency === "MXN" ? money.mxn : money.usd;
 }
 
 /** Equivalente mensual con descuento anual (20%), redondeado. */
-export function getAdjustedMonthlyMxn(monthlyPriceMxn: number, period: BillingPeriod): number {
-  if (period === "annual") return Math.round(monthlyPriceMxn * (1 - ANNUAL_DISCOUNT));
-  return monthlyPriceMxn;
+export function getAdjustedMonthly(base: number, period: BillingPeriod): number {
+  if (period === "annual") return Math.round(base * (1 - ANNUAL_DISCOUNT));
+  return base;
 }
 
-export function getDisplayMonthlyMxn(
-  monthlyPriceMxn: number,
-  period: BillingPeriod
-): number {
-  return getAdjustedMonthlyMxn(monthlyPriceMxn, period);
-}
-
-export function getStrikethroughMonthlyMxn(
-  monthlyPriceMxn: number,
+export function getStrikethroughMonthly(
+  base: number,
   period: BillingPeriod
 ): number | null {
   if (period !== "annual") return null;
-  return monthlyPriceMxn;
+  return base;
 }
 
-/** Número con separador de miles (México). */
-export function formatMxnNumber(amount: number): string {
-  return amount.toLocaleString("es-MX", { maximumFractionDigits: 0 });
+/** Ej. $1,200 MXN · $60 USD. Muestra centavos solo si el importe los tiene. */
+export function formatMoney(amount: number, currency: Currency): string {
+  const locale = currency === "MXN" ? "es-MX" : "en-US";
+  const fractionDigits = Number.isInteger(amount) ? 0 : 2;
+  const formatted = amount.toLocaleString(locale, {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  });
+  return `$${formatted} ${currency}`;
 }
 
-/** Ej. $799 MXN/mes */
-export function formatMxnPerMonth(amount: number): string {
-  return `$${formatMxnNumber(amount)} MXN/mes`;
-}
-
-/** Solo importe + MXN, para líneas que añaden “/mes” aparte. */
-export function formatMxnMoney(amount: number): string {
-  return `$${formatMxnNumber(amount)} MXN`;
-}
-
-export function formatMoney(amount: number, currency: Currency, withSuffix = true): string {
-  const formatted =
-    currency === "MXN"
-      ? formatMxnNumber(amount)
-      : amount.toLocaleString("en-US");
-  if (currency === "USD") return `$${formatted}`;
-  return withSuffix ? `$${formatted} MXN` : `$${formatted}`;
-}
-
-export function formatMoneyCompactUSD(usd: number, currency: Currency): string {
-  return formatMoney(convertUsdToCurrencyAmount(usd, currency), currency);
+/** Ej. $1,200 MXN/mes */
+export function formatPerMonth(amount: number, currency: Currency): string {
+  return `${formatMoney(amount, currency)}/mes`;
 }
 
 export const PRICING_TIERS: PricingTier[] = [
@@ -62,7 +54,7 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "acceso-directo",
     name: "Acceso Directo",
     tag: "Prueba gratis",
-    monthlyPriceMxn: 799,
+    monthlyPrice: { usd: 40, mxn: 799 },
     priceSubtitle: "7 días gratis para probar",
     description:
       "Publica tu oportunidad y elige entre closers verificados que aplican a tu vacante. Tú gestionas la relación.",
@@ -84,23 +76,30 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "concierge",
     name: "Concierge",
     tag: "Closer certificado",
-    monthlyPriceMxn: 4900,
+    monthlyPrice: { usd: 60, mxn: 1200 },
     priceSubtitle: "+ 3% sobre cada venta cerrada",
     description:
-      "Closwork selecciona y asigna un Closer Certificado HTC. Revisamos tu oferta antes de activar.",
+      "Closwork selecciona y asigna hasta 2 Closers Certificados HTC. Revisamos tu oferta antes de activar.",
     commissionLine: "+ 3% sobre cada venta cerrada",
     featured: true,
     popularBadge: "Más popular",
+    setupFee: { usd: 999, mxn: 19980 },
+    setupInfo: {
+      label: "Instalación única",
+      description:
+        "Assessment de tu oferta, diseño del proceso de ventas, selección del equipo y onboarding conjunto.",
+      installments: 12,
+    },
     promo: {
       title: "PROMO DE LANZAMIENTO",
       description:
         "Si el 3% de comisión Closwork es de {threshold} o más en el mes, la membresía de ese mes es gratis.",
       limit: "Aplica los primeros 3 meses. Primeros 50 clientes o hasta agosto 2026.",
-      thresholdMXN: 4000,
-      exampleRevenueMXN: 140000,
+      threshold: { usd: 200, mxn: 4000 },
+      exampleRevenue: { usd: 7000, mxn: 140000 },
     },
     features: [
-      { text: "Closer Certificado HTC asignado", included: true },
+      { text: "Hasta 2 Closers Certificados HTC", included: true },
       { text: "Revisión de tu oferta comercial", included: true },
       { text: "1 cambio gratis en 30 días", included: true },
       { text: "Onboarding con tu proceso", included: true },
@@ -111,23 +110,18 @@ export const PRICING_TIERS: PricingTier[] = [
       "Ideal para: Infoproductores, coaches y agencias que generan leads pero necesitan cerrar más.",
     ctaText: "Comenzar ahora",
     ctaVariant: "primary",
-    stripePlanKey: "planConcierge",
+    stripePlanKey: "planConcierge2",
   },
   {
     id: "enterprise",
     name: "Enterprise",
     tag: "Equipo completo",
-    monthlyPriceMxn: 0,
+    monthlyPrice: { usd: 0, mxn: 0 },
     contactSalesOnly: true,
     priceSubtitle: "+ 3% sobre ventas cerradas · Propuesta según volumen",
     description:
       "Armamos tu equipo comercial externo. Evaluamos tu oferta, diseñamos el proceso y asignamos closers de élite.",
     commissionLine: "+ 3% sobre ventas cerradas",
-    setupFeeUSD: 1500,
-    setupInfo: {
-      description:
-        "Assessment de oferta, diseño de proceso de ventas, selección de equipo y onboarding conjunto.",
-    },
     features: [
       { text: "2-3 closers certificados HTC", included: true },
       { text: "Consultoría de oferta comercial", included: true },
@@ -151,12 +145,17 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     cells: ["", "", ""],
   },
   {
-    label: "Setup fee",
-    cells: ["-", "-", ""],
+    label: "Instalación",
+    cells: ["-", "", "-"],
   },
   {
     label: "Promo",
     cells: ["-", "", "-"],
+  },
+  {
+    label: "Closers incluidos",
+    cells: ["Autogestionado", "Hasta 2 HTC", "2-3 HTC"],
+    cellEmphasis: [false, true, true],
   },
   {
     label: "Tipo de closer",

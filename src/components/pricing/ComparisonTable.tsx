@@ -1,27 +1,28 @@
 import { useMemo } from "react";
-import type { BillingPeriod } from "./pricing.types";
+import type { BillingPeriod, Currency } from "./pricing.types";
 import {
   COMPARISON_ROWS,
   PRICING_TIERS,
-  convertUsdToCurrencyAmount,
-  formatMxnMoney,
-  formatMxnPerMonth,
-  getDisplayMonthlyMxn,
+  amountIn,
+  formatMoney,
+  formatPerMonth,
+  getAdjustedMonthly,
 } from "./pricing.data";
 
 interface ComparisonTableProps {
   period: BillingPeriod;
+  currency: Currency;
 }
 
-export function ComparisonTable({ period }: ComparisonTableProps) {
+export function ComparisonTable({ period, currency }: ComparisonTableProps) {
   const rows = useMemo(() => {
     const tiers = PRICING_TIERS;
 
     const fmt = (idx: number) => {
       const t = tiers[idx];
       if (t.contactSalesOnly) return "Cotización a medida";
-      const m = getDisplayMonthlyMxn(t.monthlyPriceMxn, period);
-      return formatMxnPerMonth(m);
+      const m = getAdjustedMonthly(amountIn(t.monthlyPrice, currency), period);
+      return formatPerMonth(m, currency);
     };
 
     const priceCells: [string, string, string] = [
@@ -30,13 +31,23 @@ export function ComparisonTable({ period }: ComparisonTableProps) {
       fmt(2),
     ];
 
+    const setupCell = (idx: number) => {
+      const fee = tiers[idx].setupFee;
+      if (!fee) return "-";
+      const amount = amountIn(fee, currency);
+      const installments = tiers[idx].setupInfo?.installments;
+      const base = formatMoney(amount, currency);
+      if (!installments) return base;
+      return `${base} · hasta ${installments} MSI de ${formatMoney(amount / installments, currency)}`;
+    };
+
     const setupCells: [string, string, string] = [
-      "-",
-      "-",
-      formatMxnMoney(convertUsdToCurrencyAmount(1500, "MXN")),
+      setupCell(0),
+      setupCell(1),
+      setupCell(2),
     ];
 
-    const thr = formatMxnMoney(tiers[1].promo!.thresholdMXN);
+    const thr = formatMoney(amountIn(tiers[1].promo!.threshold, currency), currency);
     const promoCells: [string, string, string] = [
       "-",
       `Membresía gratis si comisión Closwork ≥ ${thr} en el mes`,
@@ -49,12 +60,12 @@ export function ComparisonTable({ period }: ComparisonTableProps) {
       cellEmphasis?: [boolean, boolean, boolean];
     }[] = [
       { label: "Precio", cells: priceCells },
-      { label: "Setup fee", cells: setupCells },
+      { label: "Instalación", cells: setupCells, cellEmphasis: [false, true, false] },
       { label: "Promo", cells: promoCells },
     ];
 
     return [...dynamic, ...COMPARISON_ROWS.slice(3)];
-  }, [period]);
+  }, [period, currency]);
 
   return (
     <div className="mt-14 w-full" style={{ fontFamily: "'Manrope', system-ui, sans-serif" }}>

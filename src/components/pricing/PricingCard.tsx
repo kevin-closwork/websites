@@ -1,16 +1,17 @@
 import { Check, X } from "lucide-react";
-import type { BillingPeriod, PricingTier } from "./pricing.types";
+import type { BillingPeriod, Currency, PricingTier } from "./pricing.types";
 import {
-  formatMxnMoney,
-  formatMxnPerMonth,
-  convertUsdToCurrencyAmount,
-  getDisplayMonthlyMxn,
-  getStrikethroughMonthlyMxn,
+  amountIn,
+  formatMoney,
+  formatPerMonth,
+  getAdjustedMonthly,
+  getStrikethroughMonthly,
 } from "./pricing.data";
 
 interface PricingCardProps {
   tier: PricingTier;
   period: BillingPeriod;
+  currency: Currency;
   animationDelay: number;
   visible: boolean;
   onSelectPlan: (tier: PricingTier) => void;
@@ -19,18 +20,27 @@ interface PricingCardProps {
 export function PricingCard({
   tier,
   period,
+  currency,
   animationDelay,
   visible,
   onSelectPlan,
 }: PricingCardProps) {
-  const displayMonthly = getDisplayMonthlyMxn(tier.monthlyPriceMxn, period);
-  const strike = getStrikethroughMonthlyMxn(tier.monthlyPriceMxn, period);
+  const basePrice = amountIn(tier.monthlyPrice, currency);
+  const displayMonthly = getAdjustedMonthly(basePrice, period);
+  const strike = getStrikethroughMonthly(basePrice, period);
   const showNumericPrice = !tier.contactSalesOnly;
 
-  const thresholdAmt = tier.promo ? formatMxnMoney(tier.promo.thresholdMXN) : "";
-  const revenueAmt = tier.promo ? formatMxnMoney(tier.promo.exampleRevenueMXN) : "";
+  const thresholdAmt = tier.promo
+    ? formatMoney(amountIn(tier.promo.threshold, currency), currency)
+    : "";
+  const revenueAmt = tier.promo
+    ? formatMoney(amountIn(tier.promo.exampleRevenue, currency), currency)
+    : "";
   const commAmt = tier.promo
-    ? formatMxnMoney(Math.round(tier.promo.exampleRevenueMXN * 0.03))
+    ? formatMoney(
+        Math.round(amountIn(tier.promo.exampleRevenue, currency) * 0.03),
+        currency
+      )
     : "";
 
   const promoDescription = tier.promo
@@ -41,14 +51,16 @@ export function PricingCard({
     ? `Ejemplo: ingresos del mes ${revenueAmt} → 3% = ${commAmt} de comisión Closwork (supera ${thresholdAmt}). Membresía gratis ese mes.`
     : "";
 
-  const setupFeeFormatted =
-    tier.setupFeeUSD != null
-      ? formatMxnMoney(convertUsdToCurrencyAmount(tier.setupFeeUSD, "MXN"))
+  const setupAmount = tier.setupFee ? amountIn(tier.setupFee, currency) : null;
+  const setupFeeFormatted = setupAmount != null ? formatMoney(setupAmount, currency) : "";
+  const installments = tier.setupInfo?.installments;
+  const installmentFormatted =
+    setupAmount != null && installments
+      ? formatMoney(setupAmount / installments, currency)
       : "";
 
   const isPrimary = tier.ctaVariant === "primary";
   const isGreenOutline = tier.ctaVariant === "secondary-green";
-  const isBlueOutline = tier.ctaVariant === "secondary-blue";
 
   return (
     <article
@@ -88,13 +100,13 @@ export function PricingCard({
                 className="text-[2.4rem] font-extrabold leading-none tracking-tight text-[#1A1A2E]"
                 style={{ fontWeight: 800, letterSpacing: "-1.5px" }}
               >
-                {formatMxnPerMonth(displayMonthly)}
+                {formatPerMonth(displayMonthly, currency)}
               </span>
             </div>
             {period === "annual" && strike != null && (
               <>
                 <p className="mt-2 text-base font-extrabold text-[#8C919A] line-through decoration-[#8C919A]">
-                  {formatMxnPerMonth(strike)}
+                  {formatPerMonth(strike, currency)}
                 </p>
                 <p className="mt-1 text-[11px] font-medium text-[#8C919A]">Cobrado anualmente</p>
               </>
@@ -118,6 +130,25 @@ export function PricingCard({
 
       <p className="mb-4 text-[13px] leading-relaxed text-[#5A6170]">{tier.description}</p>
 
+      {setupAmount != null && tier.setupInfo && (
+        <div
+          className="mb-4 rounded-[10px] border border-[#C5D6EC] p-4"
+          style={{ backgroundColor: "#E6EFF8" }}
+        >
+          <p className="text-[13px] font-bold text-[#003976]">
+            {tier.setupInfo.label ?? "Setup fee único"}: {setupFeeFormatted}
+          </p>
+          {installments && (
+            <p className="mt-1.5 text-[12.5px] font-semibold leading-relaxed text-[#003976]">
+              Pagos flexibles: hasta {installments} MSI de {installmentFormatted}/mes
+            </p>
+          )}
+          <p className="mt-2 text-[12.5px] leading-relaxed text-[#5A6170]">
+            {tier.setupInfo.description}
+          </p>
+        </div>
+      )}
+
       {tier.promo && (
         <div
           className="mb-4 rounded-[10px] border border-[#FDDCAB] p-4"
@@ -129,20 +160,6 @@ export function PricingCard({
           <p className="mt-2 text-[12.5px] leading-relaxed text-[#1A1A2E]">{promoDescription}</p>
           <p className="mt-2 text-[12.5px] leading-relaxed text-[#1A1A2E]">{promoExample}</p>
           <p className="mt-2 text-[11px] text-[#5A6170]">{tier.promo.limit}</p>
-        </div>
-      )}
-
-      {tier.setupFeeUSD != null && tier.setupInfo && (
-        <div
-          className="mb-4 rounded-[10px] border border-[#C5D6EC] p-4"
-          style={{ backgroundColor: "#E6EFF8" }}
-        >
-          <p className="text-[13px] font-bold text-[#003976]">
-            Setup fee único: {setupFeeFormatted}
-          </p>
-          <p className="mt-2 text-[12.5px] leading-relaxed text-[#5A6170]">
-            {tier.setupInfo.description}
-          </p>
         </div>
       )}
 
