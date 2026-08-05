@@ -27,6 +27,7 @@ import EmpresasTycGrowthLegacy from "./pages/EmpresasTycGrowth";
 import EmpresasTycScaleLegacy from "./pages/EmpresasTycScale";
 import EmpresasTyC from "./pages/EmpresasTyc";
 import TycConcierge from "./pages/TycConcierge";
+import TycConcierge2 from "./pages/TycConcierge2";
 import Privacidad from "./pages/Privacidad";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
@@ -57,6 +58,7 @@ const AppContent = () => (
       <Route path="/empresas-tyc-growth" element={<EmpresasTyC planKey="growth" />} />
       <Route path="/empresas-tyc-scale" element={<EmpresasTyC planKey="scale" />} />
       <Route path="/tyc-concierge" element={<TycConcierge />} />
+      <Route path="/tyc-concierge2" element={<TycConcierge2 />} />
       <Route path="/privacidad" element={<Privacidad />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />

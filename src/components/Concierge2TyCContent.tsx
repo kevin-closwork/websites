@@ -1,8 +1,8 @@
-interface ConciergeTyCContentProps {
+interface Concierge2TyCContentProps {
   onScrollToBottom?: () => void;
 }
 
-const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => {
+const Concierge2TyCContent = ({ onScrollToBottom }: Concierge2TyCContentProps) => {
   const handleScroll = (e: { currentTarget: HTMLDivElement }) => {
     if (!onScrollToBottom) return;
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -27,7 +27,13 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           TÉRMINOS Y CONDICIONES DEL SERVICIO CLOSWORK — PLAN CONCIERGE
         </h3>
         <p>
-          <strong>Versión 2.0</strong> · Última actualización: 14 de julio de 2026
+          <strong>Versión 3.0</strong> · Última actualización: 4 de agosto de 2026
+        </p>
+        <p className="mt-2 text-muted-foreground italic">
+          Esta versión sustituye íntegramente a la Versión 2.0 del 14 de julio de 2026. Los cambios principales
+          se encuentran en las Cláusulas 3, 6, 7 y 8 (alcance de supervisión, garantías y estructura de precio).
+          Todos los montos de estos Términos están expresados en dólares estadounidenses y con el Impuesto al
+          Valor Agregado incluido.
         </p>
       </div>
 
@@ -113,6 +119,27 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
                 <td className="py-2">La contratación recurrente del Servicio con periodicidad mensual.</td>
               </tr>
               <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Cuota de Implementación</td>
+                <td className="py-2">
+                  El pago único de $999.00 USD previsto en la Cláusula 8.1, correspondiente al diagnóstico
+                  inicial, el proceso de match y la inducción del primer Closer.
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Cuota Mensual</td>
+                <td className="py-2">
+                  El pago recurrente mensual de $60.00 USD previsto en la Cláusula 8.1, que da acceso
+                  continuado al Servicio, a la supervisión y a las garantías de las Cláusulas 6 y 7.
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">MSI</td>
+                <td className="py-2">
+                  Meses sin intereses: facilidad de diferimiento ofrecida por la institución financiera emisora
+                  de la tarjeta de crédito del Cliente, en los términos de la Cláusula 8.6.
+                </td>
+              </tr>
+              <tr className="border-b">
                 <td className="py-2 pr-4 font-medium">Datos de Contratación</td>
                 <td className="py-2">
                   La información que el Cliente proporciona al momento del pago y que, junto con estos Términos,
@@ -130,9 +157,10 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
                 <td className="py-2 pr-4 font-medium">Formulario de Onboarding</td>
                 <td className="py-2">
                   Cuestionario que Closwork entrega al Cliente al inicio del Servicio y que recaba la
-                  información indispensable para prestarlo (oferta, ticket, ciclo de venta, leads, comisión del
-                  Closer, herramientas, materiales y reglas de operación). Es un requisito indispensable: los
-                  plazos a cargo de Closwork no comienzan a correr hasta que el Cliente lo entrega completo.
+                  información indispensable para prestarlo (oferta, ticket, ciclo de venta, volumen y fuente de
+                  leads, comisión del Closer, herramientas, materiales y reglas de operación). Es un requisito
+                  indispensable: los plazos a cargo de Closwork no comienzan a correr hasta que el Cliente lo
+                  entrega completo.
                 </td>
               </tr>
               <tr className="border-b">
@@ -141,6 +169,27 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
                   El momento en que el Cliente ha entregado el Formulario de Onboarding en su totalidad, junto
                   con los accesos y materiales ahí solicitados. Todos los plazos de estos Términos se computan a
                   partir de esta fecha, salvo mención expresa en contrario.
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Volumen Comprometido de Leads</td>
+                <td className="py-2">
+                  El número y periodicidad de leads calificados que el Cliente declara en el Formulario de
+                  Onboarding y se obliga a poner a disposición del Closer.
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Periodo de Encaje</td>
+                <td className="py-2">
+                  Los 14 (catorce) días naturales siguientes al inicio de actividades de un Closer, durante los
+                  cuales aplica lo previsto en la Cláusula 7.3.
+                </td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-4 font-medium">Estándares de Desempeño</td>
+                <td className="py-2">
+                  Los criterios objetivos y medibles listados en la Cláusula 7.2, cuyo incumplimiento por el
+                  Closer da lugar a su reemplazo.
                 </td>
               </tr>
               <tr>
@@ -170,7 +219,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <li>Registro Federal de Contribuyentes (RFC) y régimen fiscal;</li>
           <li>Domicilio fiscal completo;</li>
           <li>Nombre y cargo de la persona que acepta en representación del Cliente;</li>
-          <li>Correo electrónico y teléfono de contacto.</li>
+          <li>Correo electrónico y teléfono de contacto;</li>
+          <li>Plazo de MSI seleccionado, en su caso.</li>
         </ul>
         <p className="mt-2">
           <strong>2.3. Comprobante y versionado.</strong> Closwork conservará constancia electrónica de la
@@ -236,12 +286,12 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
               <tr className="border-b">
                 <td className="py-2 pr-3">d)</td>
                 <td className="py-2 pr-3">
-                  <strong>Supervisión activa y monitoreo de llamadas</strong> del Closer, con ajustes
-                  orientados a mejorar el proceso de cierre.
+                  <strong>Supervisión y auditoría de llamadas</strong> del Closer, con ajustes orientados a
+                  mejorar el proceso de cierre.
                 </td>
                 <td className="py-2">
-                  Una (1) sesión semanal de revisión de hasta 30 minutos, más la revisión de hasta tres (3)
-                  llamadas grabadas por semana, con retroalimentación al Closer.
+                  Una (1) sesión mensual de revisión de hasta 45 minutos, más la auditoría de hasta cuatro (4)
+                  llamadas grabadas al mes, con retroalimentación al Closer.
                 </td>
               </tr>
               <tr className="border-b">
@@ -254,19 +304,26 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
               <tr className="border-b">
                 <td className="py-2 pr-3">f)</td>
                 <td className="py-2 pr-3">
+                  <strong>Actualización de guion y manejo de objeciones.</strong>
+                </td>
+                <td className="py-2">Una (1) revisión trimestral, sobre los materiales aportados por el Cliente.</td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 pr-3">g)</td>
+                <td className="py-2 pr-3">
                   <strong>Garantía de arranque</strong> en los términos de la Cláusula 6.
                 </td>
                 <td className="py-2">—</td>
               </tr>
               <tr className="border-b">
-                <td className="py-2 pr-3">g)</td>
+                <td className="py-2 pr-3">h)</td>
                 <td className="py-2 pr-3">
-                  <strong>Garantía de reemplazo</strong> del Closer en los términos de la Cláusula 7.
+                  <strong>Rotación de personal</strong> en los términos de la Cláusula 7.
                 </td>
                 <td className="py-2">—</td>
               </tr>
               <tr>
-                <td className="py-2 pr-3">h)</td>
+                <td className="py-2 pr-3">i)</td>
                 <td className="py-2 pr-3">
                   <strong>Soporte y coordinación</strong> mediante un punto de contacto único para el Cliente y
                   el Closer.
@@ -295,6 +352,14 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           Cliente en entregar el Formulario de Onboarding, los accesos o los materiales suspende, por el mismo
           tiempo, los plazos a cargo de Closwork, sin que ello genere derecho a bonificación, prórroga de la
           Suscripción ni devolución alguna.
+        </p>
+        <p className="mt-2">
+          <strong>3.5. Vinculación del Servicio a la Cuota Mensual.</strong> El Servicio, en todos sus
+          componentes —incluyendo la supervisión, la auditoría de llamadas, el soporte y las garantías de las
+          Cláusulas 6 y 7—, está indisolublemente vinculado al pago puntual de la Cuota Mensual. La Cuota de
+          Implementación no otorga, por sí sola, derecho a la permanencia del Closer ni a ninguno de los
+          servicios recurrentes. No existe modalidad de contratación que comprenda únicamente la Cuota de
+          Implementación.
         </p>
       </div>
 
@@ -341,18 +406,20 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <h3 className="font-semibold text-base mb-2">5. NATURALEZA DEL SERVICIO — OBLIGACIÓN DE MEDIOS</h3>
         <p>
           <strong>5.1.</strong> Las Partes reconocen expresamente que el Servicio consiste en la colocación,
-          supervisión, reemplazo y soporte del Closer, y constituye una{" "}
+          supervisión, rotación y soporte del Closer, y constituye una{" "}
           <strong>obligación de medios y no de resultados</strong>.
         </p>
         <p className="mt-2">
           <strong>5.2.</strong> Closwork <strong>NO garantiza</strong> un volumen, número, monto ni tasa de
-          conversión determinados de ventas, ni un número determinado de citas, llamadas o propuestas. Cualquier
-          proyección, ejemplo o resultado histórico compartido por Closwork es meramente ilustrativo y no
-          constituye promesa ni garantía de rendimiento.
+          conversión determinados de ventas, ni un número determinado de citas, llamadas o propuestas, ni un
+          tiempo determinado hasta el primer cierre. Cualquier proyección, ejemplo o resultado histórico
+          compartido por Closwork es meramente ilustrativo y no constituye promesa ni garantía de rendimiento.
         </p>
         <p className="mt-2">
           <strong>5.3.</strong> Closwork no es patrón, empleador, socio ni representante legal del Closer, ni
-          percibe comisión alguna sobre las ventas del Cliente, ni interviene en el margen del Cliente.
+          percibe comisión alguna sobre las ventas del Cliente, ni interviene en el margen del Cliente. La
+          totalidad de las contraprestaciones a favor de Closwork son cuotas fijas, independientes del
+          desempeño comercial del Cliente.
         </p>
         <p className="mt-2">
           <strong>5.4.</strong> El resultado comercial depende de factores fuera del control de Closwork,
@@ -375,176 +442,284 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <li>Otorgar a Closwork una prórroga de 15 (quince) días hábiles adicionales; o</li>
           <li>
             <strong>
-              Cancelar el Servicio con devolución íntegra de la totalidad de las cuotas mensuales efectivamente
-              cobradas
-            </strong>{" "}
-            desde la contratación y hasta la fecha de cancelación (y, en su caso, de la Cuota de Implementación
-            de la Cláusula 8.2), sin penalización alguna para ninguna de las Partes.
+              Cancelar el Servicio con devolución del 100 % (cien por ciento) de las cantidades efectivamente
+              pagadas a Closwork
+            </strong>
+            , comprendiendo la Cuota de Implementación y la totalidad de las Cuotas Mensuales cobradas desde la
+            contratación y hasta la fecha de cancelación, sin deducción por gastos incurridos y sin penalización
+            alguna para ninguna de las Partes.
           </li>
         </ol>
         <p className="mt-2">
           <strong>6.3.</strong> Esta garantía <strong>no aplica</strong> cuando la demora derive de: (i) falta
-          de entrega del Formulario de Onboarding, accesos o materiales por parte del Cliente; (ii) rechazo por
-          el Cliente de los candidatos presentados por Closwork, habiéndose presentado al menos dos (2)
-          perfiles; o (iii) caso fortuito o fuerza mayor.
+          de entrega oportuna y completa del Formulario de Onboarding, accesos o materiales por parte del
+          Cliente; (ii) rechazo por el Cliente de los candidatos presentados por Closwork, habiéndose presentado
+          al menos dos (2) perfiles; o (iii) caso fortuito o fuerza mayor.
         </p>
         <p className="mt-2">
           <strong>6.4.</strong> La devolución prevista en la Cláusula 6.2(b) constituye el único supuesto de
           reembolso contemplado en estos Términos, y es el remedio único y exclusivo del Cliente por la falta de
           Colocación oportuna.
         </p>
+        <p className="mt-2">
+          <strong>6.5. Efecto del diferimiento a MSI.</strong> Cuando la Cuota de Implementación se haya cargado
+          bajo la modalidad de MSI, la devolución prevista en la Cláusula 6.2(b) se realizará por el monto
+          íntegro cargado, mediante reembolso a la misma tarjeta. El Cliente reconoce que la aplicación del
+          reembolso frente a las mensualidades pendientes ante su institución emisora es un proceso ajeno a
+          Closwork y sujeto a las políticas de dicha institución.
+        </p>
       </div>
 
       <div>
-        <h3 className="font-semibold text-base mb-2">7. GARANTÍA DE REEMPLAZO</h3>
+        <h3 className="font-semibold text-base mb-2">7. ROTACIÓN DE PERSONAL</h3>
         <p>
-          <strong>7.1. Supuestos.</strong> Closwork reemplazará al Closer colocado,{" "}
-          <strong>sin costo adicional</strong>, cuando:
+          <strong>7.1. Alcance de la garantía.</strong> Mientras el Cliente mantenga vigente y al corriente su
+          Cuota Mensual, Closwork reemplazará al Closer colocado,{" "}
+          <strong>sin costo adicional y sin límite en el número de reemplazos</strong>, cuando se actualice
+          cualquiera de los siguientes supuestos:
         </p>
         <ol className="list-[lower-alpha] list-inside space-y-2 ml-2 mt-2">
           <li>
-            El Closer no encaje con la oferta u operación del Cliente; <strong>o</strong>
+            El Closer cese su colaboración con el Cliente por cualquier causa: renuncia, incapacidad, abandono,
+            incumplimiento o baja del programa de Closwork; <strong>o</strong>
           </li>
           <li>
-            El Closer cese su colaboración con el Cliente por cualquier causa (renuncia, incapacidad, abandono,
-            incumplimiento o baja del programa de Closwork).
+            El Closer incumpla cualquiera de los Estándares de Desempeño de la Cláusula 7.2, según se acredite
+            en la auditoría de la Cláusula 3.1(d).
           </li>
         </ol>
         <p className="mt-2">
-          La solicitud del Cliente en el supuesto (a) deberá hacerse por escrito al correo señalado en la
-          Cláusula 18, exponiendo los motivos.
+          La rotación es un componente del Servicio recurrente, no una indemnización ni una reclamación. Su
+          procedencia deriva del cese o del incumplimiento del Closer, y no de un cambio en la estrategia, la
+          oferta o las preferencias del Cliente.
         </p>
         <p className="mt-2">
-          <strong>7.2. Condiciones de procedencia.</strong> La garantía aplica siempre que, de manera
-          acumulativa:
+          <strong>7.2. Estándares de Desempeño.</strong> Para los efectos de la Cláusula 7.1(b), se considerará
+          que el Closer incumple cuando se actualice <strong>cualquiera</strong> de los siguientes supuestos,
+          verificado en la auditoría mensual:
         </p>
         <ol className="list-[lower-alpha] list-inside space-y-2 ml-2 mt-2">
-          <li>El Cliente se encuentre al corriente en sus pagos;</li>
+          <li>Falta a dos (2) o más llamadas agendadas dentro de un mismo mes, sin aviso previo;</li>
+          <li>Tasa de asistencia a llamadas asignadas inferior al 80 % (ochenta por ciento) en el mes;</li>
           <li>
-            El Cliente haya cumplido con sus obligaciones de la Cláusula 10 (entrega de leads en el volumen
-            comprometido en el Formulario de Onboarding, materiales, accesos y retroalimentación);
+            Siete (7) días naturales consecutivos sin registrar actividad en el CRM o herramienta de seguimiento
+            del Cliente;
           </li>
           <li>
-            El Cliente haya participado en al menos 2 (dos) de las últimas 3 (tres) sesiones semanales de
-            supervisión; y
+            Calificación inferior a 6 (seis) sobre 10 (diez) en dos auditorías de llamada consecutivas,
+            conforme al scorecard de Closwork; o
           </li>
           <li>
-            Tratándose del supuesto 7.1(a), el Closer haya acumulado al menos 15 (quince) días hábiles activos
-            con el Cliente.
+            Incumplimiento documentado del guion y de los criterios de calificación acordados durante la
+            inducción.
           </li>
         </ol>
-        <p className="mt-2">Las condiciones (c) y (d) no serán exigibles en el supuesto 7.1(b).</p>
         <p className="mt-2">
-          <strong>7.3. Plazos.</strong> Closwork iniciará el proceso de match del nuevo Closer dentro de los{" "}
-          <strong>7 (siete) días hábiles</strong> siguientes a la solicitud o a la baja del Closer, y buscará
-          colocarlo dentro de los <strong>15 (quince) días hábiles</strong> siguientes, sujeto a disponibilidad
-          de perfiles compatibles.
+          La verificación del incumplimiento corresponde a Closwork con base en la auditoría; no procede la
+          determinación unilateral del Cliente.
         </p>
         <p className="mt-2">
-          <strong>7.4. Límite.</strong> El Cliente tendrá derecho a un máximo de{" "}
-          <strong>2 (dos) reemplazos por cada 3 (tres) meses</strong> de vigencia de la Suscripción. Los
-          reemplazos adicionales quedarán sujetos a disponibilidad y podrán generar contraprestación
-          adicional.
+          <strong>7.3. Periodo de Encaje.</strong> Adicionalmente a lo anterior, durante los 14 (catorce) días
+          naturales siguientes al inicio de actividades de un Closer, el Cliente podrá solicitar su cambio{" "}
+          <strong>sin expresión de causa</strong>, mediante aviso por escrito. Este derecho podrá ejercerse una
+          (1) vez por cada Closer colocado, hasta un máximo de dos (2) veces por cada 12 (doce) meses de
+          vigencia de la Suscripción.
         </p>
         <p className="mt-2">
-          <strong>7.5. Alcance.</strong> La garantía no cubre la falta de resultados de venta por sí sola, ni
+          <strong>7.4. Cambios fuera de los supuestos anteriores.</strong> Transcurrido el Periodo de Encaje,
+          la solicitud de cambio de Closer fundada exclusivamente en la apreciación subjetiva del Cliente —sin
+          que se actualice ninguno de los supuestos de las Cláusulas 7.1(a) o 7.1(b)— quedará sujeta a
+          disponibilidad de perfiles compatibles y podrá generar contraprestación adicional, previo acuerdo por
+          escrito.
+        </p>
+        <p className="mt-2">
+          <strong>7.5. Condiciones de procedencia.</strong> La rotación prevista en la Cláusula 7.1 aplica
+          siempre que, de manera acumulativa:
+        </p>
+        <ol className="list-[lower-alpha] list-inside space-y-2 ml-2 mt-2">
+          <li>El Cliente se encuentre al corriente en el pago de la Cuota Mensual;</li>
+          <li>
+            El Cliente haya cumplido con sus obligaciones de la Cláusula 10, incluyendo la entrega de
+            materiales, accesos y retroalimentación;
+          </li>
+          <li>
+            El volumen de leads efectivamente puesto a disposición del Closer durante los 60 (sesenta) días
+            naturales previos a la solicitud sea de al menos el{" "}
+            <strong>70 % (setenta por ciento)</strong> del Volumen Comprometido de Leads;
+          </li>
+          <li>
+            La oferta, el precio del producto y el esquema de Comisión del Closer no hayan sido modificados por
+            el Cliente sin aviso previo por escrito a Closwork; y
+          </li>
+          <li>
+            El Cliente haya participado en al menos dos (2) de las últimas tres (3) sesiones mensuales de
+            supervisión.
+          </li>
+        </ol>
+        <p className="mt-2">
+          El incumplimiento de cualquiera de estas condiciones suspende la garantía hasta que la condición se
+          restablezca.
+        </p>
+        <p className="mt-2">
+          <strong>7.6. Plazos.</strong> Closwork iniciará el proceso de match del nuevo Closer dentro de los{" "}
+          <strong>7 (siete) días hábiles</strong> siguientes a la solicitud procedente o a la baja del Closer, y
+          buscará colocarlo dentro de los <strong>15 (quince) días hábiles</strong> siguientes, sujeto a
+          disponibilidad de perfiles compatibles.
+        </p>
+        <p className="mt-2">
+          <strong>7.7. Revisión conjunta.</strong> A partir del tercer reemplazo dentro de un mismo periodo de
+          12 (doce) meses, Closwork podrá condicionar la siguiente rotación a la celebración de una sesión de
+          revisión conjunta de las condiciones declaradas en el Formulario de Onboarding. Esta revisión no
+          constituye una negativa al reemplazo ni un límite al mismo; su finalidad es identificar y corregir
+          causas estructurales antes de una nueva Colocación. Si de dicha revisión se desprende que alguna de
+          las condiciones de la Cláusula 7.5 no se sostiene, aplicará la suspensión ahí prevista.
+        </p>
+        <p className="mt-2">
+          <strong>7.8. Alcance.</strong> La rotación no cubre la falta de resultados de venta por sí sola, ni
           situaciones atribuibles al incumplimiento del Cliente. El reemplazo no suspende, no prorroga, no
-          bonifica la Suscripción ni genera derecho a devolución.
+          bonifica la Suscripción ni genera derecho a devolución. Durante el periodo comprendido entre la baja
+          de un Closer y la Colocación del siguiente, la Cuota Mensual se sigue devengando y cobrando con
+          normalidad.
         </p>
       </div>
 
       <div>
         <h3 className="font-semibold text-base mb-2">8. PRECIO, FACTURACIÓN Y FORMA DE PAGO</h3>
         <p>
-          <strong>8.1. Cuota mensual.</strong> El Cliente pagará una cuota fija mensual de{" "}
-          <strong>
-            $249.00 USD (doscientos cuarenta y nueve dólares estadounidenses 00/100 M.E.), más el Impuesto al
-            Valor Agregado correspondiente
-          </strong>
-          , con independencia del número o monto de ventas cerradas. Al tratarse de un precio expresado en
-          dólares estadounidenses, el importe cobrado en moneda local podrá variar según el tipo de cambio del
-          día en que se realice el cargo.
+          <strong>8.1. Precio.</strong> El precio del Plan Concierge es el siguiente, en ambos casos{" "}
+          <strong>con el Impuesto al Valor Agregado incluido</strong>:
         </p>
-        <p className="mt-2">
-          <strong>8.2. Cuota única de implementación.</strong> Al inicio del Servicio, el Cliente pagará por
-          única vez una <strong>Cuota de Implementación de $249.00 USD más I.V.A.</strong>, correspondiente al
-          diagnóstico inicial, el proceso de match y la inducción del primer Closer. Esta cuota no es
-          reembolsable, salvo en el supuesto de la Cláusula 6.2(b).
-        </p>
-        <p className="mt-2">
-          <strong>8.3. Closers adicionales.</strong> El Cliente podrá solicitar la colocación de Closers
-          adicionales conforme a la siguiente tabla:
-        </p>
-        <div className="overflow-x-auto mt-2">
+        <div className="overflow-x-auto mt-3">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b">
                 <th className="py-2 pr-4 font-semibold">Concepto</th>
-                <th className="py-2 font-semibold">Precio mensual (más I.V.A.)</th>
+                <th className="py-2 pr-4 font-semibold">Monto</th>
+                <th className="py-2 font-semibold">Periodicidad</th>
               </tr>
             </thead>
             <tbody className="align-top">
               <tr className="border-b">
-                <td className="py-2 pr-4">Plan Concierge — incluye 1 (un) Closer</td>
-                <td className="py-2">
-                  <strong>$249.00 USD</strong>
+                <td className="py-2 pr-4 font-medium">Cuota de Implementación</td>
+                <td className="py-2 pr-4">
+                  <strong>$999.00 USD</strong> (novecientos noventa y nueve dólares estadounidenses 00/100
+                  M.E.)
                 </td>
-              </tr>
-              <tr className="border-b">
-                <td className="py-2 pr-4">Cada Closer adicional (hasta 3 adicionales)</td>
-                <td className="py-2">
-                  <strong>$199.00 USD</strong>
-                </td>
+                <td className="py-2">Pago único</td>
               </tr>
               <tr>
-                <td className="py-2 pr-4">A partir del 5.º Closer</td>
-                <td className="py-2">Sujeto a cotización específica y acuerdo por escrito</td>
+                <td className="py-2 pr-4 font-medium">Cuota Mensual</td>
+                <td className="py-2 pr-4">
+                  <strong>$60.00 USD</strong> (sesenta dólares estadounidenses 00/100 M.E.)
+                </td>
+                <td className="py-2">Mensual recurrente</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p className="mt-2">
-          Cada Closer adicional queda sujeto íntegramente a estos Términos, incluyendo las garantías de las
-          Cláusulas 6 y 7 y la Cláusula 11 (No Elusión), y se factura desde el mes de su colocación.
+          <strong>8.2. Cuota de Implementación.</strong> Al inicio del Servicio, el Cliente pagará por única
+          vez la Cuota de Implementación prevista en la Cláusula 8.1, correspondiente al diagnóstico inicial, el
+          proceso de match y la inducción del primer Closer. Esta cuota no es reembolsable ni prorrateable, salvo
+          en el supuesto de la Cláusula 6.2(b).
         </p>
         <p className="mt-2">
-          <strong>8.4. Cobro recurrente.</strong> El pago se realiza mediante Stripe. Al aceptar estos Términos,
+          <strong>8.3. Cuota Mensual.</strong> El Cliente pagará la Cuota Mensual prevista en la Cláusula 8.1,
+          con I.V.A. incluido, <strong>con independencia del número o monto de ventas cerradas</strong> y con
+          independencia de que el Cliente haga o no uso efectivo de las sesiones de supervisión. Al tratarse de
+          precios expresados en dólares estadounidenses, el importe cobrado en moneda local podrá variar según
+          el tipo de cambio del día en que se realice el cargo.
+        </p>
+        <p className="mt-2">
+          <strong>8.4. Estabilidad de la Cuota Mensual.</strong> La Cuota Mensual contratada se mantendrá sin
+          incremento mientras la Suscripción permanezca activa e ininterrumpida. Si la Suscripción se cancela y
+          posteriormente se recontrata, aplicará el precio vigente en la fecha de la nueva contratación.
+        </p>
+        <p className="mt-2">
+          <strong>8.5. Alcance del Plan.</strong> El Plan Concierge comprende la colocación, supervisión y
+          rotación de un (1) Closer. La colocación de Closers adicionales no forma parte del Plan y quedará
+          sujeta a cotización específica y acuerdo previo por escrito entre las Partes.
+        </p>
+        <p className="mt-2">
+          <strong>8.6. Diferimiento a Meses Sin Intereses (MSI).</strong> La Cuota de Implementación podrá
+          diferirse a mensualidades sin intereses cuando el Cliente pague con tarjeta de crédito elegible
+          emitida en México y seleccione dicha opción en la pasarela de pago. El Cliente reconoce expresamente
+          que:
+        </p>
+        <ol className="list-[lower-alpha] list-inside space-y-2 ml-2 mt-2">
+          <li>
+            El diferimiento es una facilidad otorgada por la institución financiera emisora de su tarjeta, no un
+            crédito otorgado por Closwork;
+          </li>
+          <li>
+            El cargo se aplica por el monto total en un solo evento, y es dicha institución quien difiere las
+            mensualidades al Cliente;
+          </li>
+          <li>
+            La obligación de pago de las mensualidades diferidas subsiste frente a la institución emisora aun
+            en caso de cancelación de la Suscripción conforme a la Cláusula 12; y
+          </li>
+          <li>
+            El diferimiento aplica exclusivamente a la Cuota de Implementación. La Cuota Mensual se cobra
+            periodo a periodo y no es diferible.
+          </li>
+        </ol>
+        <p className="mt-2">
+          <strong>8.7. Improcedencia del financiamiento directo.</strong> Closwork no otorga financiamiento,
+          crédito ni planes de pago propios sobre la Cuota de Implementación. Fuera de la modalidad de MSI
+          prevista en la Cláusula 8.6, la única alternativa de pago admitida es 50 % (cincuenta por ciento) al
+          momento de la contratación y 50 % (cincuenta por ciento) al momento de la Colocación del primer
+          Closer.
+        </p>
+        <p className="mt-2">
+          <strong>8.8. Cobro recurrente.</strong> El pago se realiza mediante Stripe. Al aceptar estos Términos,
           el Cliente autoriza a Closwork a realizar cargos automáticos recurrentes al método de pago registrado,
           cada periodo mensual, hasta que la Suscripción sea cancelada conforme a la Cláusula 12.
         </p>
         <p className="mt-2">
-          <strong>8.5. Fecha de cargo.</strong> El primer cargo (cuota mensual más Cuota de Implementación) se
-          realiza al momento de la contratación. Los cargos subsecuentes se realizarán en la misma fecha de cada
-          mes calendario (o el último día del mes cuando no exista fecha equivalente).
+          <strong>8.9. Fecha de cargo.</strong> El primer cargo (Cuota de Implementación más la primera Cuota
+          Mensual) se realiza al momento de la contratación. Los cargos subsecuentes de la Cuota Mensual se
+          realizarán en la misma fecha de cada mes calendario (o el último día del mes cuando no exista fecha
+          equivalente).
         </p>
         <p className="mt-2">
-          <strong>8.6. Moneda y variaciones.</strong> Los precios están expresados en dólares estadounidenses.
-          Cualquier diferencia cambiaria, comisión bancaria, cargo por conversión de divisa o cargo de la
-          institución emisora del Cliente será a cargo exclusivo del Cliente.
+          <strong>8.10. Moneda única y precios finales.</strong> La totalidad de los precios, cuotas, penas
+          convencionales y montos previstos en estos Términos están expresados en dólares estadounidenses (USD)
+          y constituyen precios finales con I.V.A. incluido. Cualquier diferencia cambiaria, comisión bancaria,
+          cargo por conversión de divisa o cargo de la institución emisora del Cliente será a cargo exclusivo
+          del Cliente.
         </p>
         <p className="mt-2">
-          <strong>8.7. Impuestos y CFDI.</strong> Cada Parte es responsable de los impuestos que le
-          correspondan. Closwork emitirá el CFDI correspondiente conforme a las disposiciones fiscales
+          <strong>8.11. Impuestos y CFDI.</strong> Todos los precios señalados en la Cláusula 8.1 y desplegados
+          en la pasarela de pago <strong>incluyen el Impuesto al Valor Agregado</strong> aplicable. El Cliente
+          no deberá cubrir cantidad adicional alguna por dicho concepto, y el monto que se cargue a su método de
+          pago será exactamente el precio contratado. Tratándose de clientes con domicilio fiscal fuera de los
+          Estados Unidos Mexicanos, el Servicio podrá considerarse exportación de servicios y quedar sujeto a
+          la tasa del 0 % (cero por ciento) de I.V.A. conforme a la Ley del Impuesto al Valor Agregado, sin que
+          ello modifique el precio pagado por el Cliente. Cada Parte es responsable de los demás impuestos que
+          le correspondan. Closwork emitirá el CFDI correspondiente conforme a las disposiciones fiscales
           vigentes, con base en los Datos de Contratación proporcionados por el Cliente. Es responsabilidad
           exclusiva del Cliente proporcionar datos fiscales correctos; Closwork no será responsable por CFDI que
           no puedan emitirse o deban cancelarse por datos erróneos.
         </p>
         <p className="mt-2">
-          <strong>8.8. Falta de pago.</strong> Si un cargo es rechazado o no se acredita el pago, Closwork podrá
-          suspender el Servicio —incluyendo el acceso al Closer y la supervisión— previa notificación por
-          correo electrónico, y rescindir el contrato si la falta de pago persiste por más de 10 (diez) días
-          naturales.
+          <strong>8.12. Falta de pago.</strong> Si un cargo de la Cuota Mensual es rechazado o no se acredita el
+          pago, Closwork podrá suspender el Servicio —incluyendo el retiro del Closer de la cuenta del Cliente,
+          la supervisión y las garantías de las Cláusulas 6 y 7— previa notificación por correo electrónico, y
+          rescindir el contrato si la falta de pago persiste por más de 10 (diez) días naturales. La suspensión
+          por falta de pago no libera al Cliente de las obligaciones de la Cláusula 11 (No Elusión).
         </p>
         <p className="mt-2">
-          <strong>8.9. Devoluciones.</strong> Salvo lo previsto en la Cláusula 6.2(b) y salvo disposición legal
+          <strong>8.13. Devoluciones.</strong> Salvo lo previsto en la Cláusula 6.2(b) y salvo disposición legal
           en contrario, las cuotas pagadas <strong>no son reembolsables</strong>, incluyendo el caso de
           cancelación a mitad de un periodo ya facturado. La cancelación surte efectos al final del periodo
           pagado, durante el cual el Cliente conserva el Servicio.
         </p>
         <p className="mt-2">
-          <strong>8.10. Cambios de precio.</strong> Closwork podrá modificar el precio notificando al Cliente con
-          al menos 30 (treinta) días naturales de anticipación al correo registrado. Si el Cliente no cancela
-          antes de la siguiente fecha de cobro, se entenderá que acepta el nuevo precio.
+          <strong>8.14. Cambios de precio.</strong> Sin perjuicio de lo previsto en la Cláusula 8.4, Closwork
+          podrá modificar el precio notificando al Cliente con al menos 30 (treinta) días naturales de
+          anticipación al correo registrado. Si el Cliente no cancela antes de la siguiente fecha de cobro, se
+          entenderá que acepta el nuevo precio.
         </p>
       </div>
 
@@ -558,7 +733,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p className="mt-2">
           <strong>9.2.</strong> Closwork no funge como intermediario, retenedor, administrador ni garante de
           dichas comisiones, ni asume responsabilidad alguna por su cálculo, retención, entero de impuestos o
-          pago.
+          pago. Ninguna cantidad pagada por el Cliente a Closwork se calcula sobre las ventas del Cliente ni
+          constituye participación en las mismas.
         </p>
         <p className="mt-2">
           <strong>9.3.</strong> Cualquier controversia entre el Cliente y el Closer respecto de comisiones,
@@ -581,7 +757,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <li>Pagar la contraprestación en tiempo y forma y mantener vigente un método de pago válido.</li>
           <li>
             Entregar el Formulario de Onboarding completo dentro de los 5 (cinco) días hábiles siguientes a la
-            contratación.
+            contratación, incluyendo de manera veraz el Volumen Comprometido de Leads, el ticket promedio, el
+            ciclo de venta y el esquema de Comisión del Closer.
           </li>
           <li>
             Proporcionar los insumos necesarios para la prestación del Servicio: leads —en el volumen y
@@ -591,12 +768,16 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           </li>
           <li>Definir y pagar directamente la Comisión del Closer.</li>
           <li>
-            Participar en las sesiones semanales de supervisión y dar retroalimentación oportuna sobre el
+            Participar en las sesiones mensuales de supervisión y dar retroalimentación oportuna sobre el
             desempeño del Closer.
           </li>
           <li>
             Permitir y facilitar la grabación y el monitoreo de las llamadas del Closer, en términos de la
             Cláusula 15.
+          </li>
+          <li>
+            Informar por escrito a Closwork, con al menos 10 (diez) días naturales de anticipación, cualquier
+            modificación sustancial a su oferta, precio del producto o esquema de Comisión del Closer.
           </li>
           <li>
             Cumplir con la legislación aplicable a su propia actividad comercial, incluyendo la relativa a
@@ -612,12 +793,19 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           </li>
         </ol>
         <p className="mt-2">
-          <strong>10.2. Incumplimiento del Cliente.</strong> El incumplimiento de las obligaciones anteriores
+          <strong>10.2. Veracidad del Volumen Comprometido de Leads.</strong> El Cliente reconoce que el
+          Volumen Comprometido de Leads declarado en el Formulario de Onboarding es un elemento determinante de
+          la voluntad de Closwork para contratar y para otorgar las garantías de las Cláusulas 6 y 7. La
+          declaración falsa o sustancialmente inexacta de dicho volumen faculta a Closwork a suspender las
+          garantías conforme a la Cláusula 7.5(c).
+        </p>
+        <p className="mt-2">
+          <strong>10.3. Incumplimiento del Cliente.</strong> El incumplimiento de las obligaciones anteriores
           libera a Closwork de responsabilidad por la falta de prestación o degradación del Servicio, suspende
           los plazos y garantías a cargo de Closwork, y no genera derecho a devolución ni bonificación.
         </p>
         <p className="mt-2">
-          <strong>10.3. Ausencia de leads.</strong> Si el Cliente deja de entregar leads, la Suscripción
+          <strong>10.4. Ausencia de leads.</strong> Si el Cliente deja de entregar leads, la Suscripción
           continúa vigente y se sigue cobrando. El Servicio no admite pausas, suspensiones ni congelamientos por
           inactividad comercial del Cliente.
         </p>
@@ -629,22 +817,22 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <strong>11.1. Reconocimiento.</strong> El Cliente reconoce que el Closer le fue presentado
           exclusivamente como consecuencia del Servicio y de la inversión de Closwork en reclutamiento,
           certificación, capacitación y validación de perfiles, y que dicha presentación tiene un valor
-          económico propio, independiente de la cuota mensual.
+          económico propio, independiente de la Cuota Mensual y de la Cuota de Implementación.
         </p>
         <p className="mt-2">
           <strong>11.2. Obligación.</strong> Durante la vigencia del contrato y por un plazo de{" "}
           <strong>12 (doce) meses</strong> posteriores a su terminación, el Cliente se obliga a no contratar,
           emplear, retener ni continuar relación comercial alguna con cualquier Closer presentado por Closwork
           —directamente o a través de terceros, filiales, sociedades relacionadas, personas interpósitas o
-          cualquier otra estructura— una vez cancelada o terminada la Suscripción, salvo que se pague la Cuota
-          de Colocación Directa prevista en la Cláusula 11.3.
+          cualquier otra estructura— una vez cancelada, suspendida o terminada la Suscripción, salvo que se
+          pague la Cuota de Colocación Directa prevista en la Cláusula 11.3.
         </p>
         <p className="mt-2">
           <strong>11.3. Cuota de Colocación Directa.</strong> Si el Cliente desea conservar al Closer una vez
-          terminada la Suscripción, podrá hacerlo pagando a Closwork, por única vez y por cada Closer, una{" "}
-          <strong>Cuota de Colocación Directa de $2,500.00 USD más I.V.A.</strong>, que constituye la
-          contraprestación por el servicio de reclutamiento, certificación y colocación permanente de dicho
-          profesional.
+          terminada o suspendida la Suscripción, podrá hacerlo pagando a Closwork, por única vez y por cada
+          Closer, una <strong>Cuota de Colocación Directa de $2,500.00 USD, con I.V.A. incluido</strong>, que
+          constituye la contraprestación por el servicio de reclutamiento, certificación y colocación permanente
+          de dicho profesional.
         </p>
         <p className="mt-2">
           <strong>11.4. Incumplimiento.</strong> Si el Cliente retiene al Closer sin cubrir la Cuota de
@@ -662,7 +850,7 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <h3 className="font-semibold text-base mb-2">12. VIGENCIA, RENOVACIÓN Y CANCELACIÓN</h3>
         <p>
           <strong>12.1. Vigencia.</strong> Indefinida, con renovación automática por periodos mensuales
-          sucesivos, mientras el Cliente no cancele.
+          sucesivos, mientras el Cliente no cancele. No existe plazo forzoso ni penalización por cancelación.
         </p>
         <p className="mt-2">
           <strong>12.2. Cancelación por el Cliente.</strong> El Cliente podrá cancelar en cualquier momento
@@ -671,18 +859,25 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           periodo en curso ya pagado.
         </p>
         <p className="mt-2">
-          <strong>12.3. Terminación por Closwork.</strong> Closwork podrá dar por terminado el contrato sin
+          <strong>12.3. Efecto de la cancelación sobre el Closer.</strong> Al surtir efectos la cancelación, el
+          Closer se retira de la operación del Cliente y cesan la supervisión, el soporte y las garantías de las
+          Cláusulas 6 y 7. La cancelación no libera al Cliente de las obligaciones de la Cláusula 11 ni de las
+          mensualidades diferidas bajo MSI frente a su institución emisora.
+        </p>
+        <p className="mt-2">
+          <strong>12.4. Terminación por Closwork.</strong> Closwork podrá dar por terminado el contrato sin
           responsabilidad, mediante aviso con 15 (quince) días naturales de anticipación.
         </p>
         <p className="mt-2">
-          <strong>12.4. Rescisión inmediata.</strong> Closwork podrá rescindir de inmediato, sin
-          responsabilidad ni devolución, si el Cliente: (i) incurre en falta de pago conforme a la Cláusula 8.8;
-          (ii) incumple reiteradamente el pago de la Comisión del Closer; (iii) instruye al Closer a realizar
-          prácticas engañosas o ilegales; (iv) impide la grabación o supervisión de llamadas; o (v) incumple la
-          Cláusula 11.
+          <strong>12.5. Rescisión inmediata.</strong> Closwork podrá rescindir de inmediato, sin
+          responsabilidad ni devolución, si el Cliente: (i) incurre en falta de pago conforme a la Cláusula
+          8.12; (ii) incumple reiteradamente el pago de la Comisión del Closer; (iii) instruye al Closer a
+          realizar prácticas engañosas o ilegales; (iv) impide la grabación o supervisión de llamadas; (v)
+          incumple la Cláusula 11; o (vi) declara falsamente el Volumen Comprometido de Leads u otros datos
+          determinantes del Formulario de Onboarding.
         </p>
         <p className="mt-2">
-          <strong>12.5. Efectos de la terminación.</strong> Al terminar el contrato cesan la supervisión, el
+          <strong>12.6. Efectos de la terminación.</strong> Al terminar el contrato cesan la supervisión, el
           soporte y las garantías de las Cláusulas 6 y 7. Subsisten las obligaciones de confidencialidad
           (Cláusula 13), la no elusión (Cláusula 11), las indemnidades pactadas y cualquier adeudo pendiente.
         </p>
@@ -719,8 +914,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           <strong>13.5. Pena convencional.</strong> La divulgación de Información Confidencial con dolo o mala
           fe, en beneficio propio o de terceros, dará derecho a la Parte afectada al pago de una pena
           convencional de{" "}
-          <strong>$150,000.00 MXN (ciento cincuenta mil pesos 00/100 M.N.)</strong>, pagadera dentro de los 5
-          (cinco) días hábiles siguientes al requerimiento, sin perjuicio de las acciones civiles y penales
+          <strong>$8,000.00 USD (ocho mil dólares estadounidenses 00/100 M.E.)</strong>, pagadera dentro de los
+          5 (cinco) días hábiles siguientes al requerimiento, sin perjuicio de las acciones civiles y penales
           previstas en la Ley Federal de Protección a la Propiedad Industrial y demás legislación aplicable.
         </p>
       </div>
@@ -744,6 +939,11 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
           social, fiscal o administrativa que el Closer o cualquier autoridad presente en contra de Closwork con
           motivo de dicha relación.
         </p>
+        <p className="mt-2">
+          <strong>14.4.</strong> Closwork no interviene, condiciona ni participa en la contraprestación que el
+          Cliente pacte con el Closer. Las cuotas a favor de Closwork son fijas y ajenas al desempeño comercial
+          del Cliente y del Closer.
+        </p>
       </div>
 
       <div>
@@ -751,8 +951,9 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p>
           <strong>15.1. Consentimiento.</strong> El Cliente autoriza expresamente a Closwork a grabar, escuchar,
           auditar y analizar las llamadas y videollamadas sostenidas por el Closer en el marco del Servicio, con
-          la finalidad de supervisar el desempeño, retroalimentar al Closer y mejorar el proceso de cierre. Sin
-          esta autorización, el Servicio no puede prestarse.
+          la finalidad de supervisar el desempeño, retroalimentar al Closer, verificar los Estándares de
+          Desempeño de la Cláusula 7.2 y mejorar el proceso de cierre. Sin esta autorización, el Servicio no
+          puede prestarse.
         </p>
         <p className="mt-2">
           <strong>15.2. Base legal frente a terceros.</strong> El Cliente declara y garantiza que cuenta con la
@@ -777,8 +978,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         </p>
         <p className="mt-2">
           <strong>15.5. Negativa.</strong> La negativa del Cliente a permitir la grabación o el monitoreo
-          constituye un incumplimiento sustancial que libera a Closwork de las garantías de las Cláusulas 6 y 7
-          y faculta la rescisión conforme a la Cláusula 12.4.
+          constituye un incumplimiento sustancial que impide verificar los Estándares de Desempeño, libera a
+          Closwork de las garantías de las Cláusulas 6 y 7 y faculta la rescisión conforme a la Cláusula 12.5.
         </p>
       </div>
 
@@ -861,8 +1062,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p>
           <strong>19.1.</strong> Closwork podrá modificar estos Términos. Los cambios se notificarán al correo
           registrado del Cliente con al menos 30 (treinta) días naturales de anticipación y se publicarán en{" "}
-          <a href="/tyc-concierge" className="text-primary underline underline-offset-2">
-            /tyc-concierge
+          <a href="/tyc-concierge2" className="text-primary underline underline-offset-2">
+            /tyc-concierge2
           </a>
           .
         </p>
@@ -885,7 +1086,8 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p className="mt-2">
           <strong>20.2. Acuerdo total.</strong> Estos Términos, junto con los Datos de Contratación y el
           Formulario de Onboarding, constituyen el acuerdo total entre las Partes y sustituyen cualquier
-          acuerdo previo, verbal o escrito, sobre la misma materia.
+          acuerdo previo, verbal o escrito, sobre la misma materia, incluyendo cualquier presentación, propuesta
+          o material comercial.
         </p>
         <p className="mt-2">
           <strong>20.3. Divisibilidad.</strong> Si alguna disposición se declara inválida, el resto permanecerá
@@ -926,12 +1128,12 @@ const ConciergeTyCContent = ({ onScrollToBottom }: ConciergeTyCContentProps) => 
         <p>
           Este documento no requiere firma autógrafa. La aceptación se acredita con el registro electrónico
           generado por Stripe al momento del pago, que incluye la identidad del Cliente, los Datos de
-          Contratación, la fecha y hora de aceptación, la versión de estos Términos y el identificador de la
-          transacción.
+          Contratación, el precio contratado, la fecha y hora de aceptación, la versión de estos Términos y el
+          identificador de la transacción.
         </p>
       </div>
     </div>
   );
 };
 
-export default ConciergeTyCContent;
+export default Concierge2TyCContent;

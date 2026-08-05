@@ -112,7 +112,7 @@ export type ConciergeTycData = {
   userAgent: string;
   timestamp: string;
   termsVersion: string;
-  plan: 'planConcierge';
+  plan: 'planConcierge' | 'planConcierge2';
 };
 
 // Funciones para CloserForm

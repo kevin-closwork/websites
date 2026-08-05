@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import ConciergeTyCContent from "@/components/ConciergeTyCContent";
+import Concierge2TyCContent from "@/components/Concierge2TyCContent";
 import { getStripeCheckoutUrl } from "@/lib/stripeConfig";
 import { addConciergeTycData } from "@/lib/firestoreService";
 import { useToast } from "@/hooks/use-toast";
@@ -19,12 +19,12 @@ import { useToast } from "@/hooks/use-toast";
 const FEATURES = [
   "Diagnóstico inicial de oferta y flujo de leads",
   "Match y colocación de un Closer certificado",
-  "Supervisión activa y monitoreo de llamadas",
-  "Garantía de reemplazo del Closer",
+  "Supervisión y auditoría mensual de llamadas",
+  "Garantía de arranque y rotación de personal",
   "Punto de contacto único Cliente–Closer",
 ];
 
-const TycConcierge = () => {
+const TycConcierge2 = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
@@ -50,8 +50,8 @@ const TycConcierge = () => {
         acceptedAt: new Date().toISOString(),
         userAgent: navigator.userAgent,
         timestamp: new Date().toISOString(),
-        termsVersion: "2.0",
-        plan: "planConcierge",
+        termsVersion: "3.0",
+        plan: "planConcierge2",
       });
 
       toast({
@@ -59,7 +59,7 @@ const TycConcierge = () => {
         description: "Redirigiendo al proceso de pago...",
       });
 
-      window.location.href = getStripeCheckoutUrl("planConcierge");
+      window.location.href = getStripeCheckoutUrl("planConcierge2");
     } catch (error) {
       console.error("Error submitting Concierge TyC:", error);
       toast({
@@ -74,12 +74,12 @@ const TycConcierge = () => {
   return (
     <div className="min-h-screen landing-page relative overflow-hidden">
       <Helmet>
-        <title>Términos y Condiciones — Concierge | Closwork</title>
+        <title>Términos y Condiciones — Concierge 2 | Closwork</title>
         <meta
           name="description"
-          content="Acepta los términos y condiciones del servicio Concierge de Closwork antes de proceder al pago."
+          content="Acepta los términos y condiciones del servicio Concierge 2 de Closwork antes de proceder al pago."
         />
-        <link rel="canonical" href="/tyc-concierge" />
+        <link rel="canonical" href="/tyc-concierge2" />
       </Helmet>
 
       <Navbar />
@@ -100,11 +100,12 @@ const TycConcierge = () => {
             <Card className="mb-8">
               <CardHeader className="text-center pb-4">
                 <Badge variant="outline" className="w-fit mx-auto mb-3 text-sm">
-                  CONCIERGE
+                  CONCIERGE 2
                 </Badge>
                 <CardTitle className="text-2xl sm:text-3xl">
-                  Plan Concierge — $249 USD/mes
+                  Plan Concierge — $999 USD + $60 USD/mes
                 </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">I.V.A. incluido · Versión 3.0</p>
                 <p className="text-muted-foreground mt-2">
                   Revisa y acepta los términos y condiciones antes de proceder al pago.
                 </p>
@@ -129,11 +130,11 @@ const TycConcierge = () => {
                   Términos y Condiciones del Servicio Closwork — Concierge
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 2.0
+                  CLOSWORK — Kevin Daniel De Alba Méndez · Versión 3.0
                 </p>
               </CardHeader>
               <CardContent>
-                <ConciergeTyCContent onScrollToBottom={() => setHasScrolledToBottom(true)} />
+                <Concierge2TyCContent onScrollToBottom={() => setHasScrolledToBottom(true)} />
               </CardContent>
             </Card>
           </ScrollReveal>
@@ -226,4 +227,4 @@ const TycConcierge = () => {
   );
 };
 
-export default TycConcierge;
+export default TycConcierge2;
