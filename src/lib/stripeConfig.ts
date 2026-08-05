@@ -14,8 +14,16 @@ export const stripeConfig = {
     // CONCIERGE v2 - $249 USD/mes
     planConcierge: 'https://buy.stripe.com/4gMcN4abf91Y6Gnfnx6Na0t',
 
-    // CONCIERGE 2 v3 - $999 setup + $60/mes (IVA incl.)
-    planConcierge2: 'https://buy.stripe.com/4gMcN4abf91Y6Gnfnx6Na0t',
+    // CONCIERGE 2 v3 - primer link (setup); ver también checkoutUrlLists.planConcierge2
+    planConcierge2: 'https://buy.stripe.com/4gM5kCgzD3HEd4Lfnx6Na0w',
+  },
+
+  // Múltiples Payment Links (se abren juntos al aceptar)
+  checkoutUrlLists: {
+    planConcierge2: [
+      'https://buy.stripe.com/4gM5kCgzD3HEd4Lfnx6Na0w',
+      'https://buy.stripe.com/4gMcN4gzDfqm0hZejt6Na0x',
+    ],
   },
   
   // URLs de éxito y cancelación
@@ -73,6 +81,12 @@ export const stripeConfig = {
 // Función helper para obtener la URL de checkout
 export const getStripeCheckoutUrl = (plan: keyof typeof stripeConfig.checkoutUrls): string => {
   return stripeConfig.checkoutUrls[plan];
+};
+
+export const getStripeCheckoutUrls = (
+  plan: keyof typeof stripeConfig.checkoutUrlLists
+): string[] => {
+  return stripeConfig.checkoutUrlLists[plan];
 };
 
 // Función helper para obtener el precio

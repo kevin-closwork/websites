@@ -12,7 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import Concierge2TyCContent from "@/components/Concierge2TyCContent";
-import { getStripeCheckoutUrl } from "@/lib/stripeConfig";
+import { getStripeCheckoutUrls } from "@/lib/stripeConfig";
 import { addConciergeTycData } from "@/lib/firestoreService";
 import { useToast } from "@/hooks/use-toast";
 
@@ -56,10 +56,17 @@ const TycConcierge2 = () => {
 
       toast({
         title: "¡Éxito!",
-        description: "Redirigiendo al proceso de pago...",
+        description: "Abriendo los enlaces de pago...",
       });
 
-      window.location.href = getStripeCheckoutUrl("planConcierge2");
+      const urls = getStripeCheckoutUrls("planConcierge2");
+      // Primero en pestaña nueva; el segundo en la pestaña actual (evita bloqueo de popups)
+      if (urls[0]) window.open(urls[0], "_blank", "noopener,noreferrer");
+      if (urls[1]) {
+        window.location.href = urls[1];
+      } else if (urls[0]) {
+        window.location.href = urls[0];
+      }
     } catch (error) {
       console.error("Error submitting Concierge TyC:", error);
       toast({
