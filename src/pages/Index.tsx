@@ -3,7 +3,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/pricing/PricingSection";
 import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { GrainOverlay } from "@/components/motion/GrainOverlay";
+import { AnimatedHeadline } from "@/components/motion/AnimatedHeadline";
+import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
+import { Marquee } from "@/components/motion/Marquee";
+import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
+import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const HERO_PHRASES = [
   "Necesito vender mi ERP",
@@ -23,6 +31,45 @@ const HERO_PHRASES = [
   "Necesito socios comerciales",
 ];
 
+const SECTORS = [
+  "SaaS & Software",
+  "Fintech",
+  "ERP & CRM",
+  "Manufactura",
+  "Logística",
+  "Ecommerce",
+  "Consultoría",
+  "Salud",
+  "Educación",
+  "Inmobiliaria",
+  "Agencias",
+  "Hardware",
+];
+
+const PROCESS_STEPS: ProcessStep[] = [
+  {
+    icon: Building2,
+    step: "01",
+    title: "Publica tu empresa/oferta",
+    description:
+      "Registra tu empresa y publica las oportunidades de venta que necesitas promocionar. Define comisiones y requisitos.",
+  },
+  {
+    icon: Users,
+    step: "02",
+    title: "Te conectamos con un socio comercial validado",
+    description:
+      "Nuestro algoritmo te conecta con closers verificados que tienen experiencia en tu sector y mercado objetivo.",
+  },
+  {
+    icon: TrendingUp,
+    step: "03",
+    title: "Pagas comisión solo cuando se concreten ventas",
+    description:
+      "Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio.",
+  },
+];
+
 const Index = () => {
   const [heroMessage, setHeroMessage] = useState("");
   const [typedPlaceholder, setTypedPlaceholder] = useState("");
@@ -30,6 +77,20 @@ const Index = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
   const navigate = useNavigate();
+
+  const heroRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroContentY = useTransform(heroProgress, [0, 1], [0, 90]);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
+  const heroContentScale = useTransform(heroProgress, [0, 1], [1, 0.94]);
+  const heroDecorY = useTransform(heroProgress, [0, 1], [0, -70]);
+  const heroParallaxStyle = reduceMotion
+    ? undefined
+    : { y: heroContentY, opacity: heroContentOpacity, scale: heroContentScale };
 
   useEffect(() => {
     if (inputFocused || heroMessage) return;
@@ -86,26 +147,52 @@ const Index = () => {
   return (
     <TooltipProvider>
       <div className="min-h-screen landing-page relative overflow-hidden">
+        <ScrollProgress />
+        <GrainOverlay />
         <Navbar />
 
         <main className="relative z-10 pt-20 md:pt-24">
           {/* Hero Section */}
-          <section id="hero" data-deploy="hero-v2-2026" className="relative w-full mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20 pb-12 sm:pb-20 text-center bg-gradient-to-br from-[#1a5ca0] via-[#2474c4] to-[#5dc88c] rounded-b-3xl shadow-lg">
-            <ScrollReveal>
-            <div className="animate-slide-up container relative">
-              <Badge variant="secondary" className="mb-4 gap-1 bg-white/20 text-white border-white/30 hover:bg-white/30">
-                🚀 La evolución de las ventas B2B
-              </Badge>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white leading-tight px-4 drop-shadow-sm">
-                Crea tu fuerza de ventas bajo comisión
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-6 leading-relaxed px-4">
-                El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
-              </p>
+          <section ref={heroRef} id="hero" data-deploy="hero-v2-2026" className="relative w-full mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20 pb-12 sm:pb-20 text-center bg-gradient-to-br from-[#1a5ca0] via-[#2474c4] to-[#5dc88c] rounded-b-3xl shadow-lg">
+            {/* Capa decorativa con parallax propio (se mueve más lento que el texto) */}
+            <motion.div
+              aria-hidden
+              style={reduceMotion ? undefined : { y: heroDecorY }}
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-b-3xl"
+            >
+              <div className="absolute -top-24 left-[8%] h-[26rem] w-[26rem] rounded-full bg-[hsl(152,58%,57%)] opacity-30 blur-[110px] animate-float" />
+              <div className="absolute -bottom-32 right-[6%] h-[22rem] w-[22rem] rounded-full bg-white opacity-[0.18] blur-[120px] animate-float-subtle" />
+              <div className="hero-grid absolute inset-0" />
+            </motion.div>
 
-              <form
+            <motion.div
+              style={heroParallaxStyle}
+              variants={staggerContainer(0.11, 0.08)}
+              initial="hidden"
+              animate="visible"
+              className="container relative"
+            >
+              <motion.div variants={fadeUpVariants}>
+                <Badge variant="secondary" className="mb-4 gap-1 bg-white/20 text-white border-white/30 hover:bg-white/30 backdrop-blur-sm">
+                  🚀 La evolución de las ventas B2B
+                </Badge>
+              </motion.div>
+              <AnimatedHeadline
+                as="h1"
+                animateOnMount
+                delay={0.15}
+                stagger={0.075}
+                text="Crea tu fuerza de ventas bajo comisión"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white leading-tight px-4 drop-shadow-sm"
+              />
+              <motion.p variants={fadeUpVariants} className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-6 leading-relaxed px-4">
+                El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
+              </motion.p>
+
+              <motion.form
+                variants={fadeUpVariants}
                 onSubmit={handleHeroSubmit}
-                className="max-w-2xl mx-auto flex items-center gap-2 bg-white rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl border-0 animate-bounce-in mx-4 sm:mx-auto mb-8"
+                className="max-w-2xl mx-auto flex items-center gap-2 bg-white rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl border-0 mx-4 sm:mx-auto mb-8 transition-shadow duration-500 focus-within:shadow-[0_0_0_4px_hsl(152_58%_57%_/_0.35),0_18px_40px_-14px_rgba(0,54,107,0.45)]"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
                   <Sparkles size={18} className="sm:w-5 sm:h-5 text-white" />
@@ -135,12 +222,12 @@ const Index = () => {
                   <span className="hidden xs:inline">Enviar</span>
                   <Send size={14} className="sm:w-4 sm:h-4" />
                 </button>
-              </form>
+              </motion.form>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              <motion.div variants={fadeUpVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
                 <Button
                   size="lg"
-                  className="bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold"
+                  className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold"
                   asChild
                 >
                   <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
@@ -148,89 +235,55 @@ const Index = () => {
                   </a>
                 </Button>
                 <p className="text-sm text-white/80">Setup en 5 minutos • Cancelación flexible</p>
-              </div>
-              <p className="text-sm text-white/90 mb-8">
+              </motion.div>
+              <motion.p variants={fadeUpVariants} className="text-sm text-white/90 mb-8">
                 ¿Eres un vendedor? Comienza tu camino{" "}
                 <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer" className="text-white font-semibold hover:underline underline-offset-2">
                   aquí
                 </a>
-              </p>
+              </motion.p>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <motion.div variants={fadeUpVariants} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                 <span className="text-sm text-white/80">Acelerados en:</span>
-                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
+                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
                   <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-10 sm:h-12 w-auto brightness-0 invert" />
                 </a>
-                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 hover:opacity-100 transition-opacity">
+                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
                   <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-6 sm:h-8 w-auto brightness-0 invert" />
                 </a>
-              </div>
-            </div>
-            </ScrollReveal>
+              </motion.div>
+            </motion.div>
+          </section>
+
+          {/* Ticker de sectores */}
+          <section aria-label="Sectores en los que operamos" className="border-b border-border/60 bg-white/70 py-7 backdrop-blur-sm">
+            <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Cerramos ventas en todos los sectores
+            </p>
+            <Marquee
+              speedSeconds={44}
+              items={SECTORS.map((sector) => (
+                <span className="mx-2 inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 transition-colors duration-300 hover:border-primary/40 hover:text-primary">
+                  {sector}
+                </span>
+              ))}
+            />
           </section>
 
           {/* Cómo Funciona */}
           <section id="como-funciona" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="fade-up">
-              <div className="max-w-3xl mx-auto text-center mb-16">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4">
-                  ¿Cómo funciona Closwork?
-                </h2>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="¿Cómo funciona Closwork?"
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+              <ScrollReveal variant="fade-up" delay={1}>
                 <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
                   Un proceso simple y transparente que conecta empresas con los mejores closers de LATAM en 3 pasos
                 </p>
-              </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <ScrollReveal variant="fade-up" delay={1}>
-              <Card className="landing-section-card-hover h-full">
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-2">
-                    <Building2 className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle>Paso 01</CardTitle>
-                  <CardDescription>Publica tu empresa/oferta</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Registra tu empresa y publica las oportunidades de venta que necesitas promocionar. Define comisiones y requisitos.
-                  </p>
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-              <ScrollReveal variant="fade-up" delay={2}>
-              <Card className="landing-section-card-hover h-full">
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-2">
-                    <Users className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle>Paso 02</CardTitle>
-                  <CardDescription>Te conectamos con un socio comercial validado</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Nuestro algoritmo te conecta con closers verificados que tienen experiencia en tu sector y mercado objetivo.
-                  </p>
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-              <ScrollReveal variant="fade-up" delay={3}>
-              <Card className="landing-section-card-hover h-full">
-                <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mb-2">
-                    <TrendingUp className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle>Paso 03</CardTitle>
-                  <CardDescription>Pagas comisión solo cuando se concreten ventas</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio.
-                  </p>
-                </CardContent>
-              </Card>
               </ScrollReveal>
             </div>
+            <ProcessTimeline steps={PROCESS_STEPS} />
           </section>
 
           {/* Beneficios */}
@@ -319,16 +372,17 @@ const Index = () => {
 
           {/* Testimonios */}
           <section id="testimonios" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="fade-up">
-              <div className="max-w-3xl mx-auto text-center mb-16">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4">
-                  Lo que dicen nuestros usuarios
-                </h2>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="Lo que dicen nuestros usuarios"
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+              <ScrollReveal variant="fade-up" delay={1}>
                 <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
                   Historias reales de empresas y closers que han transformado su negocio con Closwork
                 </p>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 { name: "María González", empresa: "TechStart México", rol: "CEO", content: "Closwork nos ayudó a escalar nuestras ventas un 300% en solo 3 meses. Los closers que encontramos son realmente profesionales y conocen el mercado LATAM.", stars: 5 },
@@ -382,7 +436,10 @@ const Index = () => {
               ].map((stat, i) => (
                 <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
                 <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
+                  <AnimatedCounter
+                    value={stat.value}
+                    className="block text-2xl sm:text-3xl font-bold text-primary"
+                  />
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                 </div>
                 </ScrollReveal>
@@ -431,7 +488,10 @@ const Index = () => {
               ].map((s, i) => (
                 <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
                 <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <p className="text-xl font-bold text-primary">{s.value}</p>
+                  <AnimatedCounter
+                    value={s.value}
+                    className="block text-xl font-bold text-primary"
+                  />
                   <p className="text-xs text-muted-foreground">{s.label}</p>
                 </div>
                 </ScrollReveal>
@@ -471,7 +531,7 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className="w-full" onClick={() => navigate("/calculadora")}>
+                <Button className="cta-shine cta-glow w-full" onClick={() => navigate("/calculadora")}>
                   Calcular Mi Ahorro
                 </Button>
               </CardContent>
@@ -482,18 +542,19 @@ const Index = () => {
 
           {/* Final CTA */}
           <section id="cta-final" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-            <ScrollReveal variant="scale">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4 mb-4">
-              ¿Listo para transformar tu negocio?
-            </h2>
+            <AnimatedHeadline
+              text="¿Listo para transformar tu negocio?"
+              className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4 mb-4"
+            />
+            <ScrollReveal variant="fade-up" delay={1}>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 px-4">
               Regístrate gratis y encuentra a tu socio comercial perfecto en menos de 7 días
             </p>
             </ScrollReveal>
-            <ScrollReveal variant="fade-up" delay={1}>
+            <ScrollReveal variant="fade-up" delay={2}>
             <Button
               size="lg"
-              className="text-lg px-8 mb-4"
+              className="cta-shine cta-glow text-lg px-8 mb-4"
               asChild
             >
               <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">

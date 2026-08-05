@@ -3,15 +3,24 @@ import { Menu } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isLanding = location.pathname === "/";
 
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 24);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { label: "Cómo funciona", href: "/#como-funciona" },
@@ -22,15 +31,30 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <nav
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500",
+        isScrolled
+          ? "bg-white/80 backdrop-blur-xl border-black/5 shadow-[0_10px_30px_-14px_rgba(0,54,107,0.22)]"
+          : "bg-white border-gray-100 shadow-sm"
+      )}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 md:h-24">
+        <div
+          className={cn(
+            "flex items-center justify-between transition-[height] duration-500",
+            isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+          )}
+        >
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
               <img
                 src="https://i.imgur.com/zi6UAt6.png"
                 alt="Closwork"
-                className="h-12 md:h-14 lg:h-16 w-auto object-contain"
+                className={cn(
+                  "w-auto object-contain transition-all duration-500",
+                  isScrolled ? "h-10 md:h-12 lg:h-14" : "h-12 md:h-14 lg:h-16"
+                )}
                 style={{ filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05))' }}
               />
             </Link>
@@ -42,7 +66,7 @@ const Navbar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 text-sm lg:text-base font-medium text-gray-700 hover:text-primary rounded-lg transition-colors duration-200 hover:bg-gray-50"
+                  className="nav-underline px-4 py-2 text-sm lg:text-base font-medium text-gray-700 hover:text-primary rounded-lg transition-colors duration-200"
                 >
                   {link.label}
                 </a>
@@ -74,7 +98,7 @@ const Navbar = () => {
             </Button>
             <Button
               variant="default"
-              className="bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
+              className="cta-shine cta-glow bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
               asChild
             >
               <a href="https://app.closwork.com/register/role" target="_blank" rel="noopener noreferrer">Registrarte</a>
