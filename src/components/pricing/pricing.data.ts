@@ -58,7 +58,6 @@ export const PRICING_TIERS: PricingTier[] = [
     priceSubtitle: "7 días gratis para probar",
     description:
       "Publica tu oportunidad y elige entre closers verificados que aplican a tu vacante. Tú gestionas la relación.",
-    commissionLine: undefined,
     features: [
       { text: "Pool de closers verificados", included: true },
       { text: "Hasta 2 oportunidades activas", included: true },
@@ -77,10 +76,9 @@ export const PRICING_TIERS: PricingTier[] = [
     name: "Concierge",
     tag: "Closer certificado",
     monthlyPrice: { usd: 60, mxn: 1200 },
-    priceSubtitle: "+ 3% sobre cada venta cerrada",
+    priceSubtitle: "Cuota fija mensual · Sin comisión por venta",
     description:
       "Closwork selecciona y asigna hasta 2 Closers Certificados HTC. Revisamos tu oferta antes de activar.",
-    commissionLine: "+ 3% sobre cada venta cerrada",
     featured: true,
     popularBadge: "Más popular",
     setupFee: { usd: 999, mxn: 19980 },
@@ -89,14 +87,6 @@ export const PRICING_TIERS: PricingTier[] = [
       description:
         "Assessment de tu oferta, diseño del proceso de ventas, selección del equipo y onboarding conjunto.",
       installments: 12,
-    },
-    promo: {
-      title: "PROMO DE LANZAMIENTO",
-      description:
-        "Si el 3% de comisión Closwork es de {threshold} o más en el mes, la membresía de ese mes es gratis.",
-      limit: "Aplica los primeros 3 meses. Primeros 50 clientes o hasta agosto 2026.",
-      threshold: { usd: 200, mxn: 4000 },
-      exampleRevenue: { usd: 7000, mxn: 140000 },
     },
     features: [
       { text: "Hasta 2 Closers Certificados HTC", included: true },
@@ -118,10 +108,9 @@ export const PRICING_TIERS: PricingTier[] = [
     tag: "Equipo completo",
     monthlyPrice: { usd: 0, mxn: 0 },
     contactSalesOnly: true,
-    priceSubtitle: "+ 3% sobre ventas cerradas · Propuesta según volumen",
+    priceSubtitle: "Propuesta según volumen · Sin comisión por venta",
     description:
       "Armamos tu equipo comercial externo. Evaluamos tu oferta, diseñamos el proceso y asignamos closers de élite.",
-    commissionLine: "+ 3% sobre ventas cerradas",
     features: [
       { text: "2-3 closers certificados HTC", included: true },
       { text: "Consultoría de oferta comercial", included: true },
@@ -146,10 +135,6 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   },
   {
     label: "Instalación",
-    cells: ["-", "", "-"],
-  },
-  {
-    label: "Promo",
     cells: ["-", "", "-"],
   },
   {

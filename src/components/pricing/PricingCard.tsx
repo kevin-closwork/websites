@@ -30,27 +30,6 @@ export function PricingCard({
   const strike = getStrikethroughMonthly(basePrice, period);
   const showNumericPrice = !tier.contactSalesOnly;
 
-  const thresholdAmt = tier.promo
-    ? formatMoney(amountIn(tier.promo.threshold, currency), currency)
-    : "";
-  const revenueAmt = tier.promo
-    ? formatMoney(amountIn(tier.promo.exampleRevenue, currency), currency)
-    : "";
-  const commAmt = tier.promo
-    ? formatMoney(
-        Math.round(amountIn(tier.promo.exampleRevenue, currency) * 0.03),
-        currency
-      )
-    : "";
-
-  const promoDescription = tier.promo
-    ? tier.promo.description.replace("{threshold}", thresholdAmt)
-    : "";
-
-  const promoExample = tier.promo
-    ? `Ejemplo: ingresos del mes ${revenueAmt} → 3% = ${commAmt} de comisión Closwork (supera ${thresholdAmt}). Membresía gratis ese mes.`
-    : "";
-
   const setupAmount = tier.setupFee ? amountIn(tier.setupFee, currency) : null;
   const setupFeeFormatted = setupAmount != null ? formatMoney(setupAmount, currency) : "";
   const installments = tier.setupInfo?.installments;
@@ -146,20 +125,6 @@ export function PricingCard({
           <p className="mt-2 text-[12.5px] leading-relaxed text-[#5A6170]">
             {tier.setupInfo.description}
           </p>
-        </div>
-      )}
-
-      {tier.promo && (
-        <div
-          className="mb-4 rounded-[10px] border border-[#FDDCAB] p-4"
-          style={{ backgroundColor: "#FEF6E7" }}
-        >
-          <p className="text-[12px] font-bold uppercase tracking-wide text-[#B54708]">
-            {tier.promo.title}
-          </p>
-          <p className="mt-2 text-[12.5px] leading-relaxed text-[#1A1A2E]">{promoDescription}</p>
-          <p className="mt-2 text-[12.5px] leading-relaxed text-[#1A1A2E]">{promoExample}</p>
-          <p className="mt-2 text-[11px] text-[#5A6170]">{tier.promo.limit}</p>
         </div>
       )}
 

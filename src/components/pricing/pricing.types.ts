@@ -22,14 +22,6 @@ export interface PricingFeature {
   included: boolean;
 }
 
-export interface PromoCopy {
-  title: string;
-  description: string;
-  limit: string;
-  threshold: Money;
-  exampleRevenue: Money;
-}
-
 export interface SetupInfo {
   description: string;
   /** Encabezado del bloque. Por defecto "Setup fee único". */
@@ -55,8 +47,6 @@ export interface PricingTier {
   stripePlanKey: StripePlanKey;
   featured?: boolean;
   popularBadge?: string;
-  commissionLine?: string;
-  promo?: PromoCopy;
   setupFee?: Money;
   setupInfo?: SetupInfo;
 }

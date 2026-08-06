@@ -14,8 +14,6 @@ import {
   EXCHANGE_RATE,
 } from "@/components/pricing/pricing.data";
 
-const COMMISSION_RATE_MANAGED = 0.03;
-
 function getTierByPlanKey(planKey: string) {
   return PRICING_TIERS.find((t) => t.id === planKey) ?? PRICING_TIERS[1];
 }
@@ -29,10 +27,6 @@ function setupFeeMxn(tier: (typeof PRICING_TIERS)[number]) {
   return amountIn(tier.setupFee, "MXN");
 }
 
-function commissionRateForTier(tierId: string) {
-  return tierId === "acceso-directo" ? 0 : COMMISSION_RATE_MANAGED;
-}
-
 /** Closers equivalentes para comparar vs salario fijo (Enterprise: promedio conservador 2). */
 function closersForTraditionalCompare(tierId: string) {
   return tierId === "enterprise" ? 2 : 1;
@@ -43,8 +37,6 @@ type PlanKey = (typeof PRICING_TIERS)[number]["id"];
 const Calculator = () => {
   const [selectedPlan, setSelectedPlan] = useState<PlanKey>("concierge");
   const [salesCycle, setSalesCycle] = useState<number>(3);
-  const [avgDealValueMxn, setAvgDealValueMxn] = useState<number>(50000);
-  const [dealsPerMonth, setDealsPerMonth] = useState<number>(2);
 
   useEffect(() => {
     pixelEvents.viewContent("Calculator Page", "tool");
@@ -58,7 +50,6 @@ const Calculator = () => {
   const planDetails = useMemo(() => {
     const membership = monthlyMembershipMxn(tier);
     const setup = setupFeeMxn(tier);
-    const rate = commissionRateForTier(tier.id);
     const closersTrad = closersForTraditionalCompare(tier.id);
 
     return {
@@ -66,28 +57,20 @@ const Calculator = () => {
       planName: tier.name,
       membershipMonthlyMxn: membership,
       setupFeeMxn: setup,
-      commissionRate: rate,
       closersForTraditional: closersTrad,
-      commissionLabel:
-        rate > 0 ? `${(rate * 100).toFixed(0)}% sobre ventas cerradas` : "Sin comisión Closwork sobre ventas",
     };
   }, [tier]);
 
   const closworkBreakdown = useMemo(() => {
-    const { membershipMonthlyMxn, setupFeeMxn, commissionRate } = planDetails;
+    const { membershipMonthlyMxn, setupFeeMxn } = planDetails;
     const membershipTotal = membershipMonthlyMxn * salesCycle;
-    const monthlyCommission = avgDealValueMxn * dealsPerMonth * commissionRate;
-    const commissionTotal = monthlyCommission * salesCycle;
-    const total = membershipTotal + setupFeeMxn + commissionTotal;
 
     return {
       membershipTotal,
       setupFeeMxn,
-      monthlyCommission,
-      commissionTotal,
-      total,
+      total: membershipTotal + setupFeeMxn,
     };
-  }, [planDetails, salesCycle, avgDealValueMxn, dealsPerMonth]);
+  }, [planDetails, salesCycle]);
 
   const calculations = useMemo(() => {
     const traditionalSalary = MEXICAN_MIN_WAGE * AVERAGE_SALARY_MULTIPLIER;
@@ -125,8 +108,9 @@ const Calculator = () => {
           ¿Cuánto ahorras con <span className="text-brand">Closwork</span>?
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Compara salarios fijos vs membresía, comisiones por venta (Concierge y Enterprise) y setup cuando
-          aplica. Referencia ${EXCHANGE_RATE} MXN por USD, alineado a la página de planes.
+          Compara salarios fijos contra la cuota mensual y la instalación única cuando aplica. Closwork no
+          cobra comisión sobre tus ventas. Referencia ${EXCHANGE_RATE} MXN por USD, alineado a la página de
+          planes.
         </p>
       </div>
 
@@ -156,12 +140,11 @@ const Calculator = () => {
                     <SelectItem key={t.id} value={t.id}>
                       {t.name} · $
                       {monthlyMembershipMxn(t).toLocaleString("es-MX")} MXN/mes
-                      {t.id !== "acceso-directo" ? " + comisión" : ""}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">{planDetails.commissionLabel}</p>
+              <p className="text-xs text-muted-foreground">Sin comisión Closwork sobre ventas</p>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Ciclo (meses)</label>
@@ -175,34 +158,6 @@ const Calculator = () => {
                 max="24"
               />
               <p className="text-xs text-muted-foreground">Ventana para sumar costos y comparar</p>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Ticket promedio por venta (MXN)</label>
-              <Input
-                type="number"
-                value={avgDealValueMxn}
-                onChange={(e) =>
-                  setAvgDealValueMxn(Math.max(0, parseInt(e.target.value || "0", 10)))
-                }
-                min="0"
-              />
-              <p className="text-xs text-muted-foreground">Usado para estimar comisiones (3% si aplica)</p>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Ventas cerradas al mes (total)</label>
-              <Input
-                type="number"
-                value={dealsPerMonth}
-                onChange={(e) =>
-                  setDealsPerMonth(Math.max(0, parseInt(e.target.value || "0", 10)))
-                }
-                min="0"
-                max="500"
-              />
-              <p className="text-xs text-muted-foreground">Cierres que atribuyes al closer o al equipo</p>
             </div>
           </div>
 
@@ -244,24 +199,14 @@ const Calculator = () => {
               </div>
               {closworkBreakdown.setupFeeMxn > 0 && (
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Setup único (Enterprise)</span>
+                  <span className="text-muted-foreground">Instalación única</span>
                   <span className="font-medium">
                     ${closworkBreakdown.setupFeeMxn.toLocaleString("es-MX")} MXN
                   </span>
                 </div>
               )}
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  Comisiones ({planDetails.commissionRate > 0 ? "3%" : "0%"}) × {salesCycle} meses
-                </span>
-                <span className="font-medium">
-                  ${closworkBreakdown.commissionTotal.toLocaleString("es-MX")} MXN
-                </span>
-              </div>
               <p className="text-xs text-muted-foreground">
-                ~$
-                {closworkBreakdown.monthlyCommission.toLocaleString("es-MX")} MXN/mes en comisiones (
-                {dealsPerMonth} ventas × ticket ${avgDealValueMxn.toLocaleString("es-MX")})
+                Closwork no cobra comisión sobre tus ventas: el costo es una cuota fija.
               </p>
             </div>
 
@@ -275,8 +220,8 @@ const Calculator = () => {
             </div>
 
             <p className="text-[11px] text-muted-foreground leading-relaxed">
-              No incluye promociones (p. ej. membresía gratis si la comisión del mes supera el umbral). El cobro
-              final en Stripe puede usar precios en MXN según el producto activo.
+              Estimación de referencia. El cobro final en Stripe puede usar precios en USD o MXN según el
+              producto activo.
             </p>
           </div>
         </CardContent>
@@ -335,11 +280,11 @@ const Calculator = () => {
                 Closwork
               </CardTitle>
               <Badge variant="default" className="bg-green-600">
-                Variable + membresía
+                Cuota fija
               </Badge>
             </div>
             <CardDescription className="text-green-600">
-              Membresía, comisiones por cierre cuando aplica y setup Enterprise
+              Membresía mensual e instalación única cuando aplica
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -352,18 +297,12 @@ const Calculator = () => {
               </div>
               {closworkBreakdown.setupFeeMxn > 0 && (
                 <div className="flex justify-between">
-                  <span>Setup</span>
+                  <span>Instalación única</span>
                   <span className="font-medium">
                     ${closworkBreakdown.setupFeeMxn.toLocaleString("es-MX")} MXN
                   </span>
                 </div>
               )}
-              <div className="flex justify-between">
-                <span>Comisiones estimadas</span>
-                <span className="font-medium">
-                  ${closworkBreakdown.commissionTotal.toLocaleString("es-MX")} MXN
-                </span>
-              </div>
               <div className="flex justify-between">
                 <span>Meses</span>
                 <span className="font-medium">{salesCycle}</span>
@@ -377,8 +316,8 @@ const Calculator = () => {
               </div>
             </div>
             <div className="text-xs text-green-600 bg-green-100 p-3 rounded-lg">
-              <strong>Ventaja:</strong> Comisiones solo cuando cierras; Acceso Directo sin comisión Closwork
-              sobre ventas en este modelo.
+              <strong>Ventaja:</strong> Cuota fija sin comisión Closwork sobre tus ventas, y sin nómina ni
+              prestaciones a tu cargo.
             </div>
           </CardContent>
         </Card>
@@ -413,8 +352,8 @@ const Calculator = () => {
               </>
             ) : (
               <>
-                Con mucho volumen o ticket alto, las comisiones pueden superar el ahorro vs nómina estimada.
-                Ajusta ventas al mes o ticket para explorar otros escenarios.
+                En periodos muy cortos la instalación única todavía no se amortiza. Amplía el periodo de
+                comparación para ver cómo cambia el escenario.
               </>
             )}
           </CardDescription>
@@ -449,10 +388,10 @@ const Calculator = () => {
         <h2 className="text-2xl font-bold mb-4">
           {savingsPositive
             ? `¿Listo para explorar Closwork?`
-            : "Ajusta ticket o ventas al mes para ver otros escenarios"}
+            : "Amplía el periodo para ver otros escenarios"}
         </h2>
         <p className="text-muted-foreground mb-6">
-          Únete a las empresas que operan ventas con comisiones y sin nómina fija de closers
+          Únete a las empresas que operan ventas con cuota fija y sin nómina fija de closers
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button

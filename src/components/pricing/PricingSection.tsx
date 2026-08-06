@@ -71,8 +71,8 @@ export function PricingSection() {
             Planes que se adaptan a tu etapa
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[13px] leading-relaxed text-[#5A6170] min-[900px]:text-[14px]">
-            Resultados con comisión por venta. Elige autoservicio, acompañamiento con closer certificado o un
-            equipo completo.
+            Cuota fija, sin comisión de Closwork sobre tus ventas. Elige autoservicio, acompañamiento con
+            closer certificado o un equipo completo.
           </p>
         </header>
 

@@ -27,7 +27,7 @@ export function ComparisonTable({ period, currency }: ComparisonTableProps) {
 
     const priceCells: [string, string, string] = [
       `7 días gratis → ${fmt(0)}`,
-      `${fmt(1)} + 3%`,
+      fmt(1),
       fmt(2),
     ];
 
@@ -47,13 +47,6 @@ export function ComparisonTable({ period, currency }: ComparisonTableProps) {
       setupCell(2),
     ];
 
-    const thr = formatMoney(amountIn(tiers[1].promo!.threshold, currency), currency);
-    const promoCells: [string, string, string] = [
-      "-",
-      `Membresía gratis si comisión Closwork ≥ ${thr} en el mes`,
-      "-",
-    ];
-
     const dynamic: {
       label: string;
       cells: [string, string, string];
@@ -61,10 +54,9 @@ export function ComparisonTable({ period, currency }: ComparisonTableProps) {
     }[] = [
       { label: "Precio", cells: priceCells },
       { label: "Instalación", cells: setupCells, cellEmphasis: [false, true, false] },
-      { label: "Promo", cells: promoCells },
     ];
 
-    return [...dynamic, ...COMPARISON_ROWS.slice(3)];
+    return [...dynamic, ...COMPARISON_ROWS.slice(2)];
   }, [period, currency]);
 
   return (
