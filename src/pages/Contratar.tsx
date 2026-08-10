@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -56,10 +56,9 @@ export default function Contratar() {
   const pricing = order?.pricing;
   const guarantees = order?.guarantees;
 
-  const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
 
-  // Paso 1
+  // Identificación fiscal
   const [legalName, setLegalName] = useState("");
   const [rfc, setRfc] = useState("");
   const [taxRegime, setTaxRegime] = useState("");
@@ -79,10 +78,10 @@ export default function Contratar() {
   const [emailVerifiedAt, setEmailVerifiedAt] = useState<string | null>(null);
   const [sendingCode, setSendingCode] = useState(false);
 
-  // Paso 2
+  // Plan
   const [additionalClosers, setAdditionalClosers] = useState(0);
 
-  // Paso 3
+  // Parámetros operativos
   const [vertical, setVertical] = useState("");
   const [directCompetitors, setDirectCompetitors] = useState<string[]>([""]);
   const [closerCommission, setCloserCommission] = useState("");
@@ -99,7 +98,22 @@ export default function Contratar() {
   const [tsRecurring, setTsRecurring] = useState<string | null>(null);
   const [tsMerchant, setTsMerchant] = useState<string | null>(null);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const docsEndRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  // El final del contrato entra en viewport => el Cliente recorrió el texto completo.
+  useEffect(() => {
+    const el = docsEndRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setScrolledToEnd(true);
+      },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const breakdown = useMemo(() => {
     if (!pricing) return null;
@@ -110,7 +124,7 @@ export default function Contratar() {
     ? pricing.base_included_closers + (breakdown?.additionalClosers ?? 0)
     : 0;
 
-  const step1Valid =
+  const fiscalValid =
     legalName.trim().length >= 3 &&
     validateRfc(rfc) &&
     taxRegime &&
@@ -126,7 +140,7 @@ export default function Contratar() {
     emailVerifiedAt &&
     phone.trim().length >= 10;
 
-  const step3Valid =
+  const operationalValid =
     vertical.trim() &&
     directCompetitors.filter(Boolean).length >= 1 &&
     closerCommission.trim() &&
@@ -141,14 +155,6 @@ export default function Contratar() {
     tsTerms &&
     tsRecurring &&
     tsMerchant;
-
-  const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 24) {
-      setScrolledToEnd(true);
-    }
-  }, []);
 
   const handleSendCode = async () => {
     if (!email.includes("@")) {
@@ -192,7 +198,7 @@ export default function Contratar() {
 
   const handleSubmit = async () => {
     if (!framework || !order || !privacy || !pricing || !breakdown) return;
-    if (!acceptanceReady || !step1Valid || !step3Valid) return;
+    if (!acceptanceReady || !fiscalValid || !operationalValid) return;
 
     setSubmitting(true);
     const formPayload = {
@@ -262,7 +268,6 @@ export default function Contratar() {
     );
   }
 
-  const combinedLegal = `${framework.markdown}\n\n---\n\n${order.markdown}`;
   const feesLine = noExtraFeesLine(pricing);
   const maxCompetitors = guarantees?.max_direct_competitors ?? 5;
 
@@ -277,15 +282,68 @@ export default function Contratar() {
       </Helmet>
       <div className="min-h-screen landing-page flex flex-col">
         <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">
-          <h1 className="text-3xl font-bold text-secondary mb-2">Contratar Plan Concierge</h1>
-          <p className="text-muted-foreground mb-8">
-            Paso {step} de 3 · {order.orderCode}
-          </p>
+        <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
+          <header className="mb-8">
+            <h1 className="text-3xl font-bold text-secondary mb-2">
+              Contratar Plan Concierge
+            </h1>
+            <p className="text-muted-foreground">
+              Lea el Contrato Marco y la Orden de Servicio {order.orderCode}. Los datos de
+              contratación se capturan al final del documento.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-4 text-sm">
+              <Link to={legalDocRoute(framework)} className="text-primary hover:underline">
+                Contrato Marco v{framework.version}
+              </Link>
+              <Link to={legalDocRoute(order)} className="text-primary hover:underline">
+                Orden de Servicio {order.orderCode}
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+              >
+                Ir al formulario ↓
+              </Button>
+            </div>
+          </header>
 
-          {step === 1 && (
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Identificación fiscal</h2>
+          {/* 1 — Acuerdo completo, antes de cualquier captura de datos */}
+          <section aria-labelledby="acuerdo" className="mb-12">
+            <h2 id="acuerdo" className="text-xl font-semibold text-secondary mb-4">
+              1. Contrato Marco y Orden de Servicio
+            </h2>
+            <article
+              className="prose prose-sm md:prose-base max-w-none rounded-xl border border-border bg-card p-6
+              prose-headings:text-secondary prose-p:text-foreground
+              prose-a:text-primary prose-strong:text-secondary
+              prose-blockquote:border-l-primary prose-li:marker:text-primary
+              prose-table:text-sm"
+            >
+              <BlogMarkdown markdown={framework.markdown} />
+              <hr />
+              <BlogMarkdown markdown={order.markdown} />
+            </article>
+            <div ref={docsEndRef} aria-hidden className="h-px" />
+            {!scrolledToEnd ? (
+              <p className="mt-3 text-xs text-amber-600">
+                Continúe leyendo hasta el final del documento para poder aceptarlo.
+              </p>
+            ) : (
+              <p className="mt-3 text-xs text-primary">
+                ✓ Documento revisado en su totalidad.
+              </p>
+            )}
+          </section>
+
+          {/* 2 — Captura de datos, debajo de todo el TyC */}
+          <div ref={formRef} className="space-y-12">
+            <section aria-labelledby="datos-fiscales" className="space-y-4">
+              <h2 id="datos-fiscales" className="text-xl font-semibold text-secondary">
+                2. Identificación fiscal
+              </h2>
               <div>
                 <Label>Razón social / Nombre legal</Label>
                 <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} />
@@ -341,9 +399,17 @@ export default function Contratar() {
               <div>
                 <Label>Correo electrónico</Label>
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Este correo es el domicilio convencional para notificaciones (Cláusula 19).
+                </p>
               </div>
-              <div className="flex gap-2">
-                <Button type="button" variant="outline" onClick={handleSendCode} disabled={sendingCode}>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleSendCode}
+                  disabled={sendingCode}
+                >
                   Enviar código
                 </Button>
                 <Input
@@ -364,59 +430,55 @@ export default function Contratar() {
                 <Label>Teléfono (MX)</Label>
                 <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
               </div>
-              <Button disabled={!step1Valid} onClick={() => setStep(2)}>
-                Continuar
-              </Button>
-            </div>
-          )}
+            </section>
 
-          {step === 2 && pricing && breakdown && (
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Plan y precio</h2>
-              <p className="text-sm text-muted-foreground">
-                Incluye {pricing.base_included_closers} closers · base{" "}
-                {formatUsd(pricing.base_amount)}/mes + IVA
-              </p>
-              <div>
-                <Label>Closers adicionales (0–{pricing.max_additional_closers})</Label>
-                <Select
-                  value={String(additionalClosers)}
-                  onValueChange={(v) => setAdditionalClosers(Number(v))}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Array.from({ length: pricing.max_additional_closers + 1 }, (_, i) => (
-                      <SelectItem key={i} value={String(i)}>
-                        {i} adicional{i !== 1 ? "es" : ""} (+{formatUsd(i * pricing.additional_closer_amount)}/mes)
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="rounded-lg border border-border p-4 space-y-1 text-sm">
-                <p>Subtotal: {formatUsd(breakdown.subtotalUsd)}</p>
-                <p>IVA (16%): {formatUsd(breakdown.ivaUsd)}</p>
-                <p className="font-bold text-lg">Total mensual: {formatUsd(breakdown.totalUsd)}</p>
-              </div>
-              {feesLine ? (
-                <p className="text-sm font-medium text-secondary border-l-4 border-primary pl-3">
-                  {feesLine}
+            {breakdown ? (
+              <section aria-labelledby="plan" className="space-y-4">
+                <h2 id="plan" className="text-xl font-semibold text-secondary">
+                  3. Plan y precio
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Incluye {pricing.base_included_closers} closers · base{" "}
+                  {formatUsd(pricing.base_amount)}/mes más I.V.A.
                 </p>
-              ) : null}
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(1)}>
-                  Atrás
-                </Button>
-                <Button onClick={() => setStep(3)}>Continuar</Button>
-              </div>
-            </div>
-          )}
+                <div>
+                  <Label>Closers adicionales (0–{pricing.max_additional_closers})</Label>
+                  <Select
+                    value={String(additionalClosers)}
+                    onValueChange={(v) => setAdditionalClosers(Number(v))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: pricing.max_additional_closers + 1 }, (_, i) => (
+                        <SelectItem key={i} value={String(i)}>
+                          {i} adicional{i !== 1 ? "es" : ""} (+
+                          {formatUsd(i * pricing.additional_closer_amount)}/mes)
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="rounded-lg border border-border bg-card p-4 space-y-1 text-sm">
+                  <p>Subtotal: {formatUsd(breakdown.subtotalUsd)}</p>
+                  <p>I.V.A. (16%): {formatUsd(breakdown.ivaUsd)}</p>
+                  <p className="font-bold text-lg text-secondary">
+                    Total mensual: {formatUsd(breakdown.totalUsd)}
+                  </p>
+                </div>
+                {feesLine ? (
+                  <p className="text-sm font-medium text-secondary border-l-4 border-primary pl-3">
+                    {feesLine}
+                  </p>
+                ) : null}
+              </section>
+            ) : null}
 
-          {step === 3 && (
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Parámetros operativos</h2>
+            <section aria-labelledby="operativos" className="space-y-4">
+              <h2 id="operativos" className="text-xl font-semibold text-secondary">
+                4. Parámetros operativos
+              </h2>
               <div>
                 <Label>Vertical / industria</Label>
                 <Input value={vertical} onChange={(e) => setVertical(e.target.value)} />
@@ -450,7 +512,10 @@ export default function Contratar() {
               </div>
               <div>
                 <Label>Comisión del closer (% o monto)</Label>
-                <Input value={closerCommission} onChange={(e) => setCloserCommission(e.target.value)} />
+                <Input
+                  value={closerCommission}
+                  onChange={(e) => setCloserCommission(e.target.value)}
+                />
               </div>
               <div className="flex gap-2">
                 <div className="flex-1">
@@ -459,7 +524,10 @@ export default function Contratar() {
                 </div>
                 <div className="w-32">
                   <Label>Periodo</Label>
-                  <Select value={leadPeriod} onValueChange={(v) => setLeadPeriod(v as "semana" | "mes")}>
+                  <Select
+                    value={leadPeriod}
+                    onValueChange={(v) => setLeadPeriod(v as "semana" | "mes")}
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -472,7 +540,7 @@ export default function Contratar() {
               </div>
               <div>
                 <Label>Herramientas</Label>
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="flex flex-wrap gap-4 mt-2">
                   {["CRM", "WhatsApp", "Zoom", "Calendly", "Otro"].map((t) => (
                     <label key={t} className="flex items-center gap-2 text-sm">
                       <Checkbox
@@ -492,18 +560,12 @@ export default function Contratar() {
                   />
                 ) : null}
               </div>
+            </section>
 
-              <h3 className="text-lg font-semibold pt-4">Aceptación de documentos</h3>
-              <div
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="max-h-[400px] overflow-y-auto border border-border rounded-lg p-4 text-sm prose prose-sm max-w-none"
-              >
-                <BlogMarkdown markdown={combinedLegal} />
-              </div>
-              {!scrolledToEnd ? (
-                <p className="text-xs text-amber-600">Desplázate hasta el final para continuar.</p>
-              ) : null}
+            <section aria-labelledby="aceptacion" className="space-y-4">
+              <h2 id="aceptacion" className="text-xl font-semibold text-secondary">
+                5. Aceptación
+              </h2>
               <div className="space-y-3 text-sm">
                 <label className="flex gap-3 items-start">
                   <Checkbox
@@ -515,8 +577,8 @@ export default function Contratar() {
                     }}
                   />
                   <span>
-                    He leído y acepto el Contrato Marco (v{framework.version}) y la Orden de Servicio{" "}
-                    {order.orderCode}.{" "}
+                    He leído y acepto el Contrato Marco (v{framework.version}) y la Orden de
+                    Servicio {order.orderCode}.{" "}
                     <Link to={legalDocRoute(framework)} className="text-primary underline">
                       Ver documentos
                     </Link>
@@ -532,7 +594,9 @@ export default function Contratar() {
                     }}
                   />
                   <span>
-                    Autorizo cargos automáticos recurrentes mensuales hasta cancelar (Cláusulas 8.3 y 12.1).
+                    Autorizo a Closwork a realizar cargos automáticos recurrentes mensuales al
+                    método de pago que registre, hasta que cancele mi suscripción (Cláusulas 8.3
+                    y 12.1).
                   </span>
                 </label>
                 <label className="flex gap-3 items-start">
@@ -545,24 +609,29 @@ export default function Contratar() {
                     }}
                   />
                   <span>
-                    Contrato para fines empresariales/profesionales, no como consumidor final, con
-                    facultades para obligar a quien represento (Cláusula 2.8).
+                    Declaro que contrato este servicio para los fines de mi actividad empresarial
+                    o profesional y no como consumidor final, y que cuento con facultades para
+                    obligar a la persona que represento (Cláusula 2.8).
                   </span>
                 </label>
               </div>
-              <div className="flex gap-2 pt-4">
-                <Button variant="outline" onClick={() => setStep(2)}>
-                  Atrás
-                </Button>
-                <Button
-                  disabled={!step3Valid || !acceptanceReady || submitting}
-                  onClick={handleSubmit}
-                >
-                  {submitting ? "Procesando…" : "Continuar al pago"}
-                </Button>
-              </div>
-            </div>
-          )}
+              <Button
+                size="lg"
+                disabled={
+                  !fiscalValid || !operationalValid || !acceptanceReady || submitting
+                }
+                onClick={handleSubmit}
+              >
+                {submitting ? "Procesando…" : "Continuar al pago"}
+              </Button>
+              {!acceptanceReady ? (
+                <p className="text-xs text-muted-foreground">
+                  El pago se habilita al leer el documento completo, marcar las tres casillas y
+                  completar los datos con el correo verificado.
+                </p>
+              ) : null}
+            </section>
+          </div>
         </main>
         <Footer />
       </div>
