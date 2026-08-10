@@ -85,7 +85,7 @@ export const PRICING_TIERS: PricingTier[] = [
     name: "Concierge",
     tag: "Closer certificado",
     monthlyPrice: conciergeMonthlyPrice(),
-    priceSubtitle: "Cuota fija mensual · Sin comisión por venta",
+    priceSubtitle: "Cuota fija mensual · I.V.A. incluido · Sin comisión por venta",
     description:
       "Closwork selecciona y asigna hasta 2 Closers Certificados HTC. Revisamos tu oferta antes de activar.",
     featured: true,

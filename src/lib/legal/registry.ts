@@ -14,6 +14,9 @@ export type OrderPricing = {
   sales_commission_pct: number;
   direct_placement_fee?: number;
   minimum_term_months?: number;
+  /** Los importes publicados ya incluyen el I.V.A. */
+  tax_included: boolean;
+  tax_rate: number;
 };
 
 export type OrderGuarantees = {
@@ -73,6 +76,8 @@ function parsePricing(fm: Record<string, unknown>): OrderPricing | undefined {
     sales_commission_pct: num("sales_commission_pct"),
     direct_placement_fee: o.direct_placement_fee != null ? num("direct_placement_fee") : undefined,
     minimum_term_months: o.minimum_term_months != null ? num("minimum_term_months") : undefined,
+    tax_included: o.tax_included !== false,
+    tax_rate: o.tax_rate != null ? num("tax_rate") : 0.16,
   };
 }
 

@@ -439,7 +439,7 @@ export default function Contratar() {
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   Incluye {pricing.base_included_closers} closers · base{" "}
-                  {formatUsd(pricing.base_amount)}/mes más I.V.A.
+                  {formatUsd(pricing.base_amount)}/mes con I.V.A. incluido.
                 </p>
                 <div>
                   <Label>Closers adicionales (0–{pricing.max_additional_closers})</Label>
@@ -461,10 +461,15 @@ export default function Contratar() {
                   </Select>
                 </div>
                 <div className="rounded-lg border border-border bg-card p-4 space-y-1 text-sm">
-                  <p>Subtotal: {formatUsd(breakdown.subtotalUsd)}</p>
-                  <p>I.V.A. (16%): {formatUsd(breakdown.ivaUsd)}</p>
                   <p className="font-bold text-lg text-secondary">
                     Total mensual: {formatUsd(breakdown.totalUsd)}
+                  </p>
+                  <p className="text-muted-foreground">
+                    Incluye base gravable de {formatUsd(breakdown.subtotalUsd)} e I.V.A. de{" "}
+                    {formatUsd(breakdown.ivaUsd)} ({Math.round(breakdown.taxRate * 100)}%).
+                  </p>
+                  <p className="text-muted-foreground">
+                    Es el importe total que se cargará a su método de pago.
                   </p>
                 </div>
                 {feesLine ? (
