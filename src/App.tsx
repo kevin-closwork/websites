@@ -31,6 +31,7 @@ import LegalContratoMarco, { LegalContratoMarcoRedirect } from "./pages/LegalCon
 import LegalOrdenServicio, { LegalOrdenServicioRedirect } from "./pages/LegalOrdenServicio";
 import Contratar from "./pages/Contratar";
 import ContratarConfirmacion from "./pages/ContratarConfirmacion";
+import { PRICING_VISIBLE } from "@/config/featureFlags";
 
 const queryClient = new QueryClient();
 
@@ -47,7 +48,10 @@ const AppContent = () => (
       <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
       <Route path="/closer-tyc" element={<CloserTyc />} />
       <Route path="/empresas-tyc" element={<EmpresasTyc />} />
-      <Route path="/precios" element={<Pricing />} />
+      <Route
+        path="/precios"
+        element={PRICING_VISIBLE ? <Pricing /> : <Navigate to="/" replace />}
+      />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/gracias-plan-basico" element={<GraciasPlanBasico />} />
       <Route path="/gracias-plan-growth" element={<GraciasPlanGrowth />} />

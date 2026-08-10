@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { PRICING_VISIBLE } from "@/config/featureFlags";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +27,7 @@ const Navbar = () => {
     { label: "Cómo funciona", href: "/#como-funciona" },
     { label: "Beneficios", href: "/#beneficios" },
     { label: "Testimonios", href: "/#testimonios" },
-    { label: "Precios", href: "/#pricing" },
+    ...(PRICING_VISIBLE ? [{ label: "Precios", href: "/#pricing" }] : []),
     { label: "Ahorros", href: "/#ahorros" },
   ];
 

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/pricing/PricingSection";
+import { PRICING_VISIBLE } from "@/config/featureFlags";
 import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
@@ -457,7 +458,7 @@ const Index = () => {
           </section>
 
           {/* Planes */}
-          <PricingSection />
+          {PRICING_VISIBLE && <PricingSection />}
 
           {/* Ahorros */}
           <section id="ahorros" className="w-full bg-slate-50 relative overflow-visible">

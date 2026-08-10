@@ -13,6 +13,7 @@ import {
   amountIn,
   EXCHANGE_RATE,
 } from "@/components/pricing/pricing.data";
+import { PRICING_VISIBLE } from "@/config/featureFlags";
 
 function getTierByPlanKey(planKey: string) {
   return PRICING_TIERS.find((t) => t.id === planKey) ?? PRICING_TIERS[1];
@@ -405,12 +406,14 @@ const Calculator = () => {
               Quiero empezar
             </a>
           </Button>
-          <Button variant="outline" size="lg" asChild>
-            <a href="/#pricing" onClick={() => pixelEvents.viewContent("Calculator to Pricing", "navigation")}>
-              <Users className="h-4 w-4 mr-2" />
-              Ver planes
-            </a>
-          </Button>
+          {PRICING_VISIBLE && (
+            <Button variant="outline" size="lg" asChild>
+              <a href="/#pricing" onClick={() => pixelEvents.viewContent("Calculator to Pricing", "navigation")}>
+                <Users className="h-4 w-4 mr-2" />
+                Ver planes
+              </a>
+            </Button>
+          )}
         </div>
       </div>
     </div>

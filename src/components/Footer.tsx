@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
+import { PRICING_VISIBLE } from "@/config/featureFlags";
 
 const socialLinks = [
   {
@@ -25,7 +26,9 @@ const Footer = () => {
     { label: "Blog", href: "/blog", isRoute: true },
     { label: "About Us", href: "/#como-funciona", isRoute: false },
     { label: "Características", href: "/#beneficios", isRoute: false },
-    { label: "Precios", href: "/#pricing", isRoute: false },
+    ...(PRICING_VISIBLE
+      ? [{ label: "Precios", href: "/#pricing", isRoute: false }]
+      : []),
     { label: "Contacto", href: "mailto:hola@closwork.com", isRoute: false },
     { label: "Solicitud", href: "/solicitud", isRoute: true },
     { label: "Términos y Condiciones", href: "/terminos-condiciones", isRoute: true },
