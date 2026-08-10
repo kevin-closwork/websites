@@ -29,6 +29,7 @@ const Footer = () => {
     { label: "Contacto", href: "mailto:hola@closwork.com", isRoute: false },
     { label: "Solicitud", href: "/solicitud", isRoute: true },
     { label: "Términos y Condiciones", href: "/terminos-condiciones", isRoute: true },
+    { label: "Documentos legales", href: "/legal", isRoute: true },
     { label: "Privacidad", href: "/privacidad", isRoute: true },
   ];
 

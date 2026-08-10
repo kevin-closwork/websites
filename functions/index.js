@@ -9,8 +9,18 @@
 
 const {setGlobalOptions} = require("firebase-functions");
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
+const {onCall, onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const nodemailer = require("nodemailer");
+const admin = require("firebase-admin");
+
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+const db = admin.firestore();
+
+// Códigos de verificación de correo (TTL 15 min)
+const verificationCodes = new Map();
 
 // Configuración global para control de costos
 setGlobalOptions({ maxInstances: 10 });
@@ -176,7 +186,128 @@ ${JSON.stringify(data, null, 2)}
 }
 
 // Función de prueba para verificar que las funciones están funcionando
-exports.helloWorld = require("firebase-functions/v2/https").onRequest((request, response) => {
+exports.helloWorld = onRequest((request, response) => {
   logger.info("Hello logs!", {structuredData: true});
   response.send("Hello from Firebase Functions!");
+});
+
+function generateCode() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+exports.sendEmailVerificationCode = onCall({region: "us-central1"}, async (request) => {
+  const email = request.data?.email?.trim()?.toLowerCase();
+  if (!email || !email.includes("@")) {
+    throw new Error("invalid-email");
+  }
+  const code = generateCode();
+  verificationCodes.set(email, {code, expires: Date.now() + 15 * 60 * 1000});
+
+  const mailOptions = {
+    from: process.env.SENDER_EMAIL,
+    to: email,
+    subject: "Código de verificación — Closwork",
+    text: `Su código de verificación es: ${code}. Válido 15 minutos.`,
+  };
+  if (process.env.SENDER_EMAIL && process.env.SENDER_PASSWORD) {
+    await transporter.sendMail(mailOptions);
+  } else {
+    logger.warn("SMTP no configurado; código solo en logs (dev)", {email, code});
+  }
+  return {ok: true};
+});
+
+exports.verifyEmailCode = onCall({region: "us-central1"}, async (request) => {
+  const email = request.data?.email?.trim()?.toLowerCase();
+  const code = request.data?.code?.trim();
+  const entry = verificationCodes.get(email);
+  if (!entry || entry.expires < Date.now() || entry.code !== code) {
+    return {verified: false};
+  }
+  verificationCodes.delete(email);
+  return {verified: true};
+});
+
+exports.createCheckoutSession = onCall({region: "us-central1"}, async (request) => {
+  const data = request.data;
+  if (!data?.checkboxTerms || !data?.checkboxRecurring || !data?.checkboxMerchant) {
+    throw new Error("acceptance-incomplete");
+  }
+  if (!data?.customer?.emailVerifiedAt) {
+    throw new Error("email-not-verified");
+  }
+
+  const acceptanceRef = await db.collection("acceptances").add({
+    ...data,
+    status: "pending",
+    ipAddress: request.rawRequest?.headers?.["x-forwarded-for"] || "unknown",
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const siteUrl = process.env.SITE_URL || "https://closwork.com";
+
+  if (!stripeKey) {
+    logger.warn("STRIPE_SECRET_KEY missing — returning confirmación sin pago");
+    return {
+      acceptanceId: acceptanceRef.id,
+      checkoutUrl: `${siteUrl}/contratar/confirmacion?acceptance=${acceptanceRef.id}`,
+    };
+  }
+
+  const stripe = require("stripe")(stripeKey);
+  const session = await stripe.checkout.sessions.create({
+    mode: "subscription",
+    customer_email: data.customer.email,
+    line_items: [{
+      price_data: {
+        currency: (data.currency || "usd").toLowerCase(),
+        unit_amount: data.monthlyAmountCents,
+        recurring: {interval: "month"},
+        product_data: {name: "Closwork Plan Concierge"},
+      },
+      quantity: 1,
+    }],
+    metadata: {acceptanceId: acceptanceRef.id},
+    success_url: `${siteUrl}/contratar/confirmacion?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${siteUrl}/pago-cancelado`,
+  });
+
+  await acceptanceRef.update({stripeCheckoutSessionId: session.id});
+
+  return {acceptanceId: acceptanceRef.id, checkoutUrl: session.url};
+});
+
+exports.stripeWebhook = onRequest({region: "us-central1"}, async (req, res) => {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!stripeKey || !webhookSecret) {
+    res.status(503).send("Stripe not configured");
+    return;
+  }
+  const stripe = require("stripe")(stripeKey);
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.rawBody, sig, webhookSecret);
+  } catch (err) {
+    logger.error("Webhook signature failed", err);
+    res.status(400).send("Invalid signature");
+    return;
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    const acceptanceId = session.metadata?.acceptanceId;
+    if (acceptanceId) {
+      await db.collection("acceptances").doc(acceptanceId).update({
+        status: "completed",
+        acceptedAt: new Date().toISOString(),
+        stripeSubscriptionId: session.subscription,
+        summarySentAt: null,
+      });
+      // TODO: encolar Resumen de Contratación con PDF adjuntos
+    }
+  }
+  res.json({received: true});
 });

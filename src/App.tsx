@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
@@ -22,19 +22,18 @@ import GraciasPlanBasico from "./pages/GraciasPlanBasico";
 import GraciasPlanGrowth from "./pages/GraciasPlanGrowth";
 import GraciasPlanScale from "./pages/GraciasPlanScale";
 import PagoCancelado from "./pages/PagoCancelado";
-import EmpresasTycBasicoLegacy from "./pages/EmpresasTycBasico";
-import EmpresasTycGrowthLegacy from "./pages/EmpresasTycGrowth";
-import EmpresasTycScaleLegacy from "./pages/EmpresasTycScale";
 import EmpresasTyC from "./pages/EmpresasTyc";
-import TycConcierge from "./pages/TycConcierge";
-import TycConcierge2 from "./pages/TycConcierge2";
 import Privacidad from "./pages/Privacidad";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import LegalIndex from "./pages/LegalIndex";
+import LegalContratoMarco, { LegalContratoMarcoRedirect } from "./pages/LegalContratoMarco";
+import LegalOrdenServicio, { LegalOrdenServicioRedirect } from "./pages/LegalOrdenServicio";
+import Contratar from "./pages/Contratar";
+import ContratarConfirmacion from "./pages/ContratarConfirmacion";
 
 const queryClient = new QueryClient();
 
-// App Content Component that uses routing
 const AppContent = () => (
   <>
     <Routes>
@@ -55,14 +54,20 @@ const AppContent = () => (
       <Route path="/gracias-plan-scale" element={<GraciasPlanScale />} />
       <Route path="/pago-cancelado" element={<PagoCancelado />} />
       <Route path="/empresas-tyc-basico" element={<EmpresasTyC planKey="basico" />} />
-      <Route path="/empresas-tyc-growth" element={<EmpresasTyC planKey="growth" />} />
+      <Route path="/empresas-tyc-growth" element={<Navigate to="/contratar" replace />} />
       <Route path="/empresas-tyc-scale" element={<EmpresasTyC planKey="scale" />} />
-      <Route path="/tyc-concierge" element={<TycConcierge />} />
-      <Route path="/tyc-concierge2" element={<TycConcierge2 />} />
+      <Route path="/tyc-concierge" element={<Navigate to="/contratar" replace />} />
+      <Route path="/tyc-concierge2" element={<Navigate to="/contratar" replace />} />
+      <Route path="/legal" element={<LegalIndex />} />
+      <Route path="/legal/contrato-marco" element={<LegalContratoMarcoRedirect />} />
+      <Route path="/legal/contrato-marco/:versionSlug" element={<LegalContratoMarco />} />
+      <Route path="/legal/orden-servicio/concierge" element={<LegalOrdenServicioRedirect />} />
+      <Route path="/legal/orden-servicio/:planSlug/:versionSlug" element={<LegalOrdenServicio />} />
+      <Route path="/contratar" element={<Contratar />} />
+      <Route path="/contratar/confirmacion" element={<ContratarConfirmacion />} />
       <Route path="/privacidad" element={<Privacidad />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPost />} />
-      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   </>

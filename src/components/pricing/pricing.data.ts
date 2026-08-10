@@ -5,6 +5,7 @@ import type {
   Money,
   PricingTier,
 } from "./pricing.types";
+import { getCurrentOrder } from "@/lib/legal/registry";
 
 /** Referencia de tipo de cambio usada para fijar los importes de cada plan. */
 export const EXCHANGE_RATE = 20;
@@ -49,6 +50,14 @@ export function formatPerMonth(amount: number, currency: Currency): string {
   return `${formatMoney(amount, currency)}/mes`;
 }
 
+/** Precio Concierge desde Orden de Servicio vigente (frontmatter pricing.base_amount). */
+function conciergeMonthlyPrice(): Money {
+  const order = getCurrentOrder("concierge");
+  const usd = order?.pricing?.base_amount;
+  if (usd == null) return { usd: 0, mxn: 0 };
+  return { usd, mxn: Math.round(usd * EXCHANGE_RATE) };
+}
+
 export const PRICING_TIERS: PricingTier[] = [
   {
     id: "acceso-directo",
@@ -75,32 +84,25 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "concierge",
     name: "Concierge",
     tag: "Closer certificado",
-    monthlyPrice: { usd: 60, mxn: 1200 },
+    monthlyPrice: conciergeMonthlyPrice(),
     priceSubtitle: "Cuota fija mensual · Sin comisión por venta",
     description:
       "Closwork selecciona y asigna hasta 2 Closers Certificados HTC. Revisamos tu oferta antes de activar.",
     featured: true,
     popularBadge: "Más popular",
-    setupFee: { usd: 999, mxn: 19980 },
-    setupInfo: {
-      label: "Instalación única",
-      description:
-        "Assessment de tu oferta, diseño del proceso de ventas, selección del equipo y onboarding conjunto.",
-      installments: 12,
-    },
     features: [
-      { text: "Hasta 2 Closers Certificados HTC", included: true },
+      { text: "2 closers incluidos (hasta 5 en total)", included: true },
       { text: "Revisión de tu oferta comercial", included: true },
-      { text: "1 cambio gratis en 30 días", included: true },
-      { text: "Onboarding con tu proceso", included: true },
-      { text: "Dashboard de métricas", included: true },
-      { text: "Soporte WhatsApp prioritario", included: true },
+      { text: "Supervisión y reporte mensual", included: true },
+      { text: "Garantías de colocación y reemplazo", included: true },
+      { text: "Soporte en horario hábil", included: true },
+      { text: "Sin cuota de implementación", included: true },
     ],
     idealFor:
-      "Ideal para: Infoproductores, coaches y agencias que generan leads pero necesitan cerrar más.",
-    ctaText: "Comenzar ahora",
+      "Ideal para: Empresas B2B que necesitan fuerza comercial externa sin nómina fija.",
+    ctaText: "Contratar en línea",
     ctaVariant: "primary",
-    stripePlanKey: "planConcierge2",
+    stripePlanKey: "planConcierge",
   },
   {
     id: "enterprise",
@@ -135,11 +137,11 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   },
   {
     label: "Instalación",
-    cells: ["-", "", "-"],
+    cells: ["-", "No aplica", "-"],
   },
   {
     label: "Closers incluidos",
-    cells: ["Autogestionado", "Hasta 2 HTC", "2-3 HTC"],
+    cells: ["Autogestionado", "Hasta 5", "2-3 HTC"],
     cellEmphasis: [false, true, true],
   },
   {
@@ -154,12 +156,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   },
   {
     label: "Cambios de closer",
-    cells: ["-", "1 gratis (30d)", "Ilimitados (60d)"],
+    cells: ["-", "Garantía de reemplazo", "Ilimitados (60d)"],
     cellEmphasis: [false, false, true],
   },
   {
     label: "Soporte",
-    cells: ["Dashboard", "WhatsApp prioritario", "Account manager"],
+    cells: ["Dashboard", "Horario hábil", "Account manager"],
     cellEmphasis: [false, false, true],
   },
   {

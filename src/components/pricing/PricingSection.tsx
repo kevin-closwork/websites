@@ -10,10 +10,10 @@ import { pixelEvents } from "@/lib/pixelEvents";
 
 const TYC_ROUTES: Record<StripePlanKey, string> = {
   planBasico: "/empresas-tyc-basico",
-  planGrowth: "/empresas-tyc-growth",
+  planGrowth: "/contratar",
   planScale: "/empresas-tyc-scale",
-  planConcierge: "/tyc-concierge",
-  planConcierge2: "/tyc-concierge2",
+  planConcierge: "/contratar",
+  planConcierge2: "/contratar",
 };
 
 const CURRENCY_DISCLAIMER: Record<Currency, string> = {
