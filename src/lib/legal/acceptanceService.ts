@@ -12,7 +12,6 @@ export type AcceptanceRecord = {
     signerName: string;
     signerRole: string;
     email: string;
-    emailVerifiedAt: string;
     phone: string;
   };
   frameworkDocId: string;

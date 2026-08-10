@@ -26,11 +26,7 @@ import {
   formatUsd,
   noExtraFeesLine,
 } from "@/lib/legal/pricing";
-import {
-  createCheckoutSession,
-  sendEmailVerificationCode,
-  verifyEmailCode,
-} from "@/lib/legal/checkoutService";
+import { createCheckoutSession } from "@/lib/legal/checkoutService";
 import { toast } from "sonner";
 
 const TAX_REGIMES = [
@@ -52,6 +48,7 @@ const ESTADOS = [
 
 const RFC_PF = /^[A-ZÑ&]{4}\d{6}[A-Z0-9]{3}$/i;
 const RFC_PM = /^[A-ZÑ&]{3}\d{6}[A-Z0-9]{3}$/i;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 function validateRfc(rfc: string): boolean {
   const v = rfc.trim().toUpperCase();
@@ -130,9 +127,6 @@ export default function Contratar() {
   const [signerRole, setSignerRole] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [emailCode, setEmailCode] = useState("");
-  const [emailVerifiedAt, setEmailVerifiedAt] = useState<string | null>(null);
-  const [sendingCode, setSendingCode] = useState(false);
 
   // Plan
   const [additionalClosers, setAdditionalClosers] = useState(0);
@@ -192,8 +186,7 @@ export default function Contratar() {
     /^\d{5}$/.test(fiscalAddress.cp) &&
     signerName.trim() &&
     signerRole.trim() &&
-    email.includes("@") &&
-    emailVerifiedAt &&
+    EMAIL_RE.test(email.trim()) &&
     phone.replace(/\D/g, "").length >= 10;
 
   const operationalValid =
@@ -211,40 +204,6 @@ export default function Contratar() {
     tsTerms &&
     tsRecurring &&
     tsMerchant;
-
-  const handleSendCode = async () => {
-    if (!email.includes("@")) {
-      toast.error("Ingresa un correo válido");
-      return;
-    }
-    setSendingCode(true);
-    try {
-      await sendEmailVerificationCode(email.trim());
-      toast.success("Código enviado a tu correo");
-    } catch {
-      toast.error("No se pudo enviar el código. Intenta de nuevo.");
-    } finally {
-      setSendingCode(false);
-    }
-  };
-
-  const handleVerifyCode = async () => {
-    if (emailCode.length !== 6) {
-      toast.error("El código debe tener 6 dígitos");
-      return;
-    }
-    try {
-      const ok = await verifyEmailCode(email.trim(), emailCode);
-      if (ok) {
-        setEmailVerifiedAt(new Date().toISOString());
-        toast.success("Correo verificado");
-      } else {
-        toast.error("Código incorrecto");
-      }
-    } catch {
-      toast.error("Error al verificar el código");
-    }
-  };
 
   const toggleTool = (t: string) => {
     setTools((prev) =>
@@ -285,7 +244,6 @@ export default function Contratar() {
           signerName,
           signerRole,
           email: email.trim(),
-          emailVerifiedAt: emailVerifiedAt!,
           phone,
         },
         frameworkDocId: framework.docId,
@@ -537,12 +495,15 @@ export default function Contratar() {
                 </Field>
                 <Field
                   label="Correo electrónico"
-                  hint="Domicilio convencional para notificaciones (Cláusula 19)."
+                  hint={
+                    email && !EMAIL_RE.test(email.trim())
+                      ? "Correo inválido"
+                      : "Aquí llegan el Resumen de Contratación, el CFDI y las notificaciones (Cláusula 19)."
+                  }
                 >
                   <Input
                     type="email"
                     value={email}
-                    disabled={!!emailVerifiedAt}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Field>
@@ -553,45 +514,6 @@ export default function Contratar() {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </Field>
-              </div>
-
-              <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
-                {emailVerifiedAt ? (
-                  <p className="text-sm font-medium text-primary">
-                    ✓ Correo verificado: {email}
-                  </p>
-                ) : (
-                  <>
-                    <p className="mb-3 text-sm text-muted-foreground">
-                      Verifique su correo para poder continuar al pago.
-                    </p>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={handleSendCode}
-                        disabled={sendingCode || !email.includes("@")}
-                      >
-                        {sendingCode ? "Enviando…" : "Enviar código"}
-                      </Button>
-                      <Input
-                        placeholder="6 dígitos"
-                        inputMode="numeric"
-                        maxLength={6}
-                        value={emailCode}
-                        onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, ""))}
-                        className="w-[120px]"
-                      />
-                      <Button
-                        type="button"
-                        onClick={handleVerifyCode}
-                        disabled={emailCode.length !== 6}
-                      >
-                        Verificar
-                      </Button>
-                    </div>
-                  </>
-                )}
               </div>
             </Section>
 
@@ -834,7 +756,7 @@ export default function Contratar() {
                 {!fiscalValid || !operationalValid || !acceptanceReady ? (
                   <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
                     <li>{scrolledToEnd ? "✓" : "○"} Contrato leído hasta el final</li>
-                    <li>{fiscalValid ? "✓" : "○"} Datos fiscales y correo verificado</li>
+                    <li>{fiscalValid ? "✓" : "○"} Datos fiscales y de contacto</li>
                     <li>{operationalValid ? "✓" : "○"} Parámetros operativos</li>
                     <li>
                       {cbTerms && cbRecurring && cbMerchant ? "✓" : "○"} Tres aceptaciones

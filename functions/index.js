@@ -19,9 +19,6 @@ if (!admin.apps.length) {
 }
 const db = admin.firestore();
 
-// Códigos de verificación de correo (TTL 15 min)
-const verificationCodes = new Map();
-
 // Configuración global para control de costos
 setGlobalOptions({ maxInstances: 10 });
 
@@ -191,50 +188,13 @@ exports.helloWorld = onRequest((request, response) => {
   response.send("Hello from Firebase Functions!");
 });
 
-function generateCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
-
-exports.sendEmailVerificationCode = onCall({region: "us-central1"}, async (request) => {
-  const email = request.data?.email?.trim()?.toLowerCase();
-  if (!email || !email.includes("@")) {
-    throw new Error("invalid-email");
-  }
-  const code = generateCode();
-  verificationCodes.set(email, {code, expires: Date.now() + 15 * 60 * 1000});
-
-  const mailOptions = {
-    from: process.env.SENDER_EMAIL,
-    to: email,
-    subject: "Código de verificación — Closwork",
-    text: `Su código de verificación es: ${code}. Válido 15 minutos.`,
-  };
-  if (process.env.SENDER_EMAIL && process.env.SENDER_PASSWORD) {
-    await transporter.sendMail(mailOptions);
-  } else {
-    logger.warn("SMTP no configurado; código solo en logs (dev)", {email, code});
-  }
-  return {ok: true};
-});
-
-exports.verifyEmailCode = onCall({region: "us-central1"}, async (request) => {
-  const email = request.data?.email?.trim()?.toLowerCase();
-  const code = request.data?.code?.trim();
-  const entry = verificationCodes.get(email);
-  if (!entry || entry.expires < Date.now() || entry.code !== code) {
-    return {verified: false};
-  }
-  verificationCodes.delete(email);
-  return {verified: true};
-});
-
 exports.createCheckoutSession = onCall({region: "us-central1"}, async (request) => {
   const data = request.data;
   if (!data?.checkboxTerms || !data?.checkboxRecurring || !data?.checkboxMerchant) {
     throw new Error("acceptance-incomplete");
   }
-  if (!data?.customer?.emailVerifiedAt) {
-    throw new Error("email-not-verified");
+  if (!data?.customer?.email?.includes("@")) {
+    throw new Error("invalid-email");
   }
 
   const acceptanceRef = await db.collection("acceptances").add({
