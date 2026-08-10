@@ -258,7 +258,8 @@ exports.stripeWebhook = onRequest({region: "us-central1"}, async (req, res) => {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const acceptanceId = session.metadata?.acceptanceId;
+    // Payment Link estático: la aceptación viaja en client_reference_id.
+    const acceptanceId = session.metadata?.acceptanceId || session.client_reference_id;
     if (acceptanceId) {
       await db.collection("acceptances").doc(acceptanceId).update({
         status: "completed",

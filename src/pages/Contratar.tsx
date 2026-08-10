@@ -26,7 +26,8 @@ import {
   formatUsd,
   noExtraFeesLine,
 } from "@/lib/legal/pricing";
-import { createCheckoutSession } from "@/lib/legal/checkoutService";
+import { createAcceptance } from "@/lib/legal/acceptanceService";
+import { getStripeCheckoutUrl } from "@/lib/stripeConfig";
 import { toast } from "sonner";
 
 const TAX_REGIMES = [
@@ -158,9 +159,6 @@ export default function Contratar() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  // Plan
-  const [additionalClosers, setAdditionalClosers] = useState(0);
-
   // Parámetros operativos
   const [vertical, setVertical] = useState("");
   const [directCompetitors, setDirectCompetitors] = useState<string[]>([""]);
@@ -195,14 +193,14 @@ export default function Contratar() {
     if (el && el.scrollHeight <= el.clientHeight + 24) setScrolledToEnd(true);
   }, []);
 
+  // El paquete base es lo único contratable en línea; los closers adicionales
+  // se agregan después mediante Convenio Modificatorio.
   const breakdown = useMemo(() => {
     if (!pricing) return null;
-    return calculateOrderTotal(pricing, additionalClosers);
-  }, [pricing, additionalClosers]);
+    return calculateOrderTotal(pricing, 0);
+  }, [pricing]);
 
-  const totalClosers = pricing
-    ? pricing.base_included_closers + (breakdown?.additionalClosers ?? 0)
-    : 0;
+  const totalClosers = pricing?.base_included_closers ?? 0;
 
   const errors: Record<string, string> = {};
   if (legalName.trim().length < 3) {
@@ -284,7 +282,6 @@ export default function Contratar() {
       signerRole,
       email,
       phone,
-      additionalClosers: breakdown.additionalClosers,
       vertical,
       directCompetitors: directCompetitors.filter((c) => c.trim()),
       closerCommission,
@@ -293,8 +290,9 @@ export default function Contratar() {
       tools: toolsOther ? [...tools.filter((t) => t !== "Otro"), toolsOther] : tools,
     };
 
+    let acceptanceId = "";
     try {
-      const { checkoutUrl } = await createCheckoutSession({
+      acceptanceId = await createAcceptance({
         customer: {
           legalName,
           rfc: rfc.toUpperCase(),
@@ -325,12 +323,16 @@ export default function Contratar() {
         monthlyAmountCents: Math.round(breakdown.totalUsd * 100),
         currency: breakdown.currency,
       });
-      window.location.href = checkoutUrl;
     } catch (e) {
-      console.error(e);
-      toast.error("No se pudo iniciar el pago. Contacta a hola@closwork.com");
-      setSubmitting(false);
+      // El registro de la aceptación no debe impedir el cobro; se reconstruye
+      // desde Stripe con el correo si llegara a fallar.
+      console.error("No se pudo guardar la aceptación", e);
     }
+
+    const url = new URL(getStripeCheckoutUrl("planConcierge"));
+    url.searchParams.set("prefilled_email", email.trim());
+    if (acceptanceId) url.searchParams.set("client_reference_id", acceptanceId);
+    window.location.href = url.toString();
   };
 
   if (!framework || !order || !pricing) {
@@ -618,42 +620,22 @@ export default function Contratar() {
                 id="plan"
                 step="4"
                 title="Plan y precio"
-                hint={`Incluye ${pricing.base_included_closers} closers certificados. Puede agregar hasta ${pricing.max_additional_closers} más.`}
+                hint={`Incluye ${pricing.base_included_closers} closers certificados. Los closers adicionales se agregan después con su ejecutivo.`}
               >
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
-                  <Field label="Closers adicionales">
-                    <Select
-                      value={String(additionalClosers)}
-                      onValueChange={(v) => setAdditionalClosers(Number(v))}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Array.from({ length: pricing.max_additional_closers + 1 }, (_, i) => (
-                          <SelectItem key={i} value={String(i)}>
-                            {i === 0
-                              ? "Ninguno"
-                              : `${i} adicional${i !== 1 ? "es" : ""} (+${formatUsd(
-                                  i * pricing.additional_closer_amount
-                                )}/mes)`}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                  <div className="rounded-lg border border-border bg-muted/40 p-4">
-                    <p className="text-2xl font-bold text-secondary">
-                      {formatUsd(breakdown.totalUsd)}
-                      <span className="ml-1 text-sm font-normal text-muted-foreground">
-                        /mes
-                      </span>
+                <div className="flex flex-wrap items-end justify-between gap-4 rounded-lg border border-border bg-muted/40 p-4">
+                  <div>
+                    <p className="text-sm font-medium text-secondary">
+                      Plan Concierge · {totalClosers} closers certificados
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {totalClosers} closers · base {formatUsd(breakdown.subtotalUsd)} + I.V.A.{" "}
-                      {formatUsd(breakdown.ivaUsd)} ya incluido
+                      Base {formatUsd(breakdown.subtotalUsd)} + I.V.A.{" "}
+                      {formatUsd(breakdown.ivaUsd)}, ya incluido en el total.
                     </p>
                   </div>
+                  <p className="text-2xl font-bold text-secondary">
+                    {formatUsd(breakdown.totalUsd)}
+                    <span className="ml-1 text-sm font-normal text-muted-foreground">/mes</span>
+                  </p>
                 </div>
                 {feesLine ? (
                   <p className="mt-4 border-l-4 border-primary pl-3 text-sm font-medium text-secondary">
