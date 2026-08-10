@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -41,12 +41,67 @@ const TAX_REGIMES = [
   { code: "626", label: "626 — Régimen Simplificado de Confianza" },
 ];
 
+const ESTADOS = [
+  "Aguascalientes", "Baja California", "Baja California Sur", "Campeche",
+  "Chiapas", "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango",
+  "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco",
+  "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla",
+  "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora",
+  "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas",
+];
+
 const RFC_PF = /^[A-ZÑ&]{4}\d{6}[A-Z0-9]{3}$/i;
 const RFC_PM = /^[A-ZÑ&]{3}\d{6}[A-Z0-9]{3}$/i;
 
 function validateRfc(rfc: string): boolean {
   const v = rfc.trim().toUpperCase();
   return RFC_PF.test(v) || RFC_PM.test(v);
+}
+
+function Section({
+  id,
+  step,
+  title,
+  hint,
+  children,
+}: {
+  id: string;
+  step: string;
+  title: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section aria-labelledby={id} className="rounded-xl border border-border bg-card p-6">
+      <div className="mb-5">
+        <h2 id={id} className="text-lg font-semibold text-secondary">
+          <span className="text-primary">{step}.</span> {title}
+        </h2>
+        {hint ? <p className="mt-1 text-sm text-muted-foreground">{hint}</p> : null}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function Field({
+  label,
+  hint,
+  className = "",
+  children,
+}: {
+  label: string;
+  hint?: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={className}>
+      <Label className="text-sm">{label}</Label>
+      <div className="mt-1.5">{children}</div>
+      {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+    </div>
+  );
 }
 
 export default function Contratar() {
@@ -65,6 +120,7 @@ export default function Contratar() {
   const [fiscalAddress, setFiscalAddress] = useState({
     calle: "",
     numero: "",
+    numeroInt: "",
     colonia: "",
     municipio: "",
     estado: "",
@@ -98,21 +154,21 @@ export default function Contratar() {
   const [tsRecurring, setTsRecurring] = useState<string | null>(null);
   const [tsMerchant, setTsMerchant] = useState<string | null>(null);
 
-  const docsEndRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // El final del contrato entra en viewport => el Cliente recorrió el texto completo.
-  useEffect(() => {
-    const el = docsEndRef.current;
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setScrolledToEnd(true);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 24) {
+      setScrolledToEnd(true);
+    }
+  }, []);
+
+  // Documento más corto que la caja: no hay scroll posible, ya está leído.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && el.scrollHeight <= el.clientHeight + 24) setScrolledToEnd(true);
   }, []);
 
   const breakdown = useMemo(() => {
@@ -128,24 +184,24 @@ export default function Contratar() {
     legalName.trim().length >= 3 &&
     validateRfc(rfc) &&
     taxRegime &&
-    fiscalAddress.calle &&
-    fiscalAddress.numero &&
-    fiscalAddress.colonia &&
-    fiscalAddress.municipio &&
+    fiscalAddress.calle.trim() &&
+    fiscalAddress.numero.trim() &&
+    fiscalAddress.colonia.trim() &&
+    fiscalAddress.municipio.trim() &&
     fiscalAddress.estado &&
     /^\d{5}$/.test(fiscalAddress.cp) &&
     signerName.trim() &&
     signerRole.trim() &&
     email.includes("@") &&
     emailVerifiedAt &&
-    phone.trim().length >= 10;
+    phone.replace(/\D/g, "").length >= 10;
 
   const operationalValid =
     vertical.trim() &&
-    directCompetitors.filter(Boolean).length >= 1 &&
+    directCompetitors.filter((c) => c.trim()).length >= 1 &&
     closerCommission.trim() &&
     leadVolume.trim() &&
-    (tools.length > 0 || toolsOther.trim());
+    (tools.filter((t) => t !== "Otro").length > 0 || toolsOther.trim());
 
   const acceptanceReady =
     cbTerms &&
@@ -212,11 +268,11 @@ export default function Contratar() {
       phone,
       additionalClosers: breakdown.additionalClosers,
       vertical,
-      directCompetitors: directCompetitors.filter(Boolean),
+      directCompetitors: directCompetitors.filter((c) => c.trim()),
       closerCommission,
       leadVolume,
       leadPeriod,
-      tools: toolsOther ? [...tools, toolsOther] : tools,
+      tools: toolsOther ? [...tools.filter((t) => t !== "Otro"), toolsOther] : tools,
     };
 
     try {
@@ -268,6 +324,7 @@ export default function Contratar() {
     );
   }
 
+  const combinedLegal = `${framework.markdown}\n\n---\n\n${order.markdown}`;
   const feesLine = noExtraFeesLine(pricing);
   const maxCompetitors = guarantees?.max_direct_competitors ?? 5;
 
@@ -284,251 +341,343 @@ export default function Contratar() {
         <Navbar />
         <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
           <header className="mb-8">
-            <h1 className="text-3xl font-bold text-secondary mb-2">
-              Contratar Plan Concierge
-            </h1>
-            <p className="text-muted-foreground">
-              Lea el Contrato Marco y la Orden de Servicio {order.orderCode}. Los datos de
-              contratación se capturan al final del documento.
+            <h1 className="text-3xl font-bold text-secondary">Contratar Plan Concierge</h1>
+            <p className="mt-2 text-muted-foreground">
+              Lea el contrato en el recuadro y capture sus datos más abajo. El pago se
+              habilita al completar la lectura y las tres aceptaciones.
             </p>
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
               <Link to={legalDocRoute(framework)} className="text-primary hover:underline">
                 Contrato Marco v{framework.version}
               </Link>
               <Link to={legalDocRoute(order)} className="text-primary hover:underline">
                 Orden de Servicio {order.orderCode}
               </Link>
-              <Button
-                variant="ghost"
-                size="sm"
+              <button
+                type="button"
+                className="text-muted-foreground hover:text-secondary"
                 onClick={() =>
                   formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
                 }
               >
                 Ir al formulario ↓
-              </Button>
+              </button>
             </div>
           </header>
 
-          {/* 1 — Acuerdo completo, antes de cualquier captura de datos */}
-          <section aria-labelledby="acuerdo" className="mb-12">
-            <h2 id="acuerdo" className="text-xl font-semibold text-secondary mb-4">
-              1. Contrato Marco y Orden de Servicio
-            </h2>
-            <article
-              className="prose prose-sm md:prose-base max-w-none rounded-xl border border-border bg-card p-6
+          {/* 1 — El acuerdo, antes de cualquier captura de datos */}
+          <section aria-labelledby="acuerdo" className="mb-10">
+            <div className="mb-3 flex items-end justify-between gap-4">
+              <h2 id="acuerdo" className="text-lg font-semibold text-secondary">
+                <span className="text-primary">1.</span> Contrato Marco y Orden de Servicio
+              </h2>
+              <span
+                className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium ${
+                  scrolledToEnd
+                    ? "bg-primary/10 text-primary"
+                    : "bg-amber-100 text-amber-700"
+                }`}
+              >
+                {scrolledToEnd ? "✓ Documento leído" : "Desplácese hasta el final"}
+              </span>
+            </div>
+            <div
+              ref={scrollRef}
+              onScroll={handleScroll}
+              tabIndex={0}
+              className="h-[60vh] min-h-[380px] overflow-y-auto rounded-xl border border-border bg-card p-6
+              prose prose-sm max-w-none
               prose-headings:text-secondary prose-p:text-foreground
               prose-a:text-primary prose-strong:text-secondary
               prose-blockquote:border-l-primary prose-li:marker:text-primary
-              prose-table:text-sm"
+              prose-table:text-xs"
             >
-              <BlogMarkdown markdown={framework.markdown} />
-              <hr />
-              <BlogMarkdown markdown={order.markdown} />
-            </article>
-            <div ref={docsEndRef} aria-hidden className="h-px" />
-            {!scrolledToEnd ? (
-              <p className="mt-3 text-xs text-amber-600">
-                Continúe leyendo hasta el final del documento para poder aceptarlo.
-              </p>
-            ) : (
-              <p className="mt-3 text-xs text-primary">
-                ✓ Documento revisado en su totalidad.
-              </p>
-            )}
+              <BlogMarkdown markdown={combinedLegal} />
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Contrato Marco v{framework.version} · Orden de Servicio {order.orderCode} ·
+              SHA-256 {framework.hash.slice(0, 12)}… / {order.hash.slice(0, 12)}…
+            </p>
           </section>
 
-          {/* 2 — Captura de datos, debajo de todo el TyC */}
-          <div ref={formRef} className="space-y-12">
-            <section aria-labelledby="datos-fiscales" className="space-y-4">
-              <h2 id="datos-fiscales" className="text-xl font-semibold text-secondary">
-                2. Identificación fiscal
-              </h2>
-              <div>
-                <Label>Razón social / Nombre legal</Label>
-                <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} />
-              </div>
-              <div>
-                <Label>RFC</Label>
-                <Input value={rfc} onChange={(e) => setRfc(e.target.value.toUpperCase())} />
-              </div>
-              <div>
-                <Label>Régimen fiscal</Label>
-                <Select value={taxRegime} onValueChange={setTaxRegime}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona régimen" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TAX_REGIMES.map((r) => (
-                      <SelectItem key={r.code} value={r.code}>
-                        {r.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {(["calle", "numero", "colonia", "municipio", "estado"] as const).map((k) => (
-                <div key={k}>
-                  <Label className="capitalize">{k}</Label>
-                  <Input
-                    value={fiscalAddress[k]}
-                    onChange={(e) =>
-                      setFiscalAddress((a) => ({ ...a, [k]: e.target.value }))
-                    }
-                  />
-                </div>
-              ))}
-              <div>
-                <Label>Código postal</Label>
-                <Input
-                  maxLength={5}
-                  value={fiscalAddress.cp}
-                  onChange={(e) =>
-                    setFiscalAddress((a) => ({ ...a, cp: e.target.value.replace(/\D/g, "") }))
-                  }
-                />
-              </div>
-              <div>
-                <Label>Nombre del firmante</Label>
-                <Input value={signerName} onChange={(e) => setSignerName(e.target.value)} />
-              </div>
-              <div>
-                <Label>Cargo del firmante</Label>
-                <Input value={signerRole} onChange={(e) => setSignerRole(e.target.value)} />
-              </div>
-              <div>
-                <Label>Correo electrónico</Label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Este correo es el domicilio convencional para notificaciones (Cláusula 19).
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleSendCode}
-                  disabled={sendingCode}
+          {/* 2 — Captura de datos, debajo del contrato */}
+          <div ref={formRef} className="space-y-6">
+            <Section
+              id="datos-fiscales"
+              step="2"
+              title="Datos fiscales"
+              hint="Tal como aparecen en su Constancia de Situación Fiscal. Con ellos se emite el CFDI."
+            >
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+                <Field label="Razón social o nombre legal" className="md:col-span-6">
+                  <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} />
+                </Field>
+                <Field
+                  label="RFC"
+                  className="md:col-span-2"
+                  hint={rfc && !validateRfc(rfc) ? "Formato de RFC inválido" : undefined}
                 >
-                  Enviar código
-                </Button>
-                <Input
-                  placeholder="6 dígitos"
-                  maxLength={6}
-                  value={emailCode}
-                  onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, ""))}
-                  className="max-w-[120px]"
-                />
-                <Button type="button" onClick={handleVerifyCode}>
-                  Verificar
-                </Button>
-              </div>
-              {emailVerifiedAt ? (
-                <p className="text-sm text-primary">✓ Correo verificado</p>
-              ) : null}
-              <div>
-                <Label>Teléfono (MX)</Label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
-              </div>
-            </section>
-
-            {breakdown ? (
-              <section aria-labelledby="plan" className="space-y-4">
-                <h2 id="plan" className="text-xl font-semibold text-secondary">
-                  3. Plan y precio
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Incluye {pricing.base_included_closers} closers · base{" "}
-                  {formatUsd(pricing.base_amount)}/mes con I.V.A. incluido.
-                </p>
-                <div>
-                  <Label>Closers adicionales (0–{pricing.max_additional_closers})</Label>
-                  <Select
-                    value={String(additionalClosers)}
-                    onValueChange={(v) => setAdditionalClosers(Number(v))}
-                  >
+                  <Input
+                    value={rfc}
+                    maxLength={13}
+                    placeholder="XAXX010101000"
+                    onChange={(e) => setRfc(e.target.value.toUpperCase())}
+                  />
+                </Field>
+                <Field label="Régimen fiscal" className="md:col-span-4">
+                  <Select value={taxRegime} onValueChange={setTaxRegime}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Selecciona régimen" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: pricing.max_additional_closers + 1 }, (_, i) => (
-                        <SelectItem key={i} value={String(i)}>
-                          {i} adicional{i !== 1 ? "es" : ""} (+
-                          {formatUsd(i * pricing.additional_closer_amount)}/mes)
+                      {TAX_REGIMES.map((r) => (
+                        <SelectItem key={r.code} value={r.code}>
+                          {r.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
-                <div className="rounded-lg border border-border bg-card p-4 space-y-1 text-sm">
-                  <p className="font-bold text-lg text-secondary">
-                    Total mensual: {formatUsd(breakdown.totalUsd)}
+                </Field>
+              </div>
+
+              <h3 className="mb-3 mt-6 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Domicilio fiscal
+              </h3>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+                <Field label="Calle" className="md:col-span-4">
+                  <Input
+                    value={fiscalAddress.calle}
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({ ...a, calle: e.target.value }))
+                    }
+                  />
+                </Field>
+                <Field label="Núm. exterior" className="md:col-span-1">
+                  <Input
+                    value={fiscalAddress.numero}
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({ ...a, numero: e.target.value }))
+                    }
+                  />
+                </Field>
+                <Field label="Núm. interior" className="md:col-span-1">
+                  <Input
+                    value={fiscalAddress.numeroInt}
+                    placeholder="Opcional"
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({ ...a, numeroInt: e.target.value }))
+                    }
+                  />
+                </Field>
+                <Field label="Colonia" className="md:col-span-3">
+                  <Input
+                    value={fiscalAddress.colonia}
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({ ...a, colonia: e.target.value }))
+                    }
+                  />
+                </Field>
+                <Field label="Municipio o alcaldía" className="md:col-span-3">
+                  <Input
+                    value={fiscalAddress.municipio}
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({ ...a, municipio: e.target.value }))
+                    }
+                  />
+                </Field>
+                <Field label="Estado" className="md:col-span-4">
+                  <Select
+                    value={fiscalAddress.estado}
+                    onValueChange={(v) => setFiscalAddress((a) => ({ ...a, estado: v }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona estado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ESTADOS.map((e) => (
+                        <SelectItem key={e} value={e}>
+                          {e}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field label="Código postal" className="md:col-span-2">
+                  <Input
+                    inputMode="numeric"
+                    maxLength={5}
+                    value={fiscalAddress.cp}
+                    onChange={(e) =>
+                      setFiscalAddress((a) => ({
+                        ...a,
+                        cp: e.target.value.replace(/\D/g, ""),
+                      }))
+                    }
+                  />
+                </Field>
+              </div>
+            </Section>
+
+            <Section
+              id="firmante"
+              step="3"
+              title="Firmante y contacto"
+              hint="Quien acepta el contrato debe contar con facultades para obligar a la empresa."
+            >
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <Field label="Nombre completo del firmante">
+                  <Input value={signerName} onChange={(e) => setSignerName(e.target.value)} />
+                </Field>
+                <Field label="Cargo">
+                  <Input
+                    value={signerRole}
+                    placeholder="Administrador único, Director General…"
+                    onChange={(e) => setSignerRole(e.target.value)}
+                  />
+                </Field>
+                <Field
+                  label="Correo electrónico"
+                  hint="Domicilio convencional para notificaciones (Cláusula 19)."
+                >
+                  <Input
+                    type="email"
+                    value={email}
+                    disabled={!!emailVerifiedAt}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </Field>
+                <Field label="Teléfono (10 dígitos)">
+                  <Input
+                    inputMode="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </Field>
+              </div>
+
+              <div className="mt-4 rounded-lg border border-border bg-muted/40 p-4">
+                {emailVerifiedAt ? (
+                  <p className="text-sm font-medium text-primary">
+                    ✓ Correo verificado: {email}
                   </p>
-                  <p className="text-muted-foreground">
-                    Incluye base gravable de {formatUsd(breakdown.subtotalUsd)} e I.V.A. de{" "}
-                    {formatUsd(breakdown.ivaUsd)} ({Math.round(breakdown.taxRate * 100)}%).
-                  </p>
-                  <p className="text-muted-foreground">
-                    Es el importe total que se cargará a su método de pago.
-                  </p>
+                ) : (
+                  <>
+                    <p className="mb-3 text-sm text-muted-foreground">
+                      Verifique su correo para poder continuar al pago.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleSendCode}
+                        disabled={sendingCode || !email.includes("@")}
+                      >
+                        {sendingCode ? "Enviando…" : "Enviar código"}
+                      </Button>
+                      <Input
+                        placeholder="6 dígitos"
+                        inputMode="numeric"
+                        maxLength={6}
+                        value={emailCode}
+                        onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, ""))}
+                        className="w-[120px]"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleVerifyCode}
+                        disabled={emailCode.length !== 6}
+                      >
+                        Verificar
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </Section>
+
+            {breakdown ? (
+              <Section
+                id="plan"
+                step="4"
+                title="Plan y precio"
+                hint={`Incluye ${pricing.base_included_closers} closers certificados. Puede agregar hasta ${pricing.max_additional_closers} más.`}
+              >
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
+                  <Field label="Closers adicionales">
+                    <Select
+                      value={String(additionalClosers)}
+                      onValueChange={(v) => setAdditionalClosers(Number(v))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: pricing.max_additional_closers + 1 }, (_, i) => (
+                          <SelectItem key={i} value={String(i)}>
+                            {i === 0
+                              ? "Ninguno"
+                              : `${i} adicional${i !== 1 ? "es" : ""} (+${formatUsd(
+                                  i * pricing.additional_closer_amount
+                                )}/mes)`}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <div className="rounded-lg border border-border bg-muted/40 p-4">
+                    <p className="text-2xl font-bold text-secondary">
+                      {formatUsd(breakdown.totalUsd)}
+                      <span className="ml-1 text-sm font-normal text-muted-foreground">
+                        /mes
+                      </span>
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {totalClosers} closers · base {formatUsd(breakdown.subtotalUsd)} + I.V.A.{" "}
+                      {formatUsd(breakdown.ivaUsd)} ya incluido
+                    </p>
+                  </div>
                 </div>
                 {feesLine ? (
-                  <p className="text-sm font-medium text-secondary border-l-4 border-primary pl-3">
+                  <p className="mt-4 border-l-4 border-primary pl-3 text-sm font-medium text-secondary">
                     {feesLine}
                   </p>
                 ) : null}
-              </section>
+              </Section>
             ) : null}
 
-            <section aria-labelledby="operativos" className="space-y-4">
-              <h2 id="operativos" className="text-xl font-semibold text-secondary">
-                4. Parámetros operativos
-              </h2>
-              <div>
-                <Label>Vertical / industria</Label>
-                <Input value={vertical} onChange={(e) => setVertical(e.target.value)} />
-              </div>
-              <div>
-                <Label>Competidores directos (mín. 1, máx. {maxCompetitors})</Label>
-                {directCompetitors.map((c, i) => (
+            <Section
+              id="operativos"
+              step="5"
+              title="Parámetros operativos"
+              hint="Definen el alcance de las garantías de las Cláusulas 6, 7 y 13."
+            >
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <Field label="Vertical o industria">
                   <Input
-                    key={i}
-                    className="mt-2"
-                    value={c}
-                    placeholder={`Competidor ${i + 1}`}
-                    onChange={(e) => {
-                      const next = [...directCompetitors];
-                      next[i] = e.target.value;
-                      setDirectCompetitors(next);
-                    }}
+                    value={vertical}
+                    placeholder="SaaS B2B, seguros, inmobiliaria…"
+                    onChange={(e) => setVertical(e.target.value)}
                   />
-                ))}
-                {directCompetitors.length < maxCompetitors ? (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() => setDirectCompetitors([...directCompetitors, ""])}
-                  >
-                    + Agregar competidor
-                  </Button>
-                ) : null}
-              </div>
-              <div>
-                <Label>Comisión del closer (% o monto)</Label>
-                <Input
-                  value={closerCommission}
-                  onChange={(e) => setCloserCommission(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <Label>Volumen de leads</Label>
-                  <Input value={leadVolume} onChange={(e) => setLeadVolume(e.target.value)} />
-                </div>
-                <div className="w-32">
-                  <Label>Periodo</Label>
+                </Field>
+                <Field
+                  label="Comisión que pagará al closer"
+                  hint="Closwork no la retiene ni percibe parte de ella (Cláusula 9)."
+                >
+                  <Input
+                    value={closerCommission}
+                    placeholder="10% del ticket o $2,000 MXN por venta"
+                    onChange={(e) => setCloserCommission(e.target.value)}
+                  />
+                </Field>
+                <Field label="Volumen de leads comprometido">
+                  <Input
+                    inputMode="numeric"
+                    value={leadVolume}
+                    placeholder="120"
+                    onChange={(e) => setLeadVolume(e.target.value)}
+                  />
+                </Field>
+                <Field label="Periodo">
                   <Select
                     value={leadPeriod}
                     onValueChange={(v) => setLeadPeriod(v as "semana" | "mes")}
@@ -537,17 +686,67 @@ export default function Contratar() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="semana">Semana</SelectItem>
-                      <SelectItem value="mes">Mes</SelectItem>
+                      <SelectItem value="semana">Por semana</SelectItem>
+                      <SelectItem value="mes">Por mes</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </Field>
               </div>
-              <div>
-                <Label>Herramientas</Label>
-                <div className="flex flex-wrap gap-4 mt-2">
+
+              <div className="mt-6">
+                <Label className="text-sm">Competidores directos</Label>
+                <p className="mb-2 mt-1 text-xs text-muted-foreground">
+                  Empresas a las que Closwork no asignará a sus closers. Mínimo 1, máximo{" "}
+                  {maxCompetitors}.
+                </p>
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                  {directCompetitors.map((c, i) => (
+                    <div key={i} className="flex gap-2">
+                      <Input
+                        value={c}
+                        placeholder={`Competidor ${i + 1}`}
+                        onChange={(e) => {
+                          const next = [...directCompetitors];
+                          next[i] = e.target.value;
+                          setDirectCompetitors(next);
+                        }}
+                      />
+                      {directCompetitors.length > 1 ? (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          aria-label={`Quitar competidor ${i + 1}`}
+                          onClick={() =>
+                            setDirectCompetitors(
+                              directCompetitors.filter((_, idx) => idx !== i)
+                            )
+                          }
+                        >
+                          ×
+                        </Button>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+                {directCompetitors.length < maxCompetitors ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="mt-2 px-0 text-primary hover:bg-transparent"
+                    onClick={() => setDirectCompetitors([...directCompetitors, ""])}
+                  >
+                    + Agregar competidor
+                  </Button>
+                ) : null}
+              </div>
+
+              <div className="mt-6">
+                <Label className="text-sm">Herramientas y accesos que aporta</Label>
+                <div className="mt-2 flex flex-wrap gap-x-6 gap-y-3">
                   {["CRM", "WhatsApp", "Zoom", "Calendly", "Otro"].map((t) => (
-                    <label key={t} className="flex items-center gap-2 text-sm">
+                    <label key={t} className="flex cursor-pointer items-center gap-2 text-sm">
                       <Checkbox
                         checked={tools.includes(t)}
                         onCheckedChange={() => toggleTool(t)}
@@ -558,22 +757,25 @@ export default function Contratar() {
                 </div>
                 {tools.includes("Otro") ? (
                   <Input
-                    className="mt-2"
-                    placeholder="Especificar otra herramienta"
+                    className="mt-3 md:max-w-sm"
+                    placeholder="¿Cuál?"
                     value={toolsOther}
                     onChange={(e) => setToolsOther(e.target.value)}
                   />
                 ) : null}
               </div>
-            </section>
+            </Section>
 
-            <section aria-labelledby="aceptacion" className="space-y-4">
-              <h2 id="aceptacion" className="text-xl font-semibold text-secondary">
-                5. Aceptación
-              </h2>
-              <div className="space-y-3 text-sm">
-                <label className="flex gap-3 items-start">
+            <Section
+              id="aceptacion"
+              step="6"
+              title="Aceptación y pago"
+              hint="Marque cada casilla solo si está de acuerdo. Se registra la fecha y hora de cada una."
+            >
+              <div className="space-y-4 text-sm">
+                <label className="flex cursor-pointer items-start gap-3">
                   <Checkbox
+                    className="mt-0.5"
                     checked={cbTerms}
                     onCheckedChange={(v) => {
                       const on = v === true;
@@ -583,14 +785,12 @@ export default function Contratar() {
                   />
                   <span>
                     He leído y acepto el Contrato Marco (v{framework.version}) y la Orden de
-                    Servicio {order.orderCode}.{" "}
-                    <Link to={legalDocRoute(framework)} className="text-primary underline">
-                      Ver documentos
-                    </Link>
+                    Servicio {order.orderCode}.
                   </span>
                 </label>
-                <label className="flex gap-3 items-start">
+                <label className="flex cursor-pointer items-start gap-3">
                   <Checkbox
+                    className="mt-0.5"
                     checked={cbRecurring}
                     onCheckedChange={(v) => {
                       const on = v === true;
@@ -599,13 +799,14 @@ export default function Contratar() {
                     }}
                   />
                   <span>
-                    Autorizo a Closwork a realizar cargos automáticos recurrentes mensuales al
-                    método de pago que registre, hasta que cancele mi suscripción (Cláusulas 8.3
-                    y 12.1).
+                    Autorizo a Closwork a realizar cargos automáticos recurrentes mensuales por{" "}
+                    {breakdown ? formatUsd(breakdown.totalUsd) : ""} al método de pago que
+                    registre, hasta que cancele mi suscripción (Cláusulas 8.3 y 12.1).
                   </span>
                 </label>
-                <label className="flex gap-3 items-start">
+                <label className="flex cursor-pointer items-start gap-3">
                   <Checkbox
+                    className="mt-0.5"
                     checked={cbMerchant}
                     onCheckedChange={(v) => {
                       const on = v === true;
@@ -614,28 +815,35 @@ export default function Contratar() {
                     }}
                   />
                   <span>
-                    Declaro que contrato este servicio para los fines de mi actividad empresarial
-                    o profesional y no como consumidor final, y que cuento con facultades para
+                    Declaro que contrato para los fines de mi actividad empresarial o
+                    profesional y no como consumidor final, y que cuento con facultades para
                     obligar a la persona que represento (Cláusula 2.8).
                   </span>
                 </label>
               </div>
-              <Button
-                size="lg"
-                disabled={
-                  !fiscalValid || !operationalValid || !acceptanceReady || submitting
-                }
-                onClick={handleSubmit}
-              >
-                {submitting ? "Procesando…" : "Continuar al pago"}
-              </Button>
-              {!acceptanceReady ? (
-                <p className="text-xs text-muted-foreground">
-                  El pago se habilita al leer el documento completo, marcar las tres casillas y
-                  completar los datos con el correo verificado.
-                </p>
-              ) : null}
-            </section>
+
+              <div className="mt-6 border-t border-border pt-6">
+                <Button
+                  size="lg"
+                  className="w-full md:w-auto"
+                  disabled={!fiscalValid || !operationalValid || !acceptanceReady || submitting}
+                  onClick={handleSubmit}
+                >
+                  {submitting ? "Procesando…" : "Continuar al pago"}
+                </Button>
+                {!fiscalValid || !operationalValid || !acceptanceReady ? (
+                  <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
+                    <li>{scrolledToEnd ? "✓" : "○"} Contrato leído hasta el final</li>
+                    <li>{fiscalValid ? "✓" : "○"} Datos fiscales y correo verificado</li>
+                    <li>{operationalValid ? "✓" : "○"} Parámetros operativos</li>
+                    <li>
+                      {cbTerms && cbRecurring && cbMerchant ? "✓" : "○"} Tres aceptaciones
+                      marcadas
+                    </li>
+                  </ul>
+                ) : null}
+              </div>
+            </Section>
           </div>
         </main>
         <Footer />
