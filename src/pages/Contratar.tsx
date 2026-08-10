@@ -50,6 +50,27 @@ const RFC_PF = /^[A-ZÑ&]{4}\d{6}[A-Z0-9]{3}$/i;
 const RFC_PM = /^[A-ZÑ&]{3}\d{6}[A-Z0-9]{3}$/i;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+const FIELD_LABELS: Record<string, string> = {
+  legalName: "razón social",
+  rfc: "RFC",
+  taxRegime: "régimen fiscal",
+  calle: "calle",
+  numero: "número exterior",
+  colonia: "colonia",
+  municipio: "municipio",
+  estado: "estado",
+  cp: "código postal",
+  signerName: "nombre del firmante",
+  signerRole: "cargo del firmante",
+  email: "correo electrónico",
+  phone: "teléfono",
+  vertical: "vertical",
+  closerCommission: "comisión del closer",
+  leadVolume: "volumen de leads",
+  competitors: "competidores directos",
+  tools: "herramientas",
+};
+
 function validateRfc(rfc: string): boolean {
   const v = rfc.trim().toUpperCase();
   return RFC_PF.test(v) || RFC_PM.test(v);
@@ -84,19 +105,27 @@ function Section({
 function Field({
   label,
   hint,
+  error,
   className = "",
   children,
 }: {
   label: string;
   hint?: string;
+  error?: string;
   className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className={className}>
+    <div className={className} data-invalid={error ? "true" : undefined}>
       <Label className="text-sm">{label}</Label>
-      <div className="mt-1.5">{children}</div>
-      {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+      <div className={`mt-1.5 ${error ? "[&_input]:border-destructive [&>button]:border-destructive" : ""}`}>
+        {children}
+      </div>
+      {error ? (
+        <p className="mt-1 text-xs font-medium text-destructive">{error}</p>
+      ) : hint ? (
+        <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
+      ) : null}
     </div>
   );
 }
@@ -109,6 +138,7 @@ export default function Contratar() {
   const guarantees = order?.guarantees;
 
   const [submitting, setSubmitting] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   // Identificación fiscal
   const [legalName, setLegalName] = useState("");
@@ -174,27 +204,48 @@ export default function Contratar() {
     ? pricing.base_included_closers + (breakdown?.additionalClosers ?? 0)
     : 0;
 
-  const fiscalValid =
-    legalName.trim().length >= 3 &&
-    validateRfc(rfc) &&
-    taxRegime &&
-    fiscalAddress.calle.trim() &&
-    fiscalAddress.numero.trim() &&
-    fiscalAddress.colonia.trim() &&
-    fiscalAddress.municipio.trim() &&
-    fiscalAddress.estado &&
-    /^\d{5}$/.test(fiscalAddress.cp) &&
-    signerName.trim() &&
-    signerRole.trim() &&
-    EMAIL_RE.test(email.trim()) &&
-    phone.replace(/\D/g, "").length >= 10;
+  const errors: Record<string, string> = {};
+  if (legalName.trim().length < 3) {
+    errors.legalName = "Escriba la razón social o nombre legal completo.";
+  }
+  if (!validateRfc(rfc)) {
+    errors.rfc = "RFC inválido: 12 caracteres (persona moral) o 13 (persona física).";
+  }
+  if (!taxRegime) errors.taxRegime = "Seleccione un régimen fiscal.";
+  if (!fiscalAddress.calle.trim()) errors.calle = "Requerido.";
+  if (!fiscalAddress.numero.trim()) errors.numero = "Requerido. Escriba S/N si no aplica.";
+  if (!fiscalAddress.colonia.trim()) errors.colonia = "Requerido.";
+  if (!fiscalAddress.municipio.trim()) errors.municipio = "Requerido.";
+  if (!fiscalAddress.estado) errors.estado = "Seleccione un estado.";
+  if (!/^\d{5}$/.test(fiscalAddress.cp)) errors.cp = "Deben ser 5 dígitos.";
+  if (!signerName.trim()) errors.signerName = "Requerido.";
+  if (!signerRole.trim()) errors.signerRole = "Requerido.";
+  if (!EMAIL_RE.test(email.trim())) errors.email = "Escriba un correo válido.";
+  if (phone.replace(/\D/g, "").length < 10) {
+    errors.phone = "Escriba al menos 10 dígitos.";
+  }
+  if (!vertical.trim()) errors.vertical = "Requerido.";
+  if (!closerCommission.trim()) errors.closerCommission = "Requerido.";
+  if (!leadVolume.trim()) errors.leadVolume = "Requerido.";
+  if (directCompetitors.filter((c) => c.trim()).length < 1) {
+    errors.competitors = "Indique al menos un competidor directo.";
+  }
+  if (tools.filter((t) => t !== "Otro").length === 0 && !toolsOther.trim()) {
+    errors.tools = "Seleccione al menos una herramienta.";
+  }
 
-  const operationalValid =
-    vertical.trim() &&
-    directCompetitors.filter((c) => c.trim()).length >= 1 &&
-    closerCommission.trim() &&
-    leadVolume.trim() &&
-    (tools.filter((t) => t !== "Otro").length > 0 || toolsOther.trim());
+  const FISCAL_KEYS = [
+    "legalName", "rfc", "taxRegime", "calle", "numero", "colonia",
+    "municipio", "estado", "cp", "signerName", "signerRole", "email", "phone",
+  ];
+  const fiscalValid = FISCAL_KEYS.every((k) => !errors[k]);
+  const operationalValid = ["vertical", "closerCommission", "leadVolume", "competitors", "tools"]
+    .every((k) => !errors[k]);
+  const pendingFields = Object.keys(errors).map((k) => FIELD_LABELS[k] ?? k);
+
+  /** Muestra el error solo si el campo ya fue tocado o si se intentó pagar. */
+  const errFor = (key: string, touched: unknown) =>
+    showErrors || String(touched ?? "").trim() ? errors[key] : undefined;
 
   const acceptanceReady =
     cbTerms &&
@@ -213,7 +264,15 @@ export default function Contratar() {
 
   const handleSubmit = async () => {
     if (!framework || !order || !privacy || !pricing || !breakdown) return;
-    if (!acceptanceReady || !fiscalValid || !operationalValid) return;
+    if (!acceptanceReady) return;
+    if (!fiscalValid || !operationalValid) {
+      setShowErrors(true);
+      toast.error("Revise los campos marcados en rojo.");
+      document
+        .querySelector("[data-invalid='true']")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
     setSubmitting(true);
     const formPayload = {
@@ -367,22 +426,32 @@ export default function Contratar() {
               hint="Tal como aparecen en su Constancia de Situación Fiscal. Con ellos se emite el CFDI."
             >
               <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
-                <Field label="Razón social o nombre legal" className="md:col-span-6">
+                <Field
+                  label="Razón social o nombre legal"
+                  className="md:col-span-6"
+                  error={errFor("legalName", legalName)}
+                >
                   <Input value={legalName} onChange={(e) => setLegalName(e.target.value)} />
                 </Field>
                 <Field
                   label="RFC"
                   className="md:col-span-2"
-                  hint={rfc && !validateRfc(rfc) ? "Formato de RFC inválido" : undefined}
+                  error={errFor("rfc", rfc)}
                 >
                   <Input
                     value={rfc}
                     maxLength={13}
                     placeholder="XAXX010101000"
-                    onChange={(e) => setRfc(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setRfc(e.target.value.toUpperCase().replace(/[^A-ZÑ&0-9]/g, ""))
+                    }
                   />
                 </Field>
-                <Field label="Régimen fiscal" className="md:col-span-4">
+                <Field
+                  label="Régimen fiscal"
+                  className="md:col-span-4"
+                  error={errFor("taxRegime", taxRegime)}
+                >
                   <Select value={taxRegime} onValueChange={setTaxRegime}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecciona régimen" />
@@ -402,7 +471,11 @@ export default function Contratar() {
                 Domicilio fiscal
               </h3>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
-                <Field label="Calle" className="md:col-span-4">
+                <Field
+                  label="Calle"
+                  className="md:col-span-4"
+                  error={errFor("calle", fiscalAddress.calle)}
+                >
                   <Input
                     value={fiscalAddress.calle}
                     onChange={(e) =>
@@ -410,7 +483,11 @@ export default function Contratar() {
                     }
                   />
                 </Field>
-                <Field label="Núm. exterior" className="md:col-span-1">
+                <Field
+                  label="Núm. exterior"
+                  className="md:col-span-1"
+                  error={errFor("numero", fiscalAddress.numero)}
+                >
                   <Input
                     value={fiscalAddress.numero}
                     onChange={(e) =>
@@ -427,7 +504,11 @@ export default function Contratar() {
                     }
                   />
                 </Field>
-                <Field label="Colonia" className="md:col-span-3">
+                <Field
+                  label="Colonia"
+                  className="md:col-span-3"
+                  error={errFor("colonia", fiscalAddress.colonia)}
+                >
                   <Input
                     value={fiscalAddress.colonia}
                     onChange={(e) =>
@@ -435,7 +516,11 @@ export default function Contratar() {
                     }
                   />
                 </Field>
-                <Field label="Municipio o alcaldía" className="md:col-span-3">
+                <Field
+                  label="Municipio o alcaldía"
+                  className="md:col-span-3"
+                  error={errFor("municipio", fiscalAddress.municipio)}
+                >
                   <Input
                     value={fiscalAddress.municipio}
                     onChange={(e) =>
@@ -443,7 +528,11 @@ export default function Contratar() {
                     }
                   />
                 </Field>
-                <Field label="Estado" className="md:col-span-4">
+                <Field
+                  label="Estado"
+                  className="md:col-span-4"
+                  error={errFor("estado", fiscalAddress.estado)}
+                >
                   <Select
                     value={fiscalAddress.estado}
                     onValueChange={(v) => setFiscalAddress((a) => ({ ...a, estado: v }))}
@@ -460,7 +549,11 @@ export default function Contratar() {
                     </SelectContent>
                   </Select>
                 </Field>
-                <Field label="Código postal" className="md:col-span-2">
+                <Field
+                  label="Código postal"
+                  className="md:col-span-2"
+                  error={errFor("cp", fiscalAddress.cp)}
+                >
                   <Input
                     inputMode="numeric"
                     maxLength={5}
@@ -483,10 +576,13 @@ export default function Contratar() {
               hint="Quien acepta el contrato debe contar con facultades para obligar a la empresa."
             >
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <Field label="Nombre completo del firmante">
+                <Field
+                  label="Nombre completo del firmante"
+                  error={errFor("signerName", signerName)}
+                >
                   <Input value={signerName} onChange={(e) => setSignerName(e.target.value)} />
                 </Field>
-                <Field label="Cargo">
+                <Field label="Cargo" error={errFor("signerRole", signerRole)}>
                   <Input
                     value={signerRole}
                     placeholder="Administrador único, Director General…"
@@ -495,11 +591,8 @@ export default function Contratar() {
                 </Field>
                 <Field
                   label="Correo electrónico"
-                  hint={
-                    email && !EMAIL_RE.test(email.trim())
-                      ? "Correo inválido"
-                      : "Aquí llegan el Resumen de Contratación, el CFDI y las notificaciones (Cláusula 19)."
-                  }
+                  error={errFor("email", email)}
+                  hint="Aquí llegan el Resumen de Contratación, el CFDI y las notificaciones (Cláusula 19)."
                 >
                   <Input
                     type="email"
@@ -507,7 +600,10 @@ export default function Contratar() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Field>
-                <Field label="Teléfono (10 dígitos)">
+                <Field
+                  label="Teléfono (10 dígitos)"
+                  error={errFor("phone", phone)}
+                >
                   <Input
                     inputMode="tel"
                     value={phone}
@@ -574,7 +670,7 @@ export default function Contratar() {
               hint="Definen el alcance de las garantías de las Cláusulas 6, 7 y 13."
             >
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <Field label="Vertical o industria">
+                <Field label="Vertical o industria" error={errFor("vertical", vertical)}>
                   <Input
                     value={vertical}
                     placeholder="SaaS B2B, seguros, inmobiliaria…"
@@ -583,6 +679,7 @@ export default function Contratar() {
                 </Field>
                 <Field
                   label="Comisión que pagará al closer"
+                  error={errFor("closerCommission", closerCommission)}
                   hint="Closwork no la retiene ni percibe parte de ella (Cláusula 9)."
                 >
                   <Input
@@ -591,7 +688,10 @@ export default function Contratar() {
                     onChange={(e) => setCloserCommission(e.target.value)}
                   />
                 </Field>
-                <Field label="Volumen de leads comprometido">
+                <Field
+                  label="Volumen de leads comprometido"
+                  error={errFor("leadVolume", leadVolume)}
+                >
                   <Input
                     inputMode="numeric"
                     value={leadVolume}
@@ -651,6 +751,11 @@ export default function Contratar() {
                     </div>
                   ))}
                 </div>
+                {errFor("competitors", directCompetitors.join("")) ? (
+                  <p className="mt-2 text-xs font-medium text-destructive">
+                    {errors.competitors}
+                  </p>
+                ) : null}
                 {directCompetitors.length < maxCompetitors ? (
                   <Button
                     type="button"
@@ -684,6 +789,9 @@ export default function Contratar() {
                     value={toolsOther}
                     onChange={(e) => setToolsOther(e.target.value)}
                   />
+                ) : null}
+                {errFor("tools", tools.join("")) ? (
+                  <p className="mt-2 text-xs font-medium text-destructive">{errors.tools}</p>
                 ) : null}
               </div>
             </Section>
@@ -748,21 +856,23 @@ export default function Contratar() {
                 <Button
                   size="lg"
                   className="w-full md:w-auto"
-                  disabled={!fiscalValid || !operationalValid || !acceptanceReady || submitting}
+                  disabled={!acceptanceReady || submitting}
                   onClick={handleSubmit}
                 >
                   {submitting ? "Procesando…" : "Continuar al pago"}
                 </Button>
-                {!fiscalValid || !operationalValid || !acceptanceReady ? (
+                {!acceptanceReady ? (
                   <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
                     <li>{scrolledToEnd ? "✓" : "○"} Contrato leído hasta el final</li>
-                    <li>{fiscalValid ? "✓" : "○"} Datos fiscales y de contacto</li>
-                    <li>{operationalValid ? "✓" : "○"} Parámetros operativos</li>
                     <li>
                       {cbTerms && cbRecurring && cbMerchant ? "✓" : "○"} Tres aceptaciones
                       marcadas
                     </li>
                   </ul>
+                ) : pendingFields.length ? (
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Falta completar: {pendingFields.join(", ")}.
+                  </p>
                 ) : null}
               </div>
             </Section>
