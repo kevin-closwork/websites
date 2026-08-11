@@ -26,7 +26,7 @@ const Navbar = () => {
   const navLinks = [
     { label: "Cómo funciona", href: "/#como-funciona" },
     { label: "Beneficios", href: "/#beneficios" },
-    { label: "Testimonios", href: "/#testimonios" },
+    { label: "Comunidad", href: "/#comunidad" },
     ...(PRICING_VISIBLE ? [{ label: "Precios", href: "/#pricing" }] : []),
     { label: "Ahorros", href: "/#ahorros" },
   ];

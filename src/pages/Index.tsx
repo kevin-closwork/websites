@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PricingSection from "@/components/pricing/PricingSection";
 import { PRICING_VISIBLE } from "@/config/featureFlags";
-import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Star, Check, TrendingDown, HelpCircle } from "lucide-react";
+import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Check, TrendingDown, HelpCircle } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
 import { Marquee } from "@/components/motion/Marquee";
 import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
 import { BenefitPoint } from "@/components/motion/BenefitPoint";
+import { FloatingAvatars } from "@/components/motion/FloatingAvatars";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const HERO_PHRASES = [
@@ -105,6 +106,48 @@ const CLOSER_BENEFITS = [
     icon: Award,
     title: "Soporte Especializado",
     description: "Recibe formación y herramientas para maximizar tus comisiones.",
+  },
+];
+
+const BENEFIT_BLOCKS = [
+  {
+    id: "empresas",
+    title: "Para Empresas",
+    subtitle: "Escala tu fuerza de ventas sin riesgos",
+    from: "left" as const,
+    image: "/stock/empresas-equipo.jpg",
+    imageAlt: "Equipo de una empresa cerrando un acuerdo comercial en una sala de juntas",
+    points: EMPRESA_BENEFITS,
+  },
+  {
+    id: "closers",
+    title: "Para Socios Comerciales (Closers)",
+    subtitle: "Maximiza tus ingresos con oportunidades verificadas",
+    from: "right" as const,
+    image: "/stock/closers-acuerdo.jpg",
+    imageAlt: "Socio comercial cerrando un trato con un apretón de manos",
+    points: CLOSER_BENEFITS,
+  },
+];
+
+const SAVINGS_POINTS = [
+  {
+    icon: Check,
+    title: "Sin Salarios Fijos",
+    description:
+      "No pagas salarios mensuales. Solo pagas por resultados y socios comerciales activos trabajando para ti.",
+  },
+  {
+    icon: Check,
+    title: "Ahorro Promedio 60-80%",
+    description:
+      "Las empresas ahorran entre 60% y 80% comparado con contratar socios comerciales con salario fijo tradicional.",
+  },
+  {
+    icon: Check,
+    title: "Calcula Tu Ahorro",
+    description:
+      "Usa nuestra calculadora interactiva para ver exactamente cuánto ahorrarías según tu escenario específico.",
   },
 ];
 
@@ -347,74 +390,34 @@ const Index = () => {
               </p>
             </div>
             </ScrollReveal>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto w-full relative z-10">
-              <ScrollReveal variant="fade-up" delay={1}>
-              <Card className="landing-section-card-hover h-full overflow-hidden">
-                <CardHeader>
-                  <CardTitle>Para Empresas</CardTitle>
-                  <CardDescription>Escala tu fuerza de ventas sin riesgos</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {EMPRESA_BENEFITS.map((benefit) => (
-                    <BenefitPoint key={benefit.title} {...benefit} from="left" />
-                  ))}
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-              <ScrollReveal variant="fade-up" delay={2}>
-              <Card className="landing-section-card-hover h-full overflow-hidden">
-                <CardHeader>
-                  <CardTitle>Para Socios Comerciales (Closers)</CardTitle>
-                  <CardDescription>Maximiza tus ingresos con oportunidades verificadas</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {CLOSER_BENEFITS.map((benefit) => (
-                    <BenefitPoint key={benefit.title} {...benefit} from="right" />
-                  ))}
-                </CardContent>
-              </Card>
-              </ScrollReveal>
-            </div>
-            </div>
-          </section>
-
-          {/* Testimonios */}
-          <section id="testimonios" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <AnimatedHeadline
-                text="Lo que dicen nuestros usuarios"
-                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
-              />
-              <ScrollReveal variant="fade-up" delay={1}>
-                <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
-                  Historias reales de empresas y closers que han transformado su negocio con Closwork
-                </p>
-              </ScrollReveal>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { name: "María González", empresa: "TechStart México", rol: "CEO", content: "Closwork nos ayudó a escalar nuestras ventas un 300% en solo 3 meses. Los closers que encontramos son realmente profesionales y conocen el mercado LATAM.", stars: 5 },
-                { name: "Carlos Mendoza", empresa: "Closer Premium", rol: "Socio Comercial", content: "En 6 meses con Closwork he generado más comisiones que en todo el año anterior. La calidad de las oportunidades y el soporte es excepcional.", stars: 5 },
-                { name: "Ana Torres", empresa: "EcommSolutions", rol: "Directora de Ventas", content: "La plataforma nos conectó con el socio comercial perfecto para nuestro nicho. Sin riesgos fijos y con resultados desde el primer mes.", stars: 5 },
-                { name: "Roberto Silva", empresa: "Growth Partners", rol: "Closer Especializado", content: "Closwork me ha permitido trabajar con múltiples empresas al mismo tiempo. La comunidad es increíble y siempre hay nuevas oportunidades.", stars: 5 },
-              ].map((t, i) => (
-                <ScrollReveal key={i} variant={i % 2 === 0 ? "fade-left" : "fade-right"} delay={(i + 1) as 1 | 2 | 3 | 4}>
-                <Card className="landing-section-card-hover h-full">
-                  <CardContent className="pt-6">
-                    <div className="flex gap-1 mb-3">
-                      {Array.from({ length: t.stars }).map((_, j) => (
-                        <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+            <div className="relative z-10 space-y-16 sm:space-y-24">
+              {BENEFIT_BLOCKS.map((block) => (
+                <div key={block.id} className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-14">
+                  <div className="flex flex-col justify-center">
+                    <ScrollReveal variant="fade-up">
+                      <h3 className="text-3xl sm:text-4xl font-semibold text-foreground">{block.title}</h3>
+                      <p className="mt-3 text-base sm:text-lg text-muted-foreground">{block.subtitle}</p>
+                    </ScrollReveal>
+                    <div className="mt-8 space-y-7 overflow-hidden">
+                      {block.points.map((point) => (
+                        <BenefitPoint key={point.title} {...point} from={block.from} size="lg" />
                       ))}
                     </div>
-                    <p className="text-sm text-muted-foreground mb-4">&quot;{t.content}&quot;</p>
-                    <div>
-                      <p className="font-semibold">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.empresa} • {t.rol}</p>
+                  </div>
+                  <ScrollReveal variant="scale" className="h-full">
+                    <div className="relative h-full min-h-[18rem] sm:min-h-[24rem] overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,54,107,0.45)]">
+                      <img
+                        src={block.image}
+                        alt={block.imageAlt}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-[hsl(210,100%,21%)]/35 via-transparent to-transparent" />
                     </div>
-                  </CardContent>
-                </Card>
-                </ScrollReveal>
+                  </ScrollReveal>
+                </div>
               ))}
+            </div>
             </div>
           </section>
 
@@ -424,6 +427,7 @@ const Index = () => {
               <div className="absolute top-1/4 right-[5%] w-[400px] h-[400px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[100px]" />
               <div className="absolute bottom-1/4 left-[5%] w-[350px] h-[350px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[90px]" />
             </div>
+            <FloatingAvatars />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
             <ScrollReveal variant="scale">
             <div className="landing-section-header mb-12 relative z-10">
@@ -505,31 +509,11 @@ const Index = () => {
                 </ScrollReveal>
               ))}
             </div>
-            <ScrollReveal variant="fade-left" delay={1}>
-            <div className="space-y-4 max-w-2xl mx-auto mb-8 relative z-10">
-              <div className="flex gap-3">
-                <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">Sin Salarios Fijos</p>
-                  <p className="text-sm text-muted-foreground">No pagas salarios mensuales. Solo pagas por resultados y socios comerciales activos trabajando para ti.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">Ahorro Promedio 60-80%</p>
-                  <p className="text-sm text-muted-foreground">Las empresas ahorran entre 60% y 80% comparado con contratar socios comerciales con salario fijo tradicional.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-medium">Calcula Tu Ahorro</p>
-                  <p className="text-sm text-muted-foreground">Usa nuestra calculadora interactiva para ver exactamente cuánto ahorrarías según tu escenario específico.</p>
-                </div>
-              </div>
+            <div className="space-y-6 max-w-2xl mx-auto mb-8 relative z-10 overflow-hidden">
+              {SAVINGS_POINTS.map((point, i) => (
+                <BenefitPoint key={point.title} {...point} from={i % 2 === 0 ? "left" : "right"} />
+              ))}
             </div>
-            </ScrollReveal>
             <ScrollReveal variant="scale" delay={2}>
             <Card className="max-w-xl mx-auto landing-section-card-hover relative z-10">
               <CardHeader>
