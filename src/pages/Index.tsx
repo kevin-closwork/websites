@@ -22,6 +22,7 @@ import { AnimatedHeadline } from "@/components/motion/AnimatedHeadline";
 import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
 import { Marquee } from "@/components/motion/Marquee";
 import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
+import { BenefitPoint } from "@/components/motion/BenefitPoint";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const HERO_PHRASES = [
@@ -68,6 +69,42 @@ const PROCESS_STEPS: ProcessStep[] = [
     title: "Pagas comisión solo cuando se concreten ventas",
     description:
       "Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio.",
+  },
+];
+
+const EMPRESA_BENEFITS = [
+  {
+    icon: Shield,
+    title: "Reducción de Riesgo",
+    description: "Sin costos fijos ni contratos largos. Solo pagas por resultados reales.",
+  },
+  {
+    icon: Zap,
+    title: "Acceso Inmediato",
+    description: "Conecta con closers verificados en menos de 48 horas.",
+  },
+  {
+    icon: Target,
+    title: "Flexibilidad Total",
+    description: "Ajusta comisiones y requisitos según tus necesidades específicas.",
+  },
+];
+
+const CLOSER_BENEFITS = [
+  {
+    icon: TrendingUp,
+    title: "Oportunidades Constantes",
+    description: "Acceso a múltiples ofertas de empresas verificadas cada semana.",
+  },
+  {
+    icon: Users,
+    title: "Comunidad Activa",
+    description: "Conecta con otros closers, comparte estrategias y aprende continuamente.",
+  },
+  {
+    icon: Award,
+    title: "Soporte Especializado",
+    description: "Recibe formación y herramientas para maximizar tus comisiones.",
   },
 ];
 
@@ -225,23 +262,29 @@ const Index = () => {
                 </button>
               </motion.form>
 
-              <motion.div variants={fadeUpVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              <motion.div variants={fadeUpVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
                 <Button
                   size="lg"
-                  className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold"
+                  className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold w-full sm:w-auto"
                   asChild
                 >
                   <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
                     Registra tu empresa
                   </a>
                 </Button>
-                <p className="text-sm text-white/80">Setup en 5 minutos • Cancelación flexible</p>
+                <Button
+                  variant="outline-white"
+                  size="lg"
+                  className="cta-shine cta-glow text-lg px-8 font-semibold bg-white/10 backdrop-blur-sm w-full sm:w-auto"
+                  asChild
+                >
+                  <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer">
+                    Regístrate como Closer
+                  </a>
+                </Button>
               </motion.div>
-              <motion.p variants={fadeUpVariants} className="text-sm text-white/90 mb-8">
-                ¿Eres un vendedor? Comienza tu camino{" "}
-                <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer" className="text-white font-semibold hover:underline underline-offset-2">
-                  aquí
-                </a>
+              <motion.p variants={fadeUpVariants} className="text-sm text-white/80 mb-8">
+                Setup en 5 minutos • Cancelación flexible
               </motion.p>
 
               <motion.div variants={fadeUpVariants} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
@@ -305,65 +348,29 @@ const Index = () => {
             </div>
             </ScrollReveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto w-full relative z-10">
-              <ScrollReveal variant="fade-left" delay={1}>
-              <Card className="landing-section-card-hover h-full">
+              <ScrollReveal variant="fade-up" delay={1}>
+              <Card className="landing-section-card-hover h-full overflow-hidden">
                 <CardHeader>
                   <CardTitle>Para Empresas</CardTitle>
                   <CardDescription>Escala tu fuerza de ventas sin riesgos</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex gap-3">
-                    <Shield className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Reducción de Riesgo</p>
-                      <p className="text-sm text-muted-foreground">Sin costos fijos ni contratos largos. Solo pagas por resultados reales.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Zap className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Acceso Inmediato</p>
-                      <p className="text-sm text-muted-foreground">Conecta con closers verificados en menos de 48 horas.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Target className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Flexibilidad Total</p>
-                      <p className="text-sm text-muted-foreground">Ajusta comisiones y requisitos según tus necesidades específicas.</p>
-                    </div>
-                  </div>
+                  {EMPRESA_BENEFITS.map((benefit) => (
+                    <BenefitPoint key={benefit.title} {...benefit} from="left" />
+                  ))}
                 </CardContent>
               </Card>
               </ScrollReveal>
-              <ScrollReveal variant="fade-right" delay={2}>
-              <Card className="landing-section-card-hover h-full">
+              <ScrollReveal variant="fade-up" delay={2}>
+              <Card className="landing-section-card-hover h-full overflow-hidden">
                 <CardHeader>
                   <CardTitle>Para Socios Comerciales (Closers)</CardTitle>
                   <CardDescription>Maximiza tus ingresos con oportunidades verificadas</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex gap-3">
-                    <TrendingUp className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Oportunidades Constantes</p>
-                      <p className="text-sm text-muted-foreground">Acceso a múltiples ofertas de empresas verificadas cada semana.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Users className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Comunidad Activa</p>
-                      <p className="text-sm text-muted-foreground">Conecta con otros closers, comparte estrategias y aprende continuamente.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <Award className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium">Soporte Especializado</p>
-                      <p className="text-sm text-muted-foreground">Recibe formación y herramientas para maximizar tus comisiones.</p>
-                    </div>
-                  </div>
+                  {CLOSER_BENEFITS.map((benefit) => (
+                    <BenefitPoint key={benefit.title} {...benefit} from="right" />
+                  ))}
                 </CardContent>
               </Card>
               </ScrollReveal>
