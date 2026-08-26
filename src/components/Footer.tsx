@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
-import { PRICING_VISIBLE } from "@/config/featureFlags";
 
 const socialLinks = [
   {
@@ -24,13 +23,9 @@ const Footer = () => {
   const quickLinks = [
     { label: "Inicio", href: "/", isRoute: true },
     { label: "Blog", href: "/blog", isRoute: true },
-    { label: "About Us", href: "/#como-funciona", isRoute: false },
-    { label: "Características", href: "/#beneficios", isRoute: false },
-    ...(PRICING_VISIBLE
-      ? [{ label: "Precios", href: "/#pricing", isRoute: false }]
-      : []),
+    { label: "Nosotros", href: "/about-us", isRoute: true },
+    { label: "Cómo trabajamos", href: "/#como-trabajamos", isRoute: false },
     { label: "Contacto", href: "mailto:hola@closwork.com", isRoute: false },
-    { label: "Solicitud", href: "/solicitud", isRoute: true },
     { label: "Términos y Condiciones", href: "/terminos-condiciones", isRoute: true },
     { label: "Documentos legales", href: "/legal", isRoute: true },
     { label: "Privacidad", href: "/privacidad", isRoute: true },
@@ -47,7 +42,7 @@ const Footer = () => {
             </div>
             <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3">Sobre Nosotros</h3>
             <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-              Closwork es una plataforma innovadora diseñada para revolucionar las ventas B2B, ofreciendo herramientas avanzadas y soluciones personalizadas.
+              Closwork construye y opera áreas comerciales para empresas en Latinoamérica.
             </p>
           </div>
 

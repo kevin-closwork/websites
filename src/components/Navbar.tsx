@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { PRICING_VISIBLE } from "@/config/featureFlags";
+import { CTA_DIAGNOSTICO_URL } from "@/config/featureFlags";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,11 +24,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: "Cómo funciona", href: "/#como-funciona" },
-    { label: "Beneficios", href: "/#beneficios" },
-    { label: "Comunidad", href: "/#comunidad" },
-    ...(PRICING_VISIBLE ? [{ label: "Precios", href: "/#pricing" }] : []),
-    { label: "Ahorros", href: "/#ahorros" },
+    { label: "El problema", href: "/#problema" },
+    { label: "Cómo trabajamos", href: "/#como-trabajamos" },
+    { label: "Metodología", href: "/#metodologia" },
+    { label: "Blog", href: "/blog" },
   ];
 
   return (
@@ -76,33 +75,36 @@ const Navbar = () => {
           )}
 
           <div className="hidden md:flex items-center gap-3">
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
-              asChild
+            {!isLanding && (
+              <Link
+                to="/blog"
+                className="text-xs text-gray-500 hover:text-primary transition-colors"
+              >
+                Blog
+              </Link>
+            )}
+            <a
+              href="https://app.closwork.com/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-500 hover:text-primary transition-colors"
             >
-              <Link to="/blog">Blog</Link>
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
-              asChild
+              Iniciar sesión
+            </a>
+            <a
+              href="https://app.closwork.com/register/role"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-500 hover:text-primary transition-colors"
             >
-              <Link to="/solicitud">Contacto</Link>
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
-              asChild
-            >
-              <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Iniciar sesión</a>
-            </Button>
+              Registrarte
+            </a>
             <Button
               variant="default"
               className="cta-shine cta-glow bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
               asChild
             >
-              <a href="https://app.closwork.com/register/role" target="_blank" rel="noopener noreferrer">Registrarte</a>
+              <a href={CTA_DIAGNOSTICO_URL}>Agendar diagnóstico</a>
             </Button>
           </div>
 
@@ -140,37 +142,40 @@ const Navbar = () => {
                 )}
 
                 <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+                  {!isLanding && (
+                    <Link
+                      to="/blog"
+                      onClick={() => setIsOpen(false)}
+                      className="px-4 py-2 text-sm text-gray-500 hover:text-primary"
+                    >
+                      Blog
+                    </Link>
+                  )}
+                  <a
+                    href="https://app.closwork.com/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    asChild
+                    className="px-4 py-2 text-sm text-gray-500 hover:text-primary"
                   >
-                    <Link to="/blog">Blog</Link>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
+                    Iniciar sesión
+                  </a>
+                  <a
+                    href="https://app.closwork.com/register/role"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    asChild
+                    className="px-4 py-2 text-sm text-gray-500 hover:text-primary"
                   >
-                    <Link to="/solicitud">Contacto</Link>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-gray-700 hover:text-primary hover:bg-gray-50 rounded-lg font-medium"
-                    onClick={() => setIsOpen(false)}
-                    asChild
-                  >
-                    <a href="https://app.closwork.com/login" target="_blank" rel="noopener noreferrer">Iniciar sesión</a>
-                  </Button>
+                    Registrarte
+                  </a>
                   <Button
                     variant="default"
                     className="w-full bg-primary text-white hover:bg-primary/90 rounded-lg font-medium"
                     onClick={() => setIsOpen(false)}
                     asChild
                   >
-                    <a href="https://app.closwork.com/register/role" target="_blank" rel="noopener noreferrer">Registrarte</a>
+                    <a href={CTA_DIAGNOSTICO_URL}>Agendar diagnóstico</a>
                   </Button>
                 </div>
               </div>

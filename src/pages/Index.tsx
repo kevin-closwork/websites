@@ -1,153 +1,171 @@
-import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PricingSection from "@/components/pricing/PricingSection";
-import { PRICING_VISIBLE } from "@/config/featureFlags";
-import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Check, TrendingDown, HelpCircle } from "lucide-react";
+import { CTA_DIAGNOSTICO_URL } from "@/config/featureFlags"; // ← Calendly de diagnóstico (TODO_PENDIENTE)
+import { Sparkles, Send, User, Users, HelpCircle, Search, Zap, Shield, Award, TrendingUp, Target, Check } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { GrainOverlay } from "@/components/motion/GrainOverlay";
 import { AnimatedHeadline } from "@/components/motion/AnimatedHeadline";
-import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
-import { Marquee } from "@/components/motion/Marquee";
 import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
 import { BenefitPoint } from "@/components/motion/BenefitPoint";
-import { FloatingAvatars } from "@/components/motion/FloatingAvatars";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
 
 const HERO_PHRASES = [
-  "Necesito vender mi ERP",
-  "Busco un vendedor bajo comisión",
-  "Mi empresa quiere vender más",
-  "Quiero cerrar más ventas B2B",
-  "Necesito socios comerciales",
-];
-
-const SECTORS = [
-  "SaaS & Software",
-  "Fintech",
-  "ERP & CRM",
-  "Manufactura",
-  "Logística",
-  "Ecommerce",
-  "Consultoría",
-  "Salud",
-  "Educación",
-  "Inmobiliaria",
-  "Agencias",
-  "Hardware",
+  "Mi equipo no cierra lo suficiente",
+  "No tengo proceso de ventas documentado",
+  "Quiero escalar sin contratar nómina",
+  "Mis vendedores improvisan cada llamada",
+  "Tengo leads pero no conversión",
 ];
 
 const PROCESS_STEPS: ProcessStep[] = [
   {
-    icon: Building2,
+    icon: Search,
     step: "01",
-    title: "Publica tu empresa/oferta",
+    title: "Diagnosticamos",
     description:
-      "Registra tu empresa y publica las oportunidades de venta que necesitas promocionar. Define comisiones y requisitos.",
-  },
-  {
-    icon: Users,
-    step: "02",
-    title: "Te conectamos con un socio comercial validado",
-    description:
-      "Nuestro algoritmo te conecta con closers verificados que tienen experiencia en tu sector y mercado objetivo.",
-  },
-  {
-    icon: TrendingUp,
-    step: "03",
-    title: "Pagas comisión solo cuando se concreten ventas",
-    description:
-      "Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio.",
-  },
-];
-
-const EMPRESA_BENEFITS = [
-  {
-    icon: Shield,
-    title: "Reducción de Riesgo",
-    description: "Sin costos fijos ni contratos largos. Solo pagas por resultados reales.",
+      "Entrevistamos a tu founder y a tu equipo, revisamos tu data y auditamos tus llamadas reales. Te entregamos un informe con los cuellos de botella y una hoja de ruta priorizada. 90 minutos de presentación de hallazgos. Sin costo.",
   },
   {
     icon: Zap,
-    title: "Acceso Inmediato",
-    description: "Conecta con closers verificados en menos de 48 horas.",
-  },
-  {
-    icon: Target,
-    title: "Flexibilidad Total",
-    description: "Ajusta comisiones y requisitos según tus necesidades específicas.",
-  },
-];
-
-const CLOSER_BENEFITS = [
-  {
-    icon: TrendingUp,
-    title: "Oportunidades Constantes",
-    description: "Acceso a múltiples ofertas de empresas verificadas cada semana.",
+    step: "02",
+    title: "Construimos el sistema",
+    description:
+      "Playbook comercial con metodología Anti-Script™: proceso paso a paso, manejo de objeciones, templates. Entrenamos a tu equipo con roleplay en vivo e implementamos 2-3 quick wins de impacto inmediato. 4 a 6 semanas.",
   },
   {
     icon: Users,
-    title: "Comunidad Activa",
-    description: "Conecta con otros closers, comparte estrategias y aprende continuamente.",
+    step: "03",
+    title: "Ponemos el equipo",
+    description:
+      "Te presentamos closers verificados que ya operan bajo tu playbook. Tú defines la comisión y la negocias directamente con ellos. Nosotros gestionamos la selección, el onboarding y la calidad de las conversaciones.",
+  },
+];
+
+const PROBLEM_BLOCKS = [
+  {
+    icon: User,
+    title: "Tu founder sigue siendo el mejor vendedor",
+    description:
+      "Cuando él no está en la llamada, la conversión cae. Eso no es un equipo, es una dependencia.",
+  },
+  {
+    icon: Users,
+    title: "Contrataste vendedores y no funcionó",
+    description:
+      "No porque fueran malos. Porque no había proceso que seguir, así que cada uno improvisó el suyo.",
+  },
+  {
+    icon: HelpCircle,
+    title: "Tienes leads y no sabes por qué no cierran",
+    description:
+      'Sin llamadas auditadas, la respuesta siempre es "el lead venía frío". Casi nunca es eso.',
+  },
+];
+
+const METHODOLOGY_PHASES = [
+  { step: "01", title: "Anclaje humano", description: "Conectar de verdad y bajar la guardia" },
+  { step: "02", title: "Frame", description: "Establecer expectativas y agenda de la sesión" },
+  { step: "03", title: "Discovery", description: "Entender el dolor profundo y la situación actual" },
+  { step: "04", title: "Deep Future", description: "Visualizar el resultado deseado y su impacto" },
+  { step: "05", title: "Bridge", description: "Conectar el dolor identificado con la solución" },
+  { step: "06", title: "Pitch", description: "Presentar una oferta altamente relevante" },
+  { step: "07", title: "Cierre", description: "Invitar a una decisión firme, sin presión" },
+];
+
+const OUTCOMES = [
+  {
+    icon: Shield,
+    title: "Proceso documentado",
+    description: "Se acaba la improvisación. Tu equipo sigue pasos definidos, no intuiciones.",
   },
   {
     icon: Award,
-    title: "Soporte Especializado",
-    description: "Recibe formación y herramientas para maximizar tus comisiones.",
+    title: "Vendedores auténticos",
+    description: "Nadie actuando un personaje. Confianza y autoridad reales en la llamada.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Conversión medible",
+    description: "Mejora en al menos una etapa crítica del funnel: Discovery, Pitch o Cierre.",
+  },
+  {
+    icon: Zap,
+    title: "Onboarding acelerado",
+    description: "Un vendedor nuevo llega a rampa sin que el founder lo entrene uno a uno.",
+  },
+  {
+    icon: Target,
+    title: "Escala sin dependencia",
+    description: "Tu conocimiento comercial deja de vivir en la cabeza de una sola persona.",
   },
 ];
 
-const BENEFIT_BLOCKS = [
+const FIT_YES = [
+  "Ya vendes y quieres escalar",
+  "Tienes equipo comercial de 2 a 15 personas",
+  "Generas leads pero no cierras lo suficiente",
+  "Estás dispuesto a que auditemos tus llamadas",
+];
+
+const FIT_NO = [
+  "Todavía estás validando el producto",
+  "Vendes exclusivamente por autoservicio",
+  "No generas leads todavía",
+  "Buscas solo vendedores, no proceso",
+];
+
+const WORK_MODELS = [
   {
-    id: "empresas",
-    title: "Para Empresas",
-    subtitle: "Escala tu fuerza de ventas sin riesgos",
-    from: "left" as const,
-    image: "/stock/empresas-equipo.jpg",
-    imageAlt: "Equipo de una empresa cerrando un acuerdo comercial en una sala de juntas",
-    points: EMPRESA_BENEFITS,
+    name: "Diagnóstico",
+    para: "Entender qué está roto",
+    incluye: ["Auditoría", "Informe", "Hoja de ruta"],
+    duracion: "2-4 semanas",
+    inversion: "Sin costo",
   },
   {
-    id: "closers",
-    title: "Para Socios Comerciales (Closers)",
-    subtitle: "Maximiza tus ingresos con oportunidades verificadas",
-    from: "right" as const,
-    image: "/stock/closers-acuerdo.jpg",
-    imageAlt: "Socio comercial cerrando un trato con un apretón de manos",
-    points: CLOSER_BENEFITS,
+    name: "Implementación",
+    para: "Construir el sistema",
+    incluye: ["Playbook", "Training", "Quick wins", "1 mes de soporte"],
+    duracion: "4-6 semanas",
+    inversion: "Proyecto único",
+  },
+  {
+    name: "Operación continua",
+    para: "Sostener y escalar",
+    incluye: ["Auditoría de llamadas", "KPIs", "Sesión semanal", "Equipo de closers"],
+    duracion: "Mínimo 3 meses",
+    inversion: "Mensual",
   },
 ];
 
-const SAVINGS_POINTS = [
+const OBJECTIONS = [
   {
-    icon: Check,
-    title: "Sin Salarios Fijos",
-    description:
-      "No pagas salarios mensuales. Solo pagas por resultados y socios comerciales activos trabajando para ti.",
+    q: "¿Esto es una bolsa de trabajo?",
+    a: "No. Construimos tu proceso comercial y, si lo necesitas, te presentamos closers ya entrenados en él. La comisión la defines y la negocias tú directamente con cada closer.",
   },
   {
-    icon: Check,
-    title: "Ahorro Promedio 60-80%",
-    description:
-      "Las empresas ahorran entre 60% y 80% comparado con contratar socios comerciales con salario fijo tradicional.",
+    q: "¿Cuánto tardo en ver resultados?",
+    a: "Los quick wins se implementan en las primeras 3 semanas. El sistema completo, entre 4 y 6.",
   },
   {
-    icon: Check,
-    title: "Calcula Tu Ahorro",
-    description:
-      "Usa nuestra calculadora interactiva para ver exactamente cuánto ahorrarías según tu escenario específico.",
+    q: "Ya tengo un equipo de ventas.",
+    a: "Mejor. Trabajamos sobre lo que ya existe: auditamos, documentamos y entrenamos. No reemplazamos gente.",
+  },
+  {
+    q: "¿Qué pasa si no aplico las recomendaciones?",
+    a: "Entonces no funciona. Por eso pedimos compromiso explícito de implementar al menos 1-2 mejoras antes de empezar.",
   },
 ];
 
@@ -157,7 +175,6 @@ const Index = () => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
-  const navigate = useNavigate();
 
   const heroRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
@@ -221,18 +238,13 @@ const Index = () => {
     if (typeof window !== "undefined") sendToBotpress(text);
   };
 
-  const openWhatsApp = () => {
-    window.open("https://wa.me/5213112403145", "_blank");
-  };
-
   return (
-    <TooltipProvider>
-      <div className="min-h-screen landing-page relative overflow-hidden">
-        <ScrollProgress />
-        <GrainOverlay />
-        <Navbar />
+    <div className="min-h-screen landing-page relative overflow-hidden">
+      <ScrollProgress />
+      <GrainOverlay />
+      <Navbar />
 
-        <main className="relative z-10 pt-20 md:pt-24">
+      <main className="relative z-10 pt-20 md:pt-24">
           {/* Hero Section */}
           <section ref={heroRef} id="hero" data-deploy="hero-v2-2026" className="relative w-full mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20 pb-12 sm:pb-20 text-center bg-gradient-to-br from-[#1a5ca0] via-[#2474c4] to-[#5dc88c] rounded-b-3xl shadow-lg">
             {/* Capa decorativa con parallax propio (se mueve más lento que el texto) */}
@@ -255,7 +267,7 @@ const Index = () => {
             >
               <motion.div variants={fadeUpVariants}>
                 <Badge variant="secondary" className="mb-4 gap-1 bg-white/20 text-white border-white/30 hover:bg-white/30 backdrop-blur-sm">
-                  🚀 La evolución de las ventas B2B
+                  Consultoría comercial + equipo de cierre
                 </Badge>
               </motion.div>
               <AnimatedHeadline
@@ -263,11 +275,11 @@ const Index = () => {
                 animateOnMount
                 delay={0.15}
                 stagger={0.075}
-                text="Crea tu fuerza de ventas bajo comisión"
+                text="Tu empresa no necesita más leads. Necesita quién los cierre."
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white leading-tight px-4 drop-shadow-sm"
               />
               <motion.p variants={fadeUpVariants} className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-6 leading-relaxed px-4">
-                El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
+                Diseñamos tu proceso comercial, entrenamos el método y te ponemos closers verificados a operarlo. Sin nómina, sin contratar, sin construirlo desde cero.
               </motion.p>
 
               <motion.form
@@ -311,8 +323,8 @@ const Index = () => {
                   className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold w-full sm:w-auto"
                   asChild
                 >
-                  <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
-                    Registra tu empresa
+                  <a href={CTA_DIAGNOSTICO_URL}>
+                    Agenda tu diagnóstico gratuito
                   </a>
                 </Button>
                 <Button
@@ -321,226 +333,277 @@ const Index = () => {
                   className="cta-shine cta-glow text-lg px-8 font-semibold bg-white/10 backdrop-blur-sm w-full sm:w-auto"
                   asChild
                 >
-                  <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer">
-                    Regístrate como Closer
+                  <a href="#como-trabajamos">
+                    Ver cómo trabajamos
                   </a>
                 </Button>
               </motion.div>
               <motion.p variants={fadeUpVariants} className="text-sm text-white/80 mb-8">
-                Setup en 5 minutos • Cancelación flexible
+                90 minutos · Sin costo · Cupos limitados por mes
               </motion.p>
 
-              <motion.div variants={fadeUpVariants} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-                <span className="text-sm text-white/80">Acelerados en:</span>
-                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
-                  <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-10 sm:h-12 w-auto brightness-0 invert" />
-                </a>
-                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
-                  <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-6 sm:h-8 w-auto brightness-0 invert" />
-                </a>
+              <motion.div variants={fadeUpVariants} className="space-y-4">
+                <p className="text-sm text-white/80 px-4">
+                  Hemos auditado conversaciones de venta en SaaS, agencias, educación e inmobiliaria
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                  <span className="text-sm text-white/80">Acelerados en Reto Zapopan y Emprelatam</span>
+                  <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
+                    <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-10 sm:h-12 w-auto brightness-0 invert" />
+                  </a>
+                  <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
+                    <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-6 sm:h-8 w-auto brightness-0 invert" />
+                  </a>
+                </div>
               </motion.div>
             </motion.div>
           </section>
 
-          {/* Ticker de sectores */}
-          <section aria-label="Sectores en los que operamos" className="border-b border-border/60 bg-white/70 py-7 backdrop-blur-sm">
-            <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Cerramos ventas en todos los sectores
-            </p>
-            <Marquee
-              speedSeconds={44}
-              items={SECTORS.map((sector) => (
-                <span className="mx-2 inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 transition-colors duration-300 hover:border-primary/40 hover:text-primary">
-                  {sector}
-                </span>
-              ))}
-            />
-          </section>
+          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Ticker de sectores */}
 
-          {/* Cómo Funciona */}
-          <section id="como-funciona" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <AnimatedHeadline
-                text="¿Cómo funciona Closwork?"
-                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
-              />
-              <ScrollReveal variant="fade-up" delay={1}>
-                <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
-                  Un proceso simple y transparente que conecta empresas con los mejores closers de LATAM en 3 pasos
-                </p>
-              </ScrollReveal>
-            </div>
-            <ProcessTimeline steps={PROCESS_STEPS} />
-          </section>
-
-          {/* Beneficios */}
-          <section id="beneficios" className="w-full bg-slate-50 relative overflow-visible">
+          {/* El problema */}
+          <section id="problema" className="w-full bg-slate-50 relative overflow-visible">
             <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
               <div className="absolute top-0 left-[10%] w-[500px] h-[500px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[120px]" />
               <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[100px]" />
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-16 relative z-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                Beneficios para todos
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Una plataforma diseñada para maximizar el éxito tanto de empresas como de closers
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="relative z-10 space-y-16 sm:space-y-24">
-              {BENEFIT_BLOCKS.map((block) => (
-                <div key={block.id} className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-14">
-                  <div className="flex flex-col justify-center">
-                    <ScrollReveal variant="fade-up">
-                      <h3 className="text-3xl sm:text-4xl font-semibold text-foreground">{block.title}</h3>
-                      <p className="mt-3 text-base sm:text-lg text-muted-foreground">{block.subtitle}</p>
-                    </ScrollReveal>
-                    <div className="mt-8 space-y-7 overflow-hidden">
-                      {block.points.map((point) => (
-                        <BenefitPoint key={point.title} {...point} from={block.from} size="lg" />
-                      ))}
-                    </div>
-                  </div>
-                  <ScrollReveal variant="scale" className="h-full">
-                    <div className="relative h-full min-h-[18rem] sm:min-h-[24rem] overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,54,107,0.45)]">
-                      <img
-                        src={block.image}
-                        alt={block.imageAlt}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-[hsl(210,100%,21%)]/35 via-transparent to-transparent" />
-                    </div>
-                  </ScrollReveal>
+              <ScrollReveal variant="scale">
+                <div className="landing-section-header mb-16 relative z-10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
+                    El problema casi nunca es el producto
+                  </h2>
                 </div>
-              ))}
-            </div>
+              </ScrollReveal>
+              <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3 overflow-hidden">
+                {PROBLEM_BLOCKS.map((point, i) => (
+                  <Card key={point.title} className="landing-section-card-hover h-full">
+                    <CardContent className="p-6">
+                      <BenefitPoint {...point} from={i % 2 === 0 ? "left" : "right"} size="lg" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <ScrollReveal variant="fade-up" delay={2}>
+                <p className="relative z-10 mt-12 text-center text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+                  Contratar más gente encima de un proceso roto solo hace el problema más caro.
+                </p>
+              </ScrollReveal>
             </div>
           </section>
 
-          {/* Comunidad */}
-          <section id="comunidad" className="w-full bg-slate-50 relative overflow-visible">
+          {/* Cómo trabajamos */}
+          <section id="como-trabajamos" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="Tres fases. Empezamos por la primera."
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+            </div>
+            <ProcessTimeline steps={PROCESS_STEPS} />
+            <ScrollReveal variant="fade-up" delay={2}>
+              <p className="text-sm sm:text-base text-muted-foreground mt-12 text-center max-w-3xl mx-auto px-4">
+                Puedes quedarte en la fase 2 si ya tienes equipo. Puedes ir directo a la fase 3 si ya tienes proceso. La mayoría necesita las tres.
+              </p>
+            </ScrollReveal>
+          </section>
+
+          {/* Metodología Anti-Script™ */}
+          <section id="metodologia" className="w-full bg-slate-50 relative overflow-visible">
             <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
               <div className="absolute top-1/4 right-[5%] w-[400px] h-[400px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[100px]" />
               <div className="absolute bottom-1/4 left-[5%] w-[350px] h-[350px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[90px]" />
             </div>
-            <FloatingAvatars />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-12 relative z-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                Una comunidad en crecimiento
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Miles de empresas y closers ya confían en Closwork para hacer crecer sus negocios en toda América Latina
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w-4xl mx-auto w-full relative z-10">
-              {[
-                { value: "200+", label: "Closers Verificados" },
-                { value: "50+", label: "Empresas Activas" },
-                { value: "95%", label: "Tasa de Éxito" },
-                { value: "12", label: "Países en LATAM" },
-              ].map((stat, i) => (
-                <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
-                <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <AnimatedCounter
-                    value={stat.value}
-                    className="block text-2xl sm:text-3xl font-bold text-primary"
-                  />
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+              <ScrollReveal variant="scale">
+                <div className="landing-section-header mb-16 relative z-10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
+                    Anti-Script™: no te decimos qué decir, te enseñamos a guiar la conversación
+                  </h2>
+                  <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
+                    Siete fases para que el prospecto se venda a sí mismo. Sin scripts rígidos, sin personajes de venta, sin presión.
+                  </p>
                 </div>
-                </ScrollReveal>
-              ))}
-            </div>
-            <ScrollReveal variant="fade-up" delay={3}>
-            <div className="flex flex-col items-center justify-center text-center relative z-10">
-              <Badge variant="secondary" className="mb-4 animate-float-subtle">Nuevos miembros uniéndose cada día</Badge>
-              <h3 className="font-semibold text-lg mb-1">Red de Closers en Tiempo Real</h3>
-              <p className="text-sm text-muted-foreground mb-2 max-w-xl mx-auto">Conectando empresas con los mejores closers de países hispanohablantes</p>
-              <p className="text-xs text-primary font-medium">10 closers activos ahora</p>
-            </div>
-            </ScrollReveal>
+              </ScrollReveal>
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {METHODOLOGY_PHASES.map((phase, i) => (
+                  <ScrollReveal key={phase.step} variant="fade-up" delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
+                    <div className="landing-stats-card h-full p-4 bg-card rounded-xl border">
+                      <p className="text-2xl sm:text-3xl font-bold text-primary">{phase.step}</p>
+                      <p className="font-medium mt-2">{phase.title}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{phase.description}</p>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+              <ScrollReveal variant="scale" delay={2}>
+                <Card className="max-w-xl mx-auto mt-16 landing-section-card-hover relative z-10">
+                  <CardContent className="p-6 text-center">
+                    <p className="text-lg sm:text-xl font-semibold text-foreground">
+                      “Conversaciones reales. Resultados reales.”
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">Andrés, socio operador comercial</p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
             </div>
           </section>
 
-          {/* Planes */}
-          {PRICING_VISIBLE && <PricingSection />}
+          {/* Qué te llevas */}
+          <section id="beneficios" className="w-full relative overflow-visible">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+              <ScrollReveal variant="scale">
+                <div className="landing-section-header mb-16 relative z-10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
+                    Resultados, no entregables
+                  </h2>
+                </div>
+              </ScrollReveal>
+              <div className="relative z-10 space-y-7 max-w-2xl mx-auto overflow-hidden">
+                {OUTCOMES.map((point, i) => (
+                  <BenefitPoint key={point.title} {...point} from={i % 2 === 0 ? "left" : "right"} size="lg" />
+                ))}
+              </div>
+            </div>
+          </section>
 
-          {/* Ahorros */}
-          <section id="ahorros" className="w-full bg-slate-50 relative overflow-visible">
+          {/* Para quién sí y para quién no */}
+          <section id="para-quien" className="w-full bg-slate-50 relative overflow-visible">
             <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
-              <div className="absolute top-[10%] left-[15%] w-[400px] h-[400px] rounded-full bg-[hsl(152,48%,47%)] opacity-15 blur-[110px]" />
-              <div className="absolute bottom-[10%] right-[15%] w-[350px] h-[350px] rounded-full bg-[hsl(210,60%,40%)] opacity-12 blur-[90px]" />
+              <div className="absolute top-0 left-[10%] w-[500px] h-[500px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[120px]" />
+              <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[100px]" />
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-12 relative z-10">
-              <Badge variant="secondary" className="mb-4 gap-1 animate-float-subtle">
-                <TrendingDown className="h-4 w-4" /> Ahorro Garantizado
-              </Badge>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                ¿Cuánto puedes ahorrar con Closwork?
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Compara el costo real de contratar socios comerciales tradicionales vs nuestro modelo de pago por resultados.
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto w-full relative z-10">
-              {[
-                { value: "60-80%", label: "Ahorro promedio" },
-                { value: "$0", label: "Salarios fijos" },
-                { value: "100%", label: "Pago por resultados" },
-                { value: "24/7", label: "Disponibilidad" },
-              ].map((s, i) => (
-                <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
-                <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <AnimatedCounter
-                    value={s.value}
-                    className="block text-xl font-bold text-primary"
-                  />
-                  <p className="text-xs text-muted-foreground">{s.label}</p>
+              <ScrollReveal variant="scale">
+                <div className="landing-section-header mb-16 relative z-10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
+                    Esto no es para todos
+                  </h2>
                 </div>
+              </ScrollReveal>
+              <div className="relative z-10 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-14">
+                <ScrollReveal variant="fade-up">
+                  <Card className="landing-section-card-hover h-full border-primary/30">
+                    <CardHeader>
+                      <CardTitle>Trabajamos contigo si:</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-4">
+                        {FIT_YES.map((item) => (
+                          <li key={item} className="flex gap-3">
+                            <Check className="h-5 w-5 shrink-0 mt-0.5 text-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 </ScrollReveal>
+                <ScrollReveal variant="fade-up" delay={1}>
+                  <Card className="landing-section-card-hover h-full bg-muted/50 border-border">
+                    <CardHeader>
+                      <CardTitle className="text-muted-foreground">No es tu momento si:</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-4">
+                        {FIT_NO.map((item) => (
+                          <li key={item} className="flex gap-3 text-muted-foreground">
+                            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-muted-foreground">–</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </ScrollReveal>
+              </div>
+            </div>
+          </section>
+
+          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Comunidad (stats) */}
+
+          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Planes. Reemplazado por Modelos de trabajo. */}
+
+          {/* Modelos de trabajo */}
+          <section id="modelos" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="Tres formas de trabajar con nosotros"
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {WORK_MODELS.map((model) => (
+                <Card key={model.name} className="landing-section-card-hover relative h-full overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>{model.name}</CardTitle>
+                    <CardDescription>Para: {model.para}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="font-medium mb-2">Incluye</p>
+                      <ul className="space-y-2">
+                        {model.incluye.map((item) => (
+                          <li key={item} className="flex gap-2 text-sm text-muted-foreground">
+                            <Check className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">Duración:</span> {model.duracion}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">Inversión:</span> {model.inversion}
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-            <div className="space-y-6 max-w-2xl mx-auto mb-8 relative z-10 overflow-hidden">
-              {SAVINGS_POINTS.map((point, i) => (
-                <BenefitPoint key={point.title} {...point} from={i % 2 === 0 ? "left" : "right"} />
-              ))}
-            </div>
-            <ScrollReveal variant="scale" delay={2}>
-            <Card className="max-w-xl mx-auto landing-section-card-hover relative z-10">
-              <CardHeader>
-                <CardTitle>Descubre cuánto puedes ahorrar</CardTitle>
-                <CardDescription>
-                  Nuestra calculadora te muestra el ahorro exacto comparando el modelo tradicional vs Closwork. Personaliza según tu cantidad de socios comerciales y ciclo de ventas.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="cta-shine cta-glow w-full" onClick={() => navigate("/calculadora")}>
-                  Calcular Mi Ahorro
+            <ScrollReveal variant="fade-up" delay={2}>
+              <div className="mt-12 text-center">
+                <Button size="lg" className="cta-shine cta-glow text-lg px-8" asChild>
+                  <a href={CTA_DIAGNOSTICO_URL}>Empieza por el diagnóstico</a>
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
             </ScrollReveal>
+          </section>
+
+          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Ahorros / calculadora */}
+
+          {/* Objeciones */}
+          <section id="objeciones" className="w-full bg-slate-50 relative overflow-visible">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+              <ScrollReveal variant="scale">
+                <div className="landing-section-header mb-16 relative z-10">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
+                    Lo que nos preguntan antes de empezar
+                  </h2>
+                </div>
+              </ScrollReveal>
+              <Accordion type="single" collapsible className="relative z-10 max-w-3xl mx-auto w-full">
+                {OBJECTIONS.map((item, i) => (
+                  <AccordionItem key={item.q} value={`item-${i}`}>
+                    <AccordionTrigger className="text-left text-base sm:text-lg">{item.q}</AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-sm sm:text-base">
+                      {item.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </section>
 
           {/* Final CTA */}
           <section id="cta-final" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
             <AnimatedHeadline
-              text="¿Listo para transformar tu negocio?"
+              text="Empieza por saber qué está roto"
               className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4 mb-4"
             />
             <ScrollReveal variant="fade-up" delay={1}>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 px-4">
-              Regístrate gratis y encuentra a tu socio comercial perfecto en menos de 7 días
+              90 minutos, sin costo, sin compromiso de compra. Sales con un informe y una hoja de ruta, trabajes con nosotros o no.
             </p>
             </ScrollReveal>
             <ScrollReveal variant="fade-up" delay={2}>
@@ -549,26 +612,27 @@ const Index = () => {
               className="cta-shine cta-glow text-lg px-8 mb-4"
               asChild
             >
-              <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
-                Registra tu empresa
+              <a href={CTA_DIAGNOSTICO_URL}>
+                Agenda tu diagnóstico
               </a>
             </Button>
-            <p className="text-sm text-muted-foreground mb-8">Setup en menos de 5 minutos</p>
-            </ScrollReveal>
-            <ScrollReveal variant="fade-up" delay={2}>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-              <span>100% Sin costos ocultos</span>
-              <span>24/7 Soporte disponible</span>
-              <span>7 días Garantía Growth/Scale</span>
-              <span>7 días Para encontrar socio</span>
-            </div>
+            <p className="text-sm text-muted-foreground mb-8">Cupos limitados: 1-2 diagnósticos por mes</p>
+            <p>
+              <a
+                href="https://app.closwork.com/register/closer"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                ¿Eres closer y buscas oportunidades? → Regístrate aquí
+              </a>
+            </p>
             </ScrollReveal>
           </section>
-        </main>
+      </main>
 
-        <Footer />
-      </div>
-    </TooltipProvider>
+      <Footer />
+    </div>
   );
 };
 
