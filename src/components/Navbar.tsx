@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { CTA_DIAGNOSTICO_URL } from "@/config/featureFlags";
+import { CTA_DIAGNOSTICO_URL, CTA_REGISTRO_EMPRESA } from "@/config/featureFlags";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +26,7 @@ const Navbar = () => {
   const navLinks = [
     { label: "El problema", href: "/#problema" },
     { label: "Cómo trabajamos", href: "/#como-trabajamos" },
+    { label: "Modelos", href: "/#modelos" },
     { label: "Metodología", href: "/#metodologia" },
     { label: "Blog", href: "/blog" },
   ];
@@ -91,14 +92,11 @@ const Navbar = () => {
             >
               Iniciar sesión
             </a>
-            <a
-              href="https://app.closwork.com/register/role"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-gray-500 hover:text-primary transition-colors"
-            >
-              Registrarte
-            </a>
+            <Button variant="outline" className="rounded-lg font-medium px-6" asChild>
+              <a href={CTA_REGISTRO_EMPRESA} target="_blank" rel="noopener noreferrer">
+                Registrarte
+              </a>
+            </Button>
             <Button
               variant="default"
               className="cta-shine cta-glow bg-primary text-white hover:bg-primary/90 rounded-lg font-medium px-6"
@@ -160,15 +158,16 @@ const Navbar = () => {
                   >
                     Iniciar sesión
                   </a>
-                  <a
-                    href="https://app.closwork.com/register/role"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-lg font-medium"
                     onClick={() => setIsOpen(false)}
-                    className="px-4 py-2 text-sm text-gray-500 hover:text-primary"
+                    asChild
                   >
-                    Registrarte
-                  </a>
+                    <a href={CTA_REGISTRO_EMPRESA} target="_blank" rel="noopener noreferrer">
+                      Registrarte
+                    </a>
+                  </Button>
                   <Button
                     variant="default"
                     className="w-full bg-primary text-white hover:bg-primary/90 rounded-lg font-medium"

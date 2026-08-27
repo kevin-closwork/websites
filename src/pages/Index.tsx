@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { CTA_DIAGNOSTICO_URL } from "@/config/featureFlags"; // ← Calendly de diagnóstico (TODO_PENDIENTE)
-import { Sparkles, Send, User, Users, HelpCircle, Search, Zap, Shield, Award, TrendingUp, Target, Check } from "lucide-react";
+import { Sparkles, Send, User, Users, HelpCircle, UserPlus, Search, Zap, Shield, Award, TrendingUp, Target, Check } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -17,48 +16,70 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { GrainOverlay } from "@/components/motion/GrainOverlay";
 import { AnimatedHeadline } from "@/components/motion/AnimatedHeadline";
+import { Marquee } from "@/components/motion/Marquee";
 import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
 import { BenefitPoint } from "@/components/motion/BenefitPoint";
 import { fadeUpVariants, staggerContainer } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+
+const CTA_DIAGNOSTICO_URL = "TODO_PENDIENTE"; // ← Calendly de diagnóstico
+const CTA_CONCIERGE_URL = "TODO_PENDIENTE";   // ← Calendly o formulario corto
+const CTA_REGISTRO_EMPRESA = "https://app.closwork.com/register/empresa";
+const CTA_REGISTRO_CLOSER = "https://app.closwork.com/register/closer";
 
 const HERO_PHRASES = [
   "Mi equipo no cierra lo suficiente",
-  "No tengo proceso de ventas documentado",
-  "Quiero escalar sin contratar nómina",
-  "Mis vendedores improvisan cada llamada",
+  "Necesito vendedores sin nómina",
   "Tengo leads pero no conversión",
+  "Mis vendedores improvisan cada llamada",
+  "Quiero escalar sin contratar",
+];
+
+const SECTORS = [
+  "SaaS & Software",
+  "Fintech",
+  "ERP & CRM",
+  "Manufactura",
+  "Logística",
+  "Ecommerce",
+  "Consultoría",
+  "Salud",
+  "Educación",
+  "Inmobiliaria",
+  "Agencias",
+  "Hardware",
 ];
 
 const PROCESS_STEPS: ProcessStep[] = [
   {
     icon: Search,
     step: "01",
-    title: "Diagnosticamos",
+    title: "Nos dices qué vendes y a quién",
     description:
-      "Entrevistamos a tu founder y a tu equipo, revisamos tu data y auditamos tus llamadas reales. Te entregamos un informe con los cuellos de botella y una hoja de ruta priorizada. 90 minutos de presentación de hallazgos. Sin costo.",
-  },
-  {
-    icon: Zap,
-    step: "02",
-    title: "Construimos el sistema",
-    description:
-      "Playbook comercial con metodología Anti-Script™: proceso paso a paso, manejo de objeciones, templates. Entrenamos a tu equipo con roleplay en vivo e implementamos 2-3 quick wins de impacto inmediato. 4 a 6 semanas.",
+      "Publicas tu oportunidad: producto, mercado, ciclo de venta y la comisión que estás dispuesto a pagar. Te decimos con franqueza si es una oferta que un closer va a querer tomar.",
   },
   {
     icon: Users,
-    step: "03",
-    title: "Ponemos el equipo",
+    step: "02",
+    title: "Te presentamos closers verificados",
     description:
-      "Te presentamos closers verificados que ya operan bajo tu playbook. Tú defines la comisión y la negocias directamente con ellos. Nosotros gestionamos la selección, el onboarding y la calidad de las conversaciones.",
+      "Perfiles con experiencia comprobada en tu sector. Tú entrevistas, tú eliges y tú negocias la comisión directamente con cada uno. Nosotros gestionamos la selección y el onboarding.",
+  },
+  {
+    icon: Zap,
+    step: "03",
+    title: "Sostenemos la operación",
+    description:
+      "Escuchamos las llamadas, medimos qué está fallando y corregimos. Si tu proceso comercial no existe o no aguanta el volumen, lo construimos contigo.",
   },
 ];
 
 const PROBLEM_BLOCKS = [
   {
     icon: User,
-    title: "Tu founder sigue siendo el mejor vendedor",
+    title: "Sigues siendo el mejor vendedor de tu empresa",
     description:
-      "Cuando él no está en la llamada, la conversión cae. Eso no es un equipo, es una dependencia.",
+      "Cuando no estás en la llamada, la conversión cae. Eso no es un equipo, es una dependencia.",
   },
   {
     icon: Users,
@@ -70,7 +91,64 @@ const PROBLEM_BLOCKS = [
     icon: HelpCircle,
     title: "Tienes leads y no sabes por qué no cierran",
     description:
-      'Sin llamadas auditadas, la respuesta siempre es "el lead venía frío". Casi nunca es eso.',
+      'Sin escuchar las llamadas, la respuesta siempre es "el lead venía frío". Casi nunca es eso.',
+  },
+  {
+    icon: UserPlus,
+    title: "Cada contratación es una apuesta",
+    description:
+      "Sueldo, tiempo de rampa, riesgo laboral. Y a los tres meses vuelves a empezar.",
+  },
+];
+
+const WORK_MODELS = [
+  {
+    name: "Autoservicio",
+    para: "Ya sabes a quién buscas y quieres gestionarlo tú",
+    incluye: [
+      "Publicación de tus oportunidades",
+      "Acceso a closers verificados",
+      "Selección y contacto directo",
+      "Contratos y marco legal listos",
+    ],
+    cta: "Registra tu empresa",
+    href: CTA_REGISTRO_EMPRESA,
+    external: true,
+    microcopy: "Empiezas hoy, sin llamada",
+    featured: false,
+  },
+  {
+    name: "Concierge",
+    para: "Quieres el equipo funcionando sin gestionarlo tú",
+    badge: "El más contratado",
+    incluye: [
+      "Todo lo de Autoservicio",
+      "Preselección y entrevista de closers por nosotros",
+      "Onboarding y acompañamiento del closer",
+      "Seguimiento de actividad y resultados",
+      "Reemplazo si el closer no funciona",
+    ],
+    cta: "Habla con nosotros",
+    href: CTA_CONCIERGE_URL,
+    external: false,
+    microcopy: "Equipo operando en menos de 30 días",
+    featured: true,
+  },
+  {
+    name: "Enterprise",
+    para: "Tu problema no es de gente, es de proceso",
+    incluye: [
+      "Todo lo de Concierge",
+      "Diagnóstico comercial completo con auditoría de llamadas",
+      "Sales Playbook con metodología Anti-Script™",
+      "Entrenamiento en vivo a tu equipo actual",
+      "Auditoría continua, KPIs y sesión semanal",
+    ],
+    cta: "Agenda tu diagnóstico",
+    href: CTA_DIAGNOSTICO_URL,
+    external: false,
+    microcopy: "Empieza con un diagnóstico sin costo",
+    featured: false,
   },
 ];
 
@@ -85,6 +163,11 @@ const METHODOLOGY_PHASES = [
 ];
 
 const OUTCOMES = [
+  {
+    icon: Users,
+    title: "Fuerza de ventas sin nómina",
+    description: "Sumas capacidad comercial sin sueldos fijos ni riesgo laboral.",
+  },
   {
     icon: Shield,
     title: "Proceso documentado",
@@ -103,65 +186,45 @@ const OUTCOMES = [
   {
     icon: Zap,
     title: "Onboarding acelerado",
-    description: "Un vendedor nuevo llega a rampa sin que el founder lo entrene uno a uno.",
+    description: "Un vendedor nuevo llega a rampa sin que tengas que entrenarlo tú.",
   },
   {
     icon: Target,
     title: "Escala sin dependencia",
-    description: "Tu conocimiento comercial deja de vivir en la cabeza de una sola persona.",
+    description: "Tu conocimiento comercial deja de vivir en tu cabeza.",
   },
 ];
 
 const FIT_YES = [
   "Ya vendes y quieres escalar",
-  "Tienes equipo comercial de 2 a 15 personas",
-  "Generas leads pero no cierras lo suficiente",
-  "Estás dispuesto a que auditemos tus llamadas",
+  "Tienes leads calientes ahora, no en tres meses",
+  "Tienes definida la comisión que vas a pagar",
+  "Tu ciclo de venta cierra en 30 días o menos",
 ];
 
 const FIT_NO = [
   "Todavía estás validando el producto",
-  "Vendes exclusivamente por autoservicio",
   "No generas leads todavía",
-  "Buscas solo vendedores, no proceso",
-];
-
-const WORK_MODELS = [
-  {
-    name: "Diagnóstico",
-    para: "Entender qué está roto",
-    incluye: ["Auditoría", "Informe", "Hoja de ruta"],
-    duracion: "2-4 semanas",
-    inversion: "Sin costo",
-  },
-  {
-    name: "Implementación",
-    para: "Construir el sistema",
-    incluye: ["Playbook", "Training", "Quick wins", "1 mes de soporte"],
-    duracion: "4-6 semanas",
-    inversion: "Proyecto único",
-  },
-  {
-    name: "Operación continua",
-    para: "Sostener y escalar",
-    incluye: ["Auditoría de llamadas", "KPIs", "Sesión semanal", "Equipo de closers"],
-    duracion: "Mínimo 3 meses",
-    inversion: "Mensual",
-  },
+  "Vendes exclusivamente por autoservicio",
+  "Tu ciclo se estira más de un trimestre",
 ];
 
 const OBJECTIONS = [
   {
     q: "¿Esto es una bolsa de trabajo?",
-    a: "No. Construimos tu proceso comercial y, si lo necesitas, te presentamos closers ya entrenados en él. La comisión la defines y la negocias tú directamente con cada closer.",
+    a: "No. Te presentamos closers verificados y, si lo necesitas, construimos contigo el proceso que van a operar. La comisión la defines y la negocias tú directamente con cada closer.",
   },
   {
-    q: "¿Cuánto tardo en ver resultados?",
-    a: "Los quick wins se implementan en las primeras 3 semanas. El sistema completo, entre 4 y 6.",
+    q: "¿Cómo sé que el closer es bueno?",
+    a: "Verificamos experiencia y auditamos sus conversaciones. En Concierge y Enterprise, si no funciona, lo reemplazamos.",
   },
   {
-    q: "Ya tengo un equipo de ventas.",
-    a: "Mejor. Trabajamos sobre lo que ya existe: auditamos, documentamos y entrenamos. No reemplazamos gente.",
+    q: "¿Cuánto tardo en tener a alguien vendiendo?",
+    a: "En Autoservicio depende de qué tan rápido entrevistes. En Concierge, menos de 30 días.",
+  },
+  {
+    q: "Ya tengo equipo de ventas.",
+    a: "Entonces tu conversación es Enterprise. Trabajamos sobre lo que ya existe: escuchamos, documentamos y entrenamos. No reemplazamos gente.",
   },
   {
     q: "¿Qué pasa si no aplico las recomendaciones?",
@@ -267,7 +330,7 @@ const Index = () => {
             >
               <motion.div variants={fadeUpVariants}>
                 <Badge variant="secondary" className="mb-4 gap-1 bg-white/20 text-white border-white/30 hover:bg-white/30 backdrop-blur-sm">
-                  Consultoría comercial + equipo de cierre
+                  Ventas B2B como servicio · México y Colombia
                 </Badge>
               </motion.div>
               <AnimatedHeadline
@@ -275,11 +338,11 @@ const Index = () => {
                 animateOnMount
                 delay={0.15}
                 stagger={0.075}
-                text="Tu empresa no necesita más leads. Necesita quién los cierre."
+                text="No necesitas más leads. Necesitas quién los cierre."
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white leading-tight px-4 drop-shadow-sm"
               />
               <motion.p variants={fadeUpVariants} className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-6 leading-relaxed px-4">
-                Diseñamos tu proceso comercial, entrenamos el método y te ponemos closers verificados a operarlo. Sin nómina, sin contratar, sin construirlo desde cero.
+                Te conectamos con closers verificados y, si lo necesitas, construimos contigo el sistema comercial que van a operar. Sin nómina, sin contratar, sin armarlo desde cero.
               </motion.p>
 
               <motion.form
@@ -323,8 +386,8 @@ const Index = () => {
                   className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold w-full sm:w-auto"
                   asChild
                 >
-                  <a href={CTA_DIAGNOSTICO_URL}>
-                    Agenda tu diagnóstico gratuito
+                  <a href={CTA_REGISTRO_EMPRESA} target="_blank" rel="noopener noreferrer">
+                    Registra tu empresa
                   </a>
                 </Button>
                 <Button
@@ -333,18 +396,28 @@ const Index = () => {
                   className="cta-shine cta-glow text-lg px-8 font-semibold bg-white/10 backdrop-blur-sm w-full sm:w-auto"
                   asChild
                 >
-                  <a href="#como-trabajamos">
-                    Ver cómo trabajamos
+                  <a href={CTA_DIAGNOSTICO_URL}>
+                    Agenda tu diagnóstico gratuito
                   </a>
                 </Button>
               </motion.div>
-              <motion.p variants={fadeUpVariants} className="text-sm text-white/80 mb-8">
-                90 minutos · Sin costo · Cupos limitados por mes
+              <motion.p variants={fadeUpVariants} className="text-sm text-white/80 mb-4">
+                Registro en 5 minutos · El diagnóstico dura 90 min y no tiene costo
+              </motion.p>
+              <motion.p variants={fadeUpVariants} className="mb-8">
+                <a
+                  href={CTA_REGISTRO_CLOSER}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/70 hover:text-white transition-colors"
+                >
+                  ¿Eres closer y buscas oportunidades? → Regístrate aquí
+                </a>
               </motion.p>
 
               <motion.div variants={fadeUpVariants} className="space-y-4">
                 <p className="text-sm text-white/80 px-4">
-                  Hemos auditado conversaciones de venta en SaaS, agencias, educación e inmobiliaria
+                  Cerramos en SaaS, agencias, educación e inmobiliaria
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                   <span className="text-sm text-white/80">Acelerados en Reto Zapopan y Emprelatam</span>
@@ -359,7 +432,20 @@ const Index = () => {
             </motion.div>
           </section>
 
-          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Ticker de sectores */}
+          {/* Ticker de sectores */}
+          <section aria-label="Sectores en los que operamos" className="border-b border-border/60 bg-white/70 py-7 backdrop-blur-sm">
+            <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Cerramos ventas en todos los sectores
+            </p>
+            <Marquee
+              speedSeconds={44}
+              items={SECTORS.map((sector) => (
+                <span className="mx-2 inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 transition-colors duration-300 hover:border-primary/40 hover:text-primary">
+                  {sector}
+                </span>
+              ))}
+            />
+          </section>
 
           {/* El problema */}
           <section id="problema" className="w-full bg-slate-50 relative overflow-visible">
@@ -371,11 +457,11 @@ const Index = () => {
               <ScrollReveal variant="scale">
                 <div className="landing-section-header mb-16 relative z-10">
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                    El problema casi nunca es el producto
+                    El problema casi nunca es tu producto
                   </h2>
                 </div>
               </ScrollReveal>
-              <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-3 overflow-hidden">
+              <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-2 overflow-hidden">
                 {PROBLEM_BLOCKS.map((point, i) => (
                   <Card key={point.title} className="landing-section-card-hover h-full">
                     <CardContent className="p-6">
@@ -396,14 +482,81 @@ const Index = () => {
           <section id="como-trabajamos" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <AnimatedHeadline
-                text="Tres fases. Empezamos por la primera."
+                text="Empezamos donde estés"
                 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
               />
             </div>
             <ProcessTimeline steps={PROCESS_STEPS} />
             <ScrollReveal variant="fade-up" delay={2}>
               <p className="text-sm sm:text-base text-muted-foreground mt-12 text-center max-w-3xl mx-auto px-4">
-                Puedes quedarte en la fase 2 si ya tienes equipo. Puedes ir directo a la fase 3 si ya tienes proceso. La mayoría necesita las tres.
+                Si ya tienes proceso, empieza en el paso 2. Si no lo tienes, el paso 3 es donde está el verdadero trabajo.
+              </p>
+            </ScrollReveal>
+          </section>
+
+          {/* Removido en V2.1 — ver CONTENIDO_LANDING_V2.1.md: Planes. Reemplazado por Los tres modelos. */}
+
+          {/* Los tres modelos */}
+          <section id="modelos" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="Tres formas de trabajar con nosotros"
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-8 pt-4 md:grid-cols-3">
+              {WORK_MODELS.map((model) => (
+                <Card
+                  key={model.name}
+                  className={cn(
+                    "landing-section-card-hover relative flex h-full flex-col",
+                    model.featured && "border-primary bg-gradient-to-br from-primary/5 to-primary/10 shadow-xl"
+                  )}
+                >
+                  {model.badge && (
+                    <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                      <Badge className="rounded-full">{model.badge}</Badge>
+                    </div>
+                  )}
+                  <CardHeader className={model.featured ? "pt-8" : undefined}>
+                    <CardTitle>{model.name}</CardTitle>
+                    <CardDescription>Para: {model.para}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-1 flex-col space-y-4">
+                    <div>
+                      <p className="font-medium mb-2">Incluye</p>
+                      <ul className="space-y-2">
+                        {model.incluye.map((item) => (
+                          <li key={item} className="flex gap-2 text-sm text-muted-foreground">
+                            <Check className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-auto space-y-2 pt-2">
+                      <Button
+                        size="lg"
+                        variant={model.featured ? "default" : "outline"}
+                        className="cta-shine w-full"
+                        asChild
+                      >
+                        <a
+                          href={model.href}
+                          {...(model.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        >
+                          {model.cta}
+                        </a>
+                      </Button>
+                      <p className="text-center text-xs text-muted-foreground">{model.microcopy}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <ScrollReveal variant="fade-up" delay={2}>
+              <p className="mt-12 text-center text-xs sm:text-sm text-muted-foreground max-w-3xl mx-auto px-4">
+                La comisión de cada closer la defines y la negocias tú directamente con él. Lo que pagas a Closwork es una cuota fija por el servicio.
               </p>
             </ScrollReveal>
           </section>
@@ -520,57 +673,9 @@ const Index = () => {
             </div>
           </section>
 
-          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Comunidad (stats) */}
+          {/* Removido en V2.1 — ver CONTENIDO_LANDING_V2.1.md: Comunidad (stats) */}
 
-          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Planes. Reemplazado por Modelos de trabajo. */}
-
-          {/* Modelos de trabajo */}
-          <section id="modelos" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <AnimatedHeadline
-                text="Tres formas de trabajar con nosotros"
-                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-              {WORK_MODELS.map((model) => (
-                <Card key={model.name} className="landing-section-card-hover relative h-full overflow-hidden">
-                  <CardHeader>
-                    <CardTitle>{model.name}</CardTitle>
-                    <CardDescription>Para: {model.para}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <p className="font-medium mb-2">Incluye</p>
-                      <ul className="space-y-2">
-                        {model.incluye.map((item) => (
-                          <li key={item} className="flex gap-2 text-sm text-muted-foreground">
-                            <Check className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">Duración:</span> {model.duracion}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">Inversión:</span> {model.inversion}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <ScrollReveal variant="fade-up" delay={2}>
-              <div className="mt-12 text-center">
-                <Button size="lg" className="cta-shine cta-glow text-lg px-8" asChild>
-                  <a href={CTA_DIAGNOSTICO_URL}>Empieza por el diagnóstico</a>
-                </Button>
-              </div>
-            </ScrollReveal>
-          </section>
-
-          {/* Removido en V2 — ver CONTENIDO_LANDING_V2.md: Ahorros / calculadora */}
+          {/* Removido en V2.1 — ver CONTENIDO_LANDING_V2.1.md: Ahorros / calculadora */}
 
           {/* Objeciones */}
           <section id="objeciones" className="w-full bg-slate-50 relative overflow-visible">
@@ -596,38 +701,51 @@ const Index = () => {
           </section>
 
           {/* Final CTA */}
-          <section id="cta-final" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-            <AnimatedHeadline
-              text="Empieza por saber qué está roto"
-              className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4 mb-4"
-            />
-            <ScrollReveal variant="fade-up" delay={1}>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 px-4">
-              90 minutos, sin costo, sin compromiso de compra. Sales con un informe y una hoja de ruta, trabajes con nosotros o no.
-            </p>
-            </ScrollReveal>
-            <ScrollReveal variant="fade-up" delay={2}>
-            <Button
-              size="lg"
-              className="cta-shine cta-glow text-lg px-8 mb-4"
-              asChild
-            >
-              <a href={CTA_DIAGNOSTICO_URL}>
-                Agenda tu diagnóstico
-              </a>
-            </Button>
-            <p className="text-sm text-muted-foreground mb-8">Cupos limitados: 1-2 diagnósticos por mes</p>
-            <p>
-              <a
-                href="https://app.closwork.com/register/closer"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                ¿Eres closer y buscas oportunidades? → Regístrate aquí
-              </a>
-            </p>
-            </ScrollReveal>
+          <section id="cta-final" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <AnimatedHeadline
+                text="Empieza por donde te duela más"
+                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
+              />
+            </div>
+            <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2">
+              <ScrollReveal variant="fade-up">
+                <Card className="landing-section-card-hover h-full">
+                  <CardHeader>
+                    <CardTitle>Sé lo que necesito</CardTitle>
+                    <CardDescription>
+                      Publica tu oportunidad y empieza a recibir closers verificados.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Button size="lg" className="cta-shine cta-glow w-full" asChild>
+                      <a href={CTA_REGISTRO_EMPRESA} target="_blank" rel="noopener noreferrer">
+                        Registra tu empresa
+                      </a>
+                    </Button>
+                    <p className="text-center text-sm text-muted-foreground">Registro en 5 minutos</p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
+              <ScrollReveal variant="fade-up" delay={1}>
+                <Card className="landing-section-card-hover h-full">
+                  <CardHeader>
+                    <CardTitle>No sé por dónde empezar</CardTitle>
+                    <CardDescription>
+                      90 minutos, sin costo. Sales con un diagnóstico de tu operación comercial y una hoja de ruta, trabajes con nosotros o no.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Button size="lg" variant="outline" className="cta-shine w-full" asChild>
+                      <a href={CTA_DIAGNOSTICO_URL}>
+                        Agenda tu diagnóstico
+                      </a>
+                    </Button>
+                    <p className="text-center text-sm text-muted-foreground">Cupos limitados por mes</p>
+                  </CardContent>
+                </Card>
+              </ScrollReveal>
+            </div>
           </section>
       </main>
 

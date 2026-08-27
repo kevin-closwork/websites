@@ -24,7 +24,7 @@ const Footer = () => {
     { label: "Inicio", href: "/", isRoute: true },
     { label: "Blog", href: "/blog", isRoute: true },
     { label: "Nosotros", href: "/about-us", isRoute: true },
-    { label: "Cómo trabajamos", href: "/#como-trabajamos", isRoute: false },
+    { label: "Modelos", href: "/#modelos", isRoute: false },
     { label: "Contacto", href: "mailto:hola@closwork.com", isRoute: false },
     { label: "Términos y Condiciones", href: "/terminos-condiciones", isRoute: true },
     { label: "Documentos legales", href: "/legal", isRoute: true },
