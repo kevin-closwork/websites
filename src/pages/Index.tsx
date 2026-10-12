@@ -1,574 +1,254 @@
-import { useNavigate } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import PricingSection from "@/components/pricing/PricingSection";
-import { PRICING_VISIBLE } from "@/config/featureFlags";
-import { Sparkles, Send, Building2, Users, TrendingUp, Shield, Zap, Target, Award, Check, TrendingDown, HelpCircle } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import { ScrollProgress } from "@/components/motion/ScrollProgress";
-import { GrainOverlay } from "@/components/motion/GrainOverlay";
-import { AnimatedHeadline } from "@/components/motion/AnimatedHeadline";
-import { AnimatedCounter } from "@/components/motion/AnimatedCounter";
-import { Marquee } from "@/components/motion/Marquee";
-import { ProcessTimeline, type ProcessStep } from "@/components/motion/ProcessTimeline";
-import { BenefitPoint } from "@/components/motion/BenefitPoint";
-import { FloatingAvatars } from "@/components/motion/FloatingAvatars";
-import { fadeUpVariants, staggerContainer } from "@/lib/motion";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
 
-const HERO_PHRASES = [
-  "Necesito vender mi ERP",
-  "Busco un vendedor bajo comisión",
-  "Mi empresa quiere vender más",
-  "Quiero cerrar más ventas B2B",
-  "Necesito socios comerciales",
-];
+const WA =
+  "https://api.whatsapp.com/send/?phone=523113731863&text=Hola%2C+vi+el+mensaje+de+Daniel+en+LinkedIn.+Quiero+sumar+closers+a+mi+equipo.&type=phone_number&app_absent=0";
 
-const SECTORS = [
-  "SaaS & Software",
-  "Fintech",
-  "ERP & CRM",
-  "Manufactura",
-  "Logística",
-  "Ecommerce",
-  "Consultoría",
-  "Salud",
-  "Educación",
-  "Inmobiliaria",
-  "Agencias",
-  "Hardware",
-];
+const font = "'Hanken Grotesk', 'Helvetica Neue', Helvetica, sans-serif";
+const serif = "'Instrument Serif', Georgia, serif";
 
-const PROCESS_STEPS: ProcessStep[] = [
-  {
-    icon: Building2,
-    step: "01",
-    title: "Publica tu empresa/oferta",
-    description:
-      "Registra tu empresa y publica las oportunidades de venta que necesitas promocionar. Define comisiones y requisitos.",
-  },
-  {
-    icon: Users,
-    step: "02",
-    title: "Te conectamos con un socio comercial validado",
-    description:
-      "Nuestro algoritmo te conecta con closers verificados que tienen experiencia en tu sector y mercado objetivo.",
-  },
-  {
-    icon: TrendingUp,
-    step: "03",
-    title: "Pagas comisión solo cuando se concreten ventas",
-    description:
-      "Sin costos fijos. Solo pagas cuando tu socio comercial genere resultados reales para tu negocio.",
-  },
-];
+const socialLinks = [
+  { label: "Instagram de Closwork", href: "https://www.instagram.com/closwork.app/", Icon: Instagram },
+  { label: "Facebook de Closwork", href: "https://www.facebook.com/profile.php?id=61577870785859", Icon: Facebook },
+  { label: "LinkedIn de Closwork", href: "https://www.linkedin.com/company/closwork/", Icon: Linkedin },
+] as const;
 
-const EMPRESA_BENEFITS = [
-  {
-    icon: Shield,
-    title: "Reducción de Riesgo",
-    description: "Sin costos fijos ni contratos largos. Solo pagas por resultados reales.",
-  },
-  {
-    icon: Zap,
-    title: "Acceso Inmediato",
-    description: "Conecta con closers verificados en menos de 48 horas.",
-  },
-  {
-    icon: Target,
-    title: "Flexibilidad Total",
-    description: "Ajusta comisiones y requisitos según tus necesidades específicas.",
-  },
-];
+const footerLinks = [
+  { label: "Inicio", href: "/", route: true },
+  { label: "Blog", href: "/blog", route: true },
+  { label: "About Us", href: "/#como-funciona", route: false },
+  { label: "Características", href: "/#beneficios", route: false },
+  { label: "Solicitud", href: "/solicitud", route: true },
+  { label: "Términos y Condiciones", href: "/terminos-condiciones", route: true },
+  { label: "Documentos legales", href: "/legal", route: true },
+  { label: "Privacidad", href: "/privacidad", route: true },
+  { label: "Contacto", href: "mailto:hola@closwork.com", route: false },
+] as const;
 
-const CLOSER_BENEFITS = [
-  {
-    icon: TrendingUp,
-    title: "Oportunidades Constantes",
-    description: "Acceso a múltiples ofertas de empresas verificadas cada semana.",
-  },
-  {
-    icon: Users,
-    title: "Comunidad Activa",
-    description: "Conecta con otros closers, comparte estrategias y aprende continuamente.",
-  },
-  {
-    icon: Award,
-    title: "Soporte Especializado",
-    description: "Recibe formación y herramientas para maximizar tus comisiones.",
-  },
-];
-
-const BENEFIT_BLOCKS = [
-  {
-    id: "empresas",
-    title: "Para Empresas",
-    subtitle: "Escala tu fuerza de ventas sin riesgos",
-    from: "left" as const,
-    image: "/stock/empresas-equipo.jpg",
-    imageAlt: "Equipo de una empresa cerrando un acuerdo comercial en una sala de juntas",
-    points: EMPRESA_BENEFITS,
-  },
-  {
-    id: "closers",
-    title: "Para Socios Comerciales (Closers)",
-    subtitle: "Maximiza tus ingresos con oportunidades verificadas",
-    from: "right" as const,
-    image: "/stock/closers-acuerdo.jpg",
-    imageAlt: "Socio comercial cerrando un trato con un apretón de manos",
-    points: CLOSER_BENEFITS,
-  },
-];
-
-const SAVINGS_POINTS = [
-  {
-    icon: Check,
-    title: "Sin Salarios Fijos",
-    description:
-      "No pagas salarios mensuales. Solo pagas por resultados y socios comerciales activos trabajando para ti.",
-  },
-  {
-    icon: Check,
-    title: "Ahorro Promedio 60-80%",
-    description:
-      "Las empresas ahorran entre 60% y 80% comparado con contratar socios comerciales con salario fijo tradicional.",
-  },
-  {
-    icon: Check,
-    title: "Calcula Tu Ahorro",
-    description:
-      "Usa nuestra calculadora interactiva para ver exactamente cuánto ahorrarías según tu escenario específico.",
-  },
-];
+function Arrow() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      <path d="M13 6l6 6-6 6" />
+    </svg>
+  );
+}
 
 const Index = () => {
-  const [heroMessage, setHeroMessage] = useState("");
-  const [typedPlaceholder, setTypedPlaceholder] = useState("");
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [inputFocused, setInputFocused] = useState(false);
-  const navigate = useNavigate();
-
-  const heroRef = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress: heroProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroContentY = useTransform(heroProgress, [0, 1], [0, 90]);
-  const heroContentOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
-  const heroContentScale = useTransform(heroProgress, [0, 1], [1, 0.94]);
-  const heroDecorY = useTransform(heroProgress, [0, 1], [0, -70]);
-  const heroParallaxStyle = reduceMotion
-    ? undefined
-    : { y: heroContentY, opacity: heroContentOpacity, scale: heroContentScale };
-
-  useEffect(() => {
-    if (inputFocused || heroMessage) return;
-    const phrase = HERO_PHRASES[phraseIndex];
-    const timeout = setTimeout(
-      () => {
-        if (!isDeleting) {
-          if (typedPlaceholder.length < phrase.length) {
-            setTypedPlaceholder(phrase.slice(0, typedPlaceholder.length + 1));
-          } else {
-            setIsDeleting(true);
-          }
-        } else {
-          if (typedPlaceholder.length > 0) {
-            setTypedPlaceholder(typedPlaceholder.slice(0, -1));
-          } else {
-            setIsDeleting(false);
-            setPhraseIndex((i) => (i + 1) % HERO_PHRASES.length);
-          }
-        }
-      },
-      isDeleting ? 40 : typedPlaceholder.length === phrase.length ? 2000 : 80
-    );
-    return () => clearTimeout(timeout);
-  }, [typedPlaceholder, phraseIndex, isDeleting, inputFocused, heroMessage]);
-
-  const handleHeroSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const text = heroMessage.trim();
-    if (!text) return;
-    setHeroMessage("");
-
-    let attempts = 0;
-    const sendToBotpress = (msg: string) => {
-      const bp = (window as Window & { botpress?: { open: () => void; on: (ev: string, cb: () => void) => () => void; sendMessage: (m: string) => Promise<void> } }).botpress;
-      if (bp) {
-        bp.open();
-        const unsub = bp.on("webchat:opened", () => {
-          bp.sendMessage(msg);
-          unsub?.();
-        });
-        setTimeout(() => bp.sendMessage(msg).catch(() => {}), 300);
-      } else if (attempts++ < 40) {
-        setTimeout(() => sendToBotpress(msg), 150);
-      }
-    };
-    if (typeof window !== "undefined") sendToBotpress(text);
-  };
-
-  const openWhatsApp = () => {
-    window.open("https://wa.me/5213112403145", "_blank");
-  };
-
   return (
-    <TooltipProvider>
-      <div className="min-h-screen landing-page relative overflow-hidden">
-        <ScrollProgress />
-        <GrainOverlay />
-        <Navbar />
+    <div style={{ fontFamily: font, color: "#0A0A0A", background: "#FFFFFF", width: "100%", WebkitFontSmoothing: "antialiased" }}>
+      <Helmet>
+        <title>Closwork — Closers sin nómina</title>
+        <meta name="description" content="Closwork te coloca closers evaluados que trabajan a comisión, sin sumar nómina." />
+      </Helmet>
+      <style>{`
+        .cw-cta{transition:transform .15s ease, background .15s ease}
+        .cw-cta:hover{transform:translateY(-1px)}
+        .cw-cta-dark:hover{background:#2A2A2A !important;color:#FFFFFF !important}
+        .cw-cta-light:hover{background:#E6E6E6 !important;color:#0A0A0A !important}
+        .cw-wa-fab{animation:cw-wa-bob 2.4s ease-in-out infinite}
+        .cw-wa-fab:hover{background:#1EBE5A !important;transform:scale(1.06)}
+        .cw-wa-ring{animation:cw-wa-pulse 2s ease-out infinite}
+        .cw-footer a:hover{color:#FFFFFF}
+        @keyframes cw-wa-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.7);opacity:0}}
+        @keyframes cw-wa-bob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+        @media (prefers-reduced-motion: reduce){.cw-wa-fab,.cw-wa-ring{animation:none}}
+      `}</style>
 
-        <main className="relative z-10 pt-20 md:pt-24">
-          {/* Hero Section */}
-          <section ref={heroRef} id="hero" data-deploy="hero-v2-2026" className="relative w-full mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20 pb-12 sm:pb-20 text-center bg-gradient-to-br from-[#1a5ca0] via-[#2474c4] to-[#5dc88c] rounded-b-3xl shadow-lg">
-            {/* Capa decorativa con parallax propio (se mueve más lento que el texto) */}
-            <motion.div
-              aria-hidden
-              style={reduceMotion ? undefined : { y: heroDecorY }}
-              className="pointer-events-none absolute inset-0 overflow-hidden rounded-b-3xl"
-            >
-              <div className="absolute -top-24 left-[8%] h-[26rem] w-[26rem] rounded-full bg-[hsl(152,58%,57%)] opacity-30 blur-[110px] animate-float" />
-              <div className="absolute -bottom-32 right-[6%] h-[22rem] w-[22rem] rounded-full bg-white opacity-[0.18] blur-[120px] animate-float-subtle" />
-              <div className="hero-grid absolute inset-0" />
-            </motion.div>
+      <header style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.04em" }}>Closwork.</div>
+        <a className="cw-cta cw-cta-dark" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 10, minHeight: 44, padding: "0 20px", background: "#0A0A0A", color: "#FFFFFF", textDecoration: "none", fontSize: 15, fontWeight: 600, borderRadius: 999 }}>
+          Quiero conocer más
+        </a>
+      </header>
 
-            <motion.div
-              style={heroParallaxStyle}
-              variants={staggerContainer(0.11, 0.08)}
-              initial="hidden"
-              animate="visible"
-              className="container relative"
-            >
-              <motion.div variants={fadeUpVariants}>
-                <Badge variant="secondary" className="mb-4 gap-1 bg-white/20 text-white border-white/30 hover:bg-white/30 backdrop-blur-sm">
-                  🚀 La evolución de las ventas B2B
-                </Badge>
-              </motion.div>
-              <AnimatedHeadline
-                as="h1"
-                animateOnMount
-                delay={0.15}
-                stagger={0.075}
-                text="Crea tu fuerza de ventas bajo comisión"
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white leading-tight px-4 drop-shadow-sm"
-              />
-              <motion.p variants={fadeUpVariants} className="text-base sm:text-lg md:text-xl text-white/95 max-w-3xl mx-auto mb-6 leading-relaxed px-4">
-                El Primer Sales-as-a-Service de LATAM. Despliega fuerza de ventas experta en 24 horas. Conecta tu oferta con Socios Comerciales verificados bajo demanda. Sin nómina, solo resultados.
-              </motion.p>
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 24px 96px", display: "flex", flexDirection: "column", gap: 32 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#5A5A5A" }}>Closers a comisión para tu empresa</div>
+        <h1 style={{ margin: 0, fontSize: "clamp(44px, 7.2vw, 104px)", lineHeight: 0.98, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1100 }}>
+          Las ventas que se quedan en la mesa, <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400, letterSpacing: "-0.02em" }}>alguien</span> tiene que cerrarlas.
+        </h1>
+        <p style={{ margin: 0, fontSize: "clamp(19px, 1.8vw, 24px)", lineHeight: 1.45, color: "#3A3A3A", maxWidth: 680 }}>
+          Closwork te coloca un closer evaluado para tu tipo de venta, sin sumar nómina. Trabaja a comisión, y ese esquema lo negocias tú directamente con él.
+        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", paddingTop: 8 }}>
+          <a className="cw-cta cw-cta-dark" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 12, minHeight: 60, padding: "0 32px", background: "#0A0A0A", color: "#FFFFFF", textDecoration: "none", fontSize: 18, fontWeight: 600, borderRadius: 999 }}>
+            Quiero sumar closers
+            <Arrow />
+          </a>
+          <span style={{ fontSize: 15, color: "#5A5A5A" }}>Te respondemos por WhatsApp.</span>
+        </div>
+      </section>
 
-              <motion.form
-                variants={fadeUpVariants}
-                onSubmit={handleHeroSubmit}
-                className="max-w-2xl mx-auto flex items-center gap-2 bg-white rounded-full px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl border-0 mx-4 sm:mx-auto mb-8 transition-shadow duration-500 focus-within:shadow-[0_0_0_4px_hsl(152_58%_57%_/_0.35),0_18px_40px_-14px_rgba(0,54,107,0.45)]"
-              >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                  <Sparkles size={18} className="sm:w-5 sm:h-5 text-white" />
-                </div>
-                <div className="flex-1 relative min-w-0">
-                  <input
-                    value={heroMessage}
-                    onChange={(e) => setHeroMessage(e.target.value)}
-                    onFocus={() => setInputFocused(true)}
-                    onBlur={() => setInputFocused(false)}
-                    className="w-full bg-transparent border-none focus:outline-none text-sm sm:text-base text-foreground min-w-0 relative z-10"
-                  />
-                  {!heroMessage && !inputFocused && (
-                    <span
-                      className="absolute left-0 top-1/2 -translate-y-1/2 text-sm sm:text-base text-muted-foreground pointer-events-none whitespace-nowrap"
-                      aria-hidden
-                    >
-                      {typedPlaceholder}
-                      <span className="inline-block w-0.5 h-4 sm:h-5 ml-0.5 bg-current align-middle animate-cursor-blink" aria-hidden />
-                    </span>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-primary hover:text-primary-glow transition-colors flex-shrink-0"
-                >
-                  <span className="hidden xs:inline">Enviar</span>
-                  <Send size={14} className="sm:w-4 sm:h-4" />
-                </button>
-              </motion.form>
-
-              <motion.div variants={fadeUpVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
-                <Button
-                  size="lg"
-                  className="cta-shine cta-glow bg-[#22c55e] hover:bg-[#16a34a] text-white text-lg px-8 font-semibold w-full sm:w-auto"
-                  asChild
-                >
-                  <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
-                    Registra tu empresa
-                  </a>
-                </Button>
-                <Button
-                  variant="outline-white"
-                  size="lg"
-                  className="cta-shine cta-glow text-lg px-8 font-semibold bg-white/10 backdrop-blur-sm w-full sm:w-auto"
-                  asChild
-                >
-                  <a href="https://app.closwork.com/register/closer" target="_blank" rel="noopener noreferrer">
-                    Regístrate como Closer
-                  </a>
-                </Button>
-              </motion.div>
-              <motion.p variants={fadeUpVariants} className="text-sm text-white/80 mb-8">
-                Setup en 5 minutos • Cancelación flexible
-              </motion.p>
-
-              <motion.div variants={fadeUpVariants} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-                <span className="text-sm text-white/80">Acelerados en:</span>
-                <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
-                  <img src="/logo-86bf1018.svg" alt="Reto Zapopan" className="h-10 sm:h-12 w-auto brightness-0 invert" />
-                </a>
-                <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" className="opacity-90 transition-all duration-300 hover:opacity-100 hover:-translate-y-0.5">
-                  <img src="/emprelatam-logo.png" alt="Emprelatam" className="h-6 sm:h-8 w-auto brightness-0 invert" />
-                </a>
-              </motion.div>
-            </motion.div>
-          </section>
-
-          {/* Ticker de sectores */}
-          <section aria-label="Sectores en los que operamos" className="border-b border-border/60 bg-white/70 py-7 backdrop-blur-sm">
-            <p className="mb-5 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Cerramos ventas en todos los sectores
+      <section style={{ background: "#F2F2F2" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "96px 24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 56, alignItems: "start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>
+              <span style={{ color: "#6B6B6B" }}>Un vendedor en nómina no solo te cuesta</span> su salario.
+            </h2>
+            <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#3A3A3A", maxWidth: 460 }}>
+              Te cuesta todo esto, <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 24 }}>venda o no venda.</span>
             </p>
-            <Marquee
-              speedSeconds={44}
-              items={SECTORS.map((sector) => (
-                <span className="mx-2 inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 transition-colors duration-300 hover:border-primary/40 hover:text-primary">
-                  {sector}
-                </span>
-              ))}
-            />
-          </section>
+          </div>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", borderTop: "1px solid #CFCFCF" }}>
+            {[
+              ["01", "Cuotas IMSS, INFONAVIT y retiro"],
+              ["02", "Impuesto sobre nómina"],
+              ["03", "Aguinaldo, prima vacacional y PTU"],
+              ["04", "Reclutamiento y meses de rampa"],
+              ["05", "Indemnización si no funciona"],
+            ].map(([n, label]) => (
+              <li key={n} style={{ padding: "20px 0", borderBottom: "1px solid #CFCFCF", fontSize: 20, display: "flex", gap: 16, alignItems: "baseline" }}>
+                <span style={{ fontSize: 14, color: "#6B6B6B", fontVariantNumeric: "tabular-nums" }}>{n}</span>
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-          {/* Cómo Funciona */}
-          <section id="como-funciona" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <div className="max-w-3xl mx-auto text-center mb-16">
-              <AnimatedHeadline
-                text="¿Cómo funciona Closwork?"
-                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4"
-              />
-              <ScrollReveal variant="fade-up" delay={1}>
-                <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4">
-                  Un proceso simple y transparente que conecta empresas con los mejores closers de LATAM en 3 pasos
-                </p>
-              </ScrollReveal>
-            </div>
-            <ProcessTimeline steps={PROCESS_STEPS} />
-          </section>
+      <section style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "96px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
+          <h2 style={{ margin: 0, fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1, letterSpacing: "-0.04em", fontWeight: 500, maxWidth: 980 }}>
+            Un closer de Closwork gana <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>cuando tú vendes.</span>
+          </h2>
+          <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#C8C8C8", maxWidth: 640 }}>
+            Sin nómina, sin cargas patronales, sin indemnizaciones. Tú defines la comisión con tu closer y él se enfoca en una sola cosa: cerrar.
+          </p>
+        </div>
+      </section>
 
-          {/* Beneficios */}
-          <section id="beneficios" className="w-full bg-slate-50 relative overflow-visible">
-            <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
-              <div className="absolute top-0 left-[10%] w-[500px] h-[500px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[120px]" />
-              <div className="absolute bottom-0 right-[10%] w-[400px] h-[400px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[100px]" />
+      <section id="beneficios" style={{ maxWidth: 1200, margin: "0 auto", padding: "112px 24px 96px", display: "flex", flexDirection: "column", gap: 56 }}>
+        <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>Closwork es para ti si:</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40 }}>
+          {[
+            ["1", "Generas leads constantemente mediante campañas."],
+            ["2", "Tu ticket de venta es alto, individualmente o en volumen."],
+            ["3", "Tienes una comisión atractiva definida para tus closers."],
+          ].map(([n, text]) => (
+            <div key={n} style={{ display: "flex", flexDirection: "column", gap: 16, borderTop: "2px solid #0A0A0A", paddingTop: 24 }}>
+              <div style={{ fontFamily: serif, fontSize: 48, lineHeight: 1, color: "#D42A24" }}>{n}</div>
+              <p style={{ margin: 0, fontSize: 22, lineHeight: 1.35, letterSpacing: "-0.01em" }}>{text}</p>
             </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-16 relative z-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                Beneficios para todos
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Una plataforma diseñada para maximizar el éxito tanto de empresas como de closers
+          ))}
+        </div>
+      </section>
+
+      <section id="como-funciona" style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px 112px", display: "flex", flexDirection: "column", gap: 56 }}>
+        <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>
+          Así funciona <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>Closwork.</span>
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+          <div style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#5A5A5A" }}>PASO 01</div>
+            <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Defines el perfil</h3>
+            <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#3A3A3A" }}>Qué vendes y a quién. La comisión la acuerdas directamente con tu closer.</p>
+          </div>
+          <div style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#5A5A5A" }}>PASO 02</div>
+            <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Seleccionamos</h3>
+            <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#3A3A3A" }}>Te presentamos closers evaluados para tu tipo de venta. Tú eliges.</p>
+          </div>
+          <div style={{ background: "#0A0A0A", color: "#FFFFFF", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#B5B5B5" }}>PASO 03</div>
+            <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Trabaja contigo</h3>
+            <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D0D0D0" }}>Le das el onboarding de tu producto, accesos y herramientas. Y a vender.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "120px 24px 72px", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 32 }}>
+          <h2 style={{ margin: 0, fontSize: "clamp(40px, 6vw, 88px)", lineHeight: 1, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1000 }}>
+            ¿Ya generas leads? Pon a alguien a <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>cerrarlos.</span>
+          </h2>
+          <a className="cw-cta cw-cta-light" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 12, minHeight: 60, padding: "0 32px", background: "#FFFFFF", color: "#0A0A0A", textDecoration: "none", fontSize: 18, fontWeight: 600, borderRadius: 999 }}>
+            Quiero conocer más
+            <Arrow />
+          </a>
+          <span style={{ fontSize: 15, color: "#B5B5B5" }}>Escríbenos por WhatsApp y platicamos tu caso.</span>
+        </div>
+
+        <footer className="cw-footer" style={{ maxWidth: 1200, margin: "0 auto", padding: "8px 24px 48px" }}>
+          <div style={{ borderTop: "1px solid #2A2A2A", paddingTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 40 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.04em" }}>Closwork.</div>
+              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.5, color: "#B5B5B5", maxWidth: 320 }}>
+                Closers evaluados que trabajan a comisión, sin sumar nómina.
+              </p>
+              <p style={{ margin: 0, fontSize: 16, color: "#B5B5B5" }}>
+                You focus on <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 19, color: "#FFFFFF" }}>growth</span>, we <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 19, color: "#FFFFFF" }}>handle</span> the rest.
               </p>
             </div>
-            </ScrollReveal>
-            <div className="relative z-10 space-y-16 sm:space-y-24">
-              {BENEFIT_BLOCKS.map((block) => (
-                <div key={block.id} className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-14">
-                  <div className="flex flex-col justify-center">
-                    <ScrollReveal variant="fade-up">
-                      <h3 className="text-3xl sm:text-4xl font-semibold text-foreground">{block.title}</h3>
-                      <p className="mt-3 text-base sm:text-lg text-muted-foreground">{block.subtitle}</p>
-                    </ScrollReveal>
-                    <div className="mt-8 space-y-7 overflow-hidden">
-                      {block.points.map((point) => (
-                        <BenefitPoint key={point.title} {...point} from={block.from} size="lg" />
-                      ))}
-                    </div>
-                  </div>
-                  <ScrollReveal variant="scale" className="h-full">
-                    <div className="relative h-full min-h-[18rem] sm:min-h-[24rem] overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,54,107,0.45)]">
-                      <img
-                        src={block.image}
-                        alt={block.imageAlt}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-[hsl(210,100%,21%)]/35 via-transparent to-transparent" />
-                    </div>
-                  </ScrollReveal>
-                </div>
-              ))}
-            </div>
-            </div>
-          </section>
 
-          {/* Comunidad */}
-          <section id="comunidad" className="w-full bg-slate-50 relative overflow-visible">
-            <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
-              <div className="absolute top-1/4 right-[5%] w-[400px] h-[400px] rounded-full bg-[hsl(152,48%,47%)] opacity-20 blur-[100px]" />
-              <div className="absolute bottom-1/4 left-[5%] w-[350px] h-[350px] rounded-full bg-[hsl(210,60%,40%)] opacity-15 blur-[90px]" />
-            </div>
-            <FloatingAvatars />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-12 relative z-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                Una comunidad en crecimiento
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Miles de empresas y closers ya confían en Closwork para hacer crecer sus negocios en toda América Latina
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w-4xl mx-auto w-full relative z-10">
-              {[
-                { value: "200+", label: "Closers Verificados" },
-                { value: "50+", label: "Empresas Activas" },
-                { value: "95%", label: "Tasa de Éxito" },
-                { value: "12", label: "Países en LATAM" },
-              ].map((stat, i) => (
-                <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
-                <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <AnimatedCounter
-                    value={stat.value}
-                    className="block text-2xl sm:text-3xl font-bold text-primary"
-                  />
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-                </ScrollReveal>
-              ))}
-            </div>
-            <ScrollReveal variant="fade-up" delay={3}>
-            <div className="flex flex-col items-center justify-center text-center relative z-10">
-              <Badge variant="secondary" className="mb-4 animate-float-subtle">Nuevos miembros uniéndose cada día</Badge>
-              <h3 className="font-semibold text-lg mb-1">Red de Closers en Tiempo Real</h3>
-              <p className="text-sm text-muted-foreground mb-2 max-w-xl mx-auto">Conectando empresas con los mejores closers de países hispanohablantes</p>
-              <p className="text-xs text-primary font-medium">10 closers activos ahora</p>
-            </div>
-            </ScrollReveal>
-            </div>
-          </section>
-
-          {/* Planes */}
-          {PRICING_VISIBLE && <PricingSection />}
-
-          {/* Ahorros */}
-          <section id="ahorros" className="w-full bg-slate-50 relative overflow-visible">
-            <div className="absolute inset-0 pointer-events-none animate-glow-pulse" aria-hidden="true">
-              <div className="absolute top-[10%] left-[15%] w-[400px] h-[400px] rounded-full bg-[hsl(152,48%,47%)] opacity-15 blur-[110px]" />
-              <div className="absolute bottom-[10%] right-[15%] w-[350px] h-[350px] rounded-full bg-[hsl(210,60%,40%)] opacity-12 blur-[90px]" />
-            </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-            <ScrollReveal variant="scale">
-            <div className="landing-section-header mb-12 relative z-10">
-              <Badge variant="secondary" className="mb-4 gap-1 animate-float-subtle">
-                <TrendingDown className="h-4 w-4" /> Ahorro Garantizado
-              </Badge>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold title-gradient px-4">
-                ¿Cuánto puedes ahorrar con Closwork?
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mt-4 px-4 subtitle-muted">
-                Compara el costo real de contratar socios comerciales tradicionales vs nuestro modelo de pago por resultados.
-              </p>
-            </div>
-            </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto w-full relative z-10">
-              {[
-                { value: "60-80%", label: "Ahorro promedio" },
-                { value: "$0", label: "Salarios fijos" },
-                { value: "100%", label: "Pago por resultados" },
-                { value: "24/7", label: "Disponibilidad" },
-              ].map((s, i) => (
-                <ScrollReveal key={i} variant="zoom-rotate" delay={(i + 1) as 1 | 2 | 3 | 4}>
-                <div className="landing-stats-card text-center p-4 bg-card rounded-xl border">
-                  <AnimatedCounter
-                    value={s.value}
-                    className="block text-xl font-bold text-primary"
-                  />
-                  <p className="text-xs text-muted-foreground">{s.label}</p>
-                </div>
-                </ScrollReveal>
-              ))}
-            </div>
-            <div className="space-y-6 max-w-2xl mx-auto mb-8 relative z-10 overflow-hidden">
-              {SAVINGS_POINTS.map((point, i) => (
-                <BenefitPoint key={point.title} {...point} from={i % 2 === 0 ? "left" : "right"} />
-              ))}
-            </div>
-            <ScrollReveal variant="scale" delay={2}>
-            <Card className="max-w-xl mx-auto landing-section-card-hover relative z-10">
-              <CardHeader>
-                <CardTitle>Descubre cuánto puedes ahorrar</CardTitle>
-                <CardDescription>
-                  Nuestra calculadora te muestra el ahorro exacto comparando el modelo tradicional vs Closwork. Personaliza según tu cantidad de socios comerciales y ciclo de ventas.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="cta-shine cta-glow w-full" onClick={() => navigate("/calculadora")}>
-                  Calcular Mi Ahorro
-                </Button>
-              </CardContent>
-            </Card>
-            </ScrollReveal>
-            </div>
-          </section>
-
-          {/* Final CTA */}
-          <section id="cta-final" className="container relative mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-            <AnimatedHeadline
-              text="¿Listo para transformar tu negocio?"
-              className="text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground px-4 mb-4"
-            />
-            <ScrollReveal variant="fade-up" delay={1}>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 px-4">
-              Regístrate gratis y encuentra a tu socio comercial perfecto en menos de 7 días
-            </p>
-            </ScrollReveal>
-            <ScrollReveal variant="fade-up" delay={2}>
-            <Button
-              size="lg"
-              className="cta-shine cta-glow text-lg px-8 mb-4"
-              asChild
-            >
-              <a href="https://app.closwork.com/register/empresa" target="_blank" rel="noopener noreferrer">
-                Registra tu empresa
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#B5B5B5" }}>Contacto</div>
+              <a href="mailto:hola@closwork.com" style={{ display: "flex", alignItems: "center", gap: 10, color: "#B5B5B5", textDecoration: "none", fontSize: 15 }}>
+                <Mail size={16} aria-hidden />
+                hola@closwork.com
               </a>
-            </Button>
-            <p className="text-sm text-muted-foreground mb-8">Setup en menos de 5 minutos</p>
-            </ScrollReveal>
-            <ScrollReveal variant="fade-up" delay={2}>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-              <span>100% Sin costos ocultos</span>
-              <span>24/7 Soporte disponible</span>
-              <span>7 días Garantía Growth/Scale</span>
-              <span>7 días Para encontrar socio</span>
+              <a href="tel:+523112403145" style={{ display: "flex", alignItems: "center", gap: 10, color: "#B5B5B5", textDecoration: "none", fontSize: 15 }}>
+                <Phone size={16} aria-hidden />
+                +52 311 240 3145
+              </a>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#B5B5B5", fontSize: 15 }}>
+                <MapPin size={16} aria-hidden />
+                Guadalajara, Jal.
+              </div>
+              <div style={{ display: "flex", gap: 4, paddingTop: 4 }}>
+                {socialLinks.map(({ label, href, Icon }) => (
+                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} style={{ display: "inline-flex", padding: 8, color: "#B5B5B5" }}>
+                    <Icon size={18} aria-hidden />
+                  </a>
+                ))}
+              </div>
             </div>
-            </ScrollReveal>
-          </section>
-        </main>
 
-        <Footer />
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#B5B5B5" }}>Enlaces</div>
+              {footerLinks.map((link) =>
+                link.route ? (
+                  <Link key={link.href} to={link.href} style={{ color: "#B5B5B5", textDecoration: "none", fontSize: 15 }}>
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a key={link.href} href={link.href} style={{ color: "#B5B5B5", textDecoration: "none", fontSize: 15 }}>
+                    {link.label}
+                  </a>
+                ),
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 20, marginTop: 40, paddingTop: 28, borderTop: "1px solid #2A2A2A" }}>
+            <span style={{ fontSize: 14, color: "#B5B5B5" }}>Acelerados en</span>
+            <a href="https://www.retozapopan.com.mx/" target="_blank" rel="noopener noreferrer" style={{ opacity: 0.85 }}>
+              <img src="/logo-86bf1018.svg" alt="Reto Zapopan" style={{ height: 48, width: "auto" }} />
+            </a>
+            <a href="https://emprelatam.com/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: serif, fontStyle: "italic", fontSize: 20, color: "#FFFFFF", textDecoration: "none" }}>
+              Emprelatam
+            </a>
+          </div>
+
+          <div style={{ marginTop: 28, paddingTop: 28, borderTop: "1px solid #2A2A2A", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+            <p style={{ margin: 0, fontSize: 13, color: "#8A8A8A" }}>© 2026 Closwork. Todos los derechos reservados.</p>
+            <p style={{ margin: 0, fontFamily: serif, fontStyle: "italic", fontSize: 16, color: "#B5B5B5", maxWidth: 520 }}>
+              A veces, las ideas más revolucionarias nacen de la pregunta más simple: ¿Y si existiera un botón?
+            </p>
+          </div>
+        </footer>
+      </section>
+
+      <div style={{ position: "fixed", right: 24, top: "50%", transform: "translateY(-50%)", zIndex: 50, width: 78, height: 78 }}>
+        <span className="cw-wa-ring" aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: 999, background: "#25D366" }} />
+        <a className="cw-wa-fab" href={WA} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: 78, height: 78, borderRadius: 999, background: "#25D366", color: "#FFFFFF", textDecoration: "none", boxShadow: "0 10px 28px rgba(37, 211, 102, 0.45), 0 4px 10px rgba(0, 0, 0, 0.18)", transition: "transform .15s ease, background .15s ease" }}>
+          <svg width="39" height="39" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M3.5 20.5l1.3-4.1A8.5 8.5 0 1 1 8 19.6l-4.5.9z" />
+            <path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .5-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.3.2-2.1-.8-3.9-2.6-4.7-4.7-.3-.8-.2-1.7.2-2.3z" />
+          </svg>
+        </a>
       </div>
-    </TooltipProvider>
+    </div>
   );
 };
 
