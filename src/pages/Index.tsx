@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
 
-const WA =
-  "https://api.whatsapp.com/send/?phone=523113731863&text=Hola%2C+vi+el+mensaje+de+Daniel+en+LinkedIn.+Quiero+sumar+closers+a+mi+equipo.&type=phone_number&app_absent=0";
+const WA_TEXT = "Quiero tener un closer bajo comisión en mi empresa";
+const WA = `https://api.whatsapp.com/send/?phone=523113731863&text=${encodeURIComponent(WA_TEXT)}&type=phone_number&app_absent=0`;
 
 const font = "'Hanken Grotesk', 'Helvetica Neue', Helvetica, sans-serif";
 const serif = "'Instrument Serif', Georgia, serif";
@@ -36,6 +37,27 @@ function Arrow() {
 }
 
 const Index = () => {
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".cw-watch"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      nodes.forEach((node) => node.classList.add("cw-on"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("cw-on");
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -24px 0px" },
+    );
+    nodes.forEach((node) => io.observe(node));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div style={{ fontFamily: font, color: "#0A0A0A", background: "#FFFFFF", width: "100%", WebkitFontSmoothing: "antialiased" }}>
       <Helmet>
@@ -47,16 +69,48 @@ const Index = () => {
         .cw-cta:hover{transform:translateY(-1px)}
         .cw-cta-dark:hover{background:#2A2A2A !important;color:#FFFFFF !important}
         .cw-cta-light:hover{background:#E6E6E6 !important;color:#0A0A0A !important}
+        .cw-rise{animation:cw-rise .85s cubic-bezier(.16,1,.3,1) both}
+        .cw-d1{animation-delay:.08s}
+        .cw-d2{animation-delay:.18s}
+        .cw-d3{animation-delay:.32s}
+        .cw-d4{animation-delay:.46s}
+        .cw-reveal{opacity:0;translate:0 28px;transition:opacity .75s cubic-bezier(.16,1,.3,1),translate .75s cubic-bezier(.16,1,.3,1)}
+        .cw-reveal.cw-on{opacity:1;translate:0 0}
+        .cw-stagger > *{opacity:0;translate:0 18px}
+        .cw-stagger.cw-on > *{animation:cw-rise .72s cubic-bezier(.16,1,.3,1) both}
+        .cw-stagger.cw-on > *:nth-child(2){animation-delay:.08s}
+        .cw-stagger.cw-on > *:nth-child(3){animation-delay:.16s}
+        .cw-stagger.cw-on > *:nth-child(4){animation-delay:.24s}
+        .cw-stagger.cw-on > *:nth-child(5){animation-delay:.32s}
+        .cw-card{transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s ease}
+        .cw-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,.08)}
+        .cw-card-dark:hover{box-shadow:0 18px 40px rgba(0,0,0,.35)}
+        .cw-line{transition:transform .25s ease}
+        .cw-line:hover{transform:translateX(6px)}
         .cw-wa-fab{animation:cw-wa-bob 2.4s ease-in-out infinite}
         .cw-wa-fab:hover{background:#1EBE5A !important;transform:scale(1.06)}
         .cw-wa-ring{animation:cw-wa-pulse 2s ease-out infinite}
+        .cw-wa-chip{max-width:220px;background:#FFFFFF;color:#0A0A0A;border-radius:14px;padding:8px 12px;font-size:13px;font-weight:600;line-height:1.35;letter-spacing:-0.01em;text-decoration:none;box-shadow:0 8px 22px rgba(0,0,0,.12);animation:cw-chip-in .7s .4s cubic-bezier(.16,1,.3,1) both}
+        .cw-wa-chip:hover{background:#F4F4F4}
+        @keyframes cw-chip-in{from{opacity:0;translate:8px 0}to{opacity:1;translate:0 0}}
+        @media (min-width: 861px) and (max-width: 1820px){
+          .cw-avoid-wa{max-width:min(1000px,calc(100% - 300px)) !important}
+          .cw-footer{padding-right:280px !important}
+        }
         .cw-footer a:hover{color:#FFFFFF}
+        @keyframes cw-rise{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
         @keyframes cw-wa-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.7);opacity:0}}
         @keyframes cw-wa-bob{0%,100%{translate:0 0}50%{translate:0 -4px}}
-        @media (prefers-reduced-motion: reduce){.cw-wa-fab,.cw-wa-ring{animation:none}}
+        @media (max-width: 860px){.cw-wa-chip{display:none}}
+        @media (prefers-reduced-motion: reduce){
+          .cw-rise,.cw-wa-fab,.cw-wa-ring{animation:none}
+          .cw-wa-chip{animation:none;opacity:1;translate:0 0}
+          .cw-reveal,.cw-stagger > *{opacity:1;translate:0 0;transform:none;transition:none;animation:none}
+          .cw-card:hover,.cw-line:hover{transform:none}
+        }
       `}</style>
 
-      <header style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+      <header className="cw-rise" style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-0.04em" }}>Closwork.</div>
         <a className="cw-cta cw-cta-dark" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 10, minHeight: 44, padding: "0 20px", background: "#0A0A0A", color: "#FFFFFF", textDecoration: "none", fontSize: 15, fontWeight: 600, borderRadius: 999 }}>
           Quiero conocer más
@@ -64,14 +118,14 @@ const Index = () => {
       </header>
 
       <section style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 24px 96px", display: "flex", flexDirection: "column", gap: 32 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#5A5A5A" }}>Closers a comisión para tu empresa</div>
-        <h1 style={{ margin: 0, fontSize: "clamp(44px, 7.2vw, 104px)", lineHeight: 0.98, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1100 }}>
+        <div className="cw-rise cw-d1" style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#5A5A5A" }}>Closers a comisión para tu empresa</div>
+        <h1 className="cw-rise cw-d2" style={{ margin: 0, fontSize: "clamp(44px, 7.2vw, 104px)", lineHeight: 0.98, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1100 }}>
           Las ventas que se quedan en la mesa, <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400, letterSpacing: "-0.02em" }}>alguien</span> tiene que cerrarlas.
         </h1>
-        <p style={{ margin: 0, fontSize: "clamp(19px, 1.8vw, 24px)", lineHeight: 1.45, color: "#3A3A3A", maxWidth: 680 }}>
+        <p className="cw-rise cw-d3" style={{ margin: 0, fontSize: "clamp(19px, 1.8vw, 24px)", lineHeight: 1.45, color: "#3A3A3A", maxWidth: 680 }}>
           Closwork te coloca un closer evaluado para tu tipo de venta, sin sumar nómina. Trabaja a comisión, y ese esquema lo negocias tú directamente con él.
         </p>
-        <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", paddingTop: 8 }}>
+        <div className="cw-rise cw-d4" style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", paddingTop: 8 }}>
           <a className="cw-cta cw-cta-dark" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 12, minHeight: 60, padding: "0 32px", background: "#0A0A0A", color: "#FFFFFF", textDecoration: "none", fontSize: 18, fontWeight: 600, borderRadius: 999 }}>
             Quiero sumar closers
             <Arrow />
@@ -82,7 +136,7 @@ const Index = () => {
 
       <section style={{ background: "#F2F2F2" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "96px 24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 56, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div className="cw-watch cw-reveal" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>
               <span style={{ color: "#6B6B6B" }}>Un vendedor en nómina no solo te cuesta</span> su salario.
             </h2>
@@ -90,7 +144,7 @@ const Index = () => {
               Te cuesta todo esto, <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 24 }}>venda o no venda.</span>
             </p>
           </div>
-          <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", borderTop: "1px solid #CFCFCF" }}>
+          <ul className="cw-watch cw-stagger" style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", borderTop: "1px solid #CFCFCF" }}>
             {[
               ["01", "Cuotas IMSS, INFONAVIT y retiro"],
               ["02", "Impuesto sobre nómina"],
@@ -98,7 +152,7 @@ const Index = () => {
               ["04", "Reclutamiento y meses de rampa"],
               ["05", "Indemnización si no funciona"],
             ].map(([n, label]) => (
-              <li key={n} style={{ padding: "20px 0", borderBottom: "1px solid #CFCFCF", fontSize: 20, display: "flex", gap: 16, alignItems: "baseline" }}>
+              <li key={n} className="cw-line" style={{ padding: "20px 0", borderBottom: "1px solid #CFCFCF", fontSize: 20, display: "flex", gap: 16, alignItems: "baseline" }}>
                 <span style={{ fontSize: 14, color: "#6B6B6B", fontVariantNumeric: "tabular-nums" }}>{n}</span>
                 {label}
               </li>
@@ -108,8 +162,8 @@ const Index = () => {
       </section>
 
       <section style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "96px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
-          <h2 style={{ margin: 0, fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1, letterSpacing: "-0.04em", fontWeight: 500, maxWidth: 980 }}>
+        <div className="cw-watch cw-reveal" style={{ maxWidth: 1200, margin: "0 auto", padding: "96px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
+          <h2 className="cw-avoid-wa" style={{ margin: 0, fontSize: "clamp(36px, 5vw, 72px)", lineHeight: 1, letterSpacing: "-0.04em", fontWeight: 500, maxWidth: 980 }}>
             Un closer de Closwork gana <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>cuando tú vendes.</span>
           </h2>
           <p style={{ margin: 0, fontSize: 20, lineHeight: 1.5, color: "#C8C8C8", maxWidth: 640 }}>
@@ -119,8 +173,8 @@ const Index = () => {
       </section>
 
       <section id="beneficios" style={{ maxWidth: 1200, margin: "0 auto", padding: "112px 24px 96px", display: "flex", flexDirection: "column", gap: 56 }}>
-        <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>Closwork es para ti si:</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40 }}>
+        <h2 className="cw-watch cw-reveal" style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>Closwork es para ti si:</h2>
+        <div className="cw-watch cw-stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40 }}>
           {[
             ["1", "Generas leads constantemente mediante campañas."],
             ["2", "Tu ticket de venta es alto, individualmente o en volumen."],
@@ -135,21 +189,21 @@ const Index = () => {
       </section>
 
       <section id="como-funciona" style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px 112px", display: "flex", flexDirection: "column", gap: 56 }}>
-        <h2 style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>
+        <h2 className="cw-watch cw-reveal" style={{ margin: 0, fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.035em", fontWeight: 500 }}>
           Así funciona <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>Closwork.</span>
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
-          <div style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="cw-watch cw-stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+          <div className="cw-card" style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#5A5A5A" }}>PASO 01</div>
             <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Defines el perfil</h3>
             <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#3A3A3A" }}>Qué vendes y a quién. La comisión la acuerdas directamente con tu closer.</p>
           </div>
-          <div style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="cw-card" style={{ background: "#F2F2F2", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#5A5A5A" }}>PASO 02</div>
             <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Seleccionamos</h3>
             <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#3A3A3A" }}>Te presentamos closers evaluados para tu tipo de venta. Tú eliges.</p>
           </div>
-          <div style={{ background: "#0A0A0A", color: "#FFFFFF", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="cw-card cw-card-dark" style={{ background: "#0A0A0A", color: "#FFFFFF", borderRadius: 20, padding: 32, display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.16em", color: "#B5B5B5" }}>PASO 03</div>
             <h3 style={{ margin: 0, fontSize: 28, letterSpacing: "-0.02em", fontWeight: 600 }}>Trabaja contigo</h3>
             <p style={{ margin: 0, fontSize: 18, lineHeight: 1.5, color: "#D0D0D0" }}>Le das el onboarding de tu producto, accesos y herramientas. Y a vender.</p>
@@ -158,8 +212,8 @@ const Index = () => {
       </section>
 
       <section style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "120px 24px 72px", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 32 }}>
-          <h2 style={{ margin: 0, fontSize: "clamp(40px, 6vw, 88px)", lineHeight: 1, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1000 }}>
+        <div className="cw-watch cw-reveal" style={{ maxWidth: 1200, margin: "0 auto", padding: "120px 24px 72px", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 32 }}>
+          <h2 className="cw-avoid-wa" style={{ margin: 0, fontSize: "clamp(40px, 6vw, 88px)", lineHeight: 1, letterSpacing: "-0.045em", fontWeight: 500, maxWidth: 1000 }}>
             ¿Ya generas leads? Pon a alguien a <span style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 400 }}>cerrarlos.</span>
           </h2>
           <a className="cw-cta cw-cta-light" href={WA} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 12, minHeight: 60, padding: "0 32px", background: "#FFFFFF", color: "#0A0A0A", textDecoration: "none", fontSize: 18, fontWeight: 600, borderRadius: 999 }}>
@@ -169,7 +223,7 @@ const Index = () => {
           <span style={{ fontSize: 15, color: "#B5B5B5" }}>Escríbenos por WhatsApp y platicamos tu caso.</span>
         </div>
 
-        <footer className="cw-footer" style={{ maxWidth: 1200, margin: "0 auto", padding: "8px 24px 48px" }}>
+        <footer className="cw-footer" style={{ maxWidth: 1200, margin: "0 auto", padding: "8px 24px 72px" }}>
           <div style={{ borderTop: "1px solid #2A2A2A", paddingTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 40 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.04em" }}>Closwork.</div>
@@ -239,14 +293,19 @@ const Index = () => {
         </footer>
       </section>
 
-      <div style={{ position: "fixed", right: 24, top: "50%", transform: "translateY(-50%)", zIndex: 50, width: 78, height: 78 }}>
-        <span className="cw-wa-ring" aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: 999, background: "#25D366" }} />
-        <a className="cw-wa-fab" href={WA} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: 78, height: 78, borderRadius: 999, background: "#25D366", color: "#FFFFFF", textDecoration: "none", boxShadow: "0 10px 28px rgba(37, 211, 102, 0.45), 0 4px 10px rgba(0, 0, 0, 0.18)", transition: "transform .15s ease, background .15s ease" }}>
-          <svg width="39" height="39" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M3.5 20.5l1.3-4.1A8.5 8.5 0 1 1 8 19.6l-4.5.9z" />
-            <path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .5-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.3.2-2.1-.8-3.9-2.6-4.7-4.7-.3-.8-.2-1.7.2-2.3z" />
-          </svg>
+      <div className="cw-wa-dock" style={{ position: "fixed", right: 20, bottom: 24, zIndex: 50, display: "flex", alignItems: "center", gap: 10 }}>
+        <a className="cw-wa-chip" href={WA} target="_blank" rel="noopener">
+          {WA_TEXT}
         </a>
+        <div style={{ position: "relative", width: 62, height: 62, flex: "0 0 auto" }}>
+          <span className="cw-wa-ring" aria-hidden="true" style={{ position: "absolute", inset: 0, borderRadius: 999, background: "#25D366" }} />
+          <a className="cw-wa-fab" href={WA} target="_blank" rel="noopener" aria-label={WA_TEXT} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: 62, height: 62, borderRadius: 999, background: "#25D366", color: "#FFFFFF", textDecoration: "none", boxShadow: "0 8px 22px rgba(37, 211, 102, 0.4), 0 3px 8px rgba(0, 0, 0, 0.16)", transition: "transform .15s ease, background .15s ease" }}>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3.5 20.5l1.3-4.1A8.5 8.5 0 1 1 8 19.6l-4.5.9z" />
+              <path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .5-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.3.2-2.1-.8-3.9-2.6-4.7-4.7-.3-.8-.2-1.7.2-2.3z" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   );
