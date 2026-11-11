@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="6.23145" y="6.23145" width="2.26591" height="5.0983" fill="#EBEBEB"/>
+<rect x="6.23145" y="13.0293" width="2.26591" height="4.53183" fill="#EBEBEB"/>
+<rect x="13.0293" y="6.23145" width="2.26591" height="5.0983" fill="#EBEBEB"/>
+<rect x="13.0293" y="13.0293" width="2.26591" height="4.53183" fill="#EBEBEB"/>
+<rect x="6.23145" y="19.2603" width="2.26591" height="5.0983" fill="#EBEBEB"/>
+<rect x="13.0293" y="19.2603" width="2.26591" height="5.0983" fill="#EBEBEB"/>
+<mask id="mask0_48_222" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+<rect width="31.1563" height="31.1563" fill="black"/>
+</mask>
+<g mask="url(#mask0_48_222)">
+<path d="M30.7412 13.1133C30.7412 11.8959 29.7551 10.9098 28.5377 10.9098H21.927V2.09563C21.927 0.878175 20.941 -0.10791 19.7235 -0.10791H2.09515C0.877687 -0.10791 -0.108398 0.878175 -0.108398 2.09563V30.7417H30.7412V13.1133ZM2.09515 2.09563H19.7235V28.5381H2.09515V2.09563ZM21.927 13.1133H28.5377V28.5381H21.927V13.1133Z" fill="#EBEBEB"/>
+</g>
+</svg>
