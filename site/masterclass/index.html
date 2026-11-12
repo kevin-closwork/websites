@@ -36,12 +36,13 @@ input::placeholder{color:#6B6B6B}
 @font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Medium.otf) format('opentype');font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Bold.otf) format('opentype');font-weight:700;font-style:normal;font-display:swap}
 /* Reveal al hacer scroll (el JS lo activa; sin JS todo se ve normal) */
+[hidden]{display:none!important}
 html.js [data-reveal]{opacity:0;transform:translateY(20px)}
 @media (prefers-reduced-motion: reduce){html.js [data-reveal]{opacity:1;transform:none}}
 /* Móvil */
 @media (max-width:700px){
   h1{font-size:42px!important}
-  h2{font-size:38px!important}
+  h2{font-size:34px!important}
   .rs-pill{font-size:26px!important;padding:12px 26px!important}
   .rs-cta{font-size:26px!important}
   [style*="max-width: 1200px"]{padding-left:20px!important;padding-right:20px!important}
@@ -69,7 +70,7 @@ html.js [data-reveal]{opacity:0;transform:translateY(20px)}
 <p data-reveal data-delay="0.3" style="margin: 0; font-size: 21px; line-height: 1.45; font-weight: 300; max-width: 560px; color: #F2F2F2">Una clase sobre por qué las llamadas de cierre se pierden y <b style="font-weight: 700">qué necesitas tener listo</b> antes de poner a alguien más a vender por ti.</p>
 </div>
 
-<form id="registro" action="TU_URL_DE_FORMULARIO" method="post" data-reveal data-delay="0.45" style="flex: 0 1 430px; min-width: 0; width: 100%; box-sizing: border-box; background: #FFFFFF; color: #000000; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px">
+<form id="registro" action="#" method="post" novalidate data-reveal data-delay="0.45" style="flex: 0 1 430px; min-width: 0; width: 100%; box-sizing: border-box; background: #FFFFFF; color: #000000; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px">
 <div style="font-size: 28px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 300">Recibe la clase <b style="font-weight: 700">en tu correo</b></div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <label for="nombre" style="font-size: 14px; font-weight: 500">Nombre</label>
@@ -86,9 +87,23 @@ html.js [data-reveal]{opacity:0;transform:translateY(20px)}
 <button type="submit" class="btn btn-dark" style="font-size: 18px; font-weight: 700; height: 56px; border-radius: 999px; width: 100%">Quiero ver la clase</button>
 <div style="font-size: 14px; color: #4A4A4A; text-align: center">Acceso inmediato. Sin spam, te sales cuando quieras.</div>
 </form>
+<div id="registro-ok" hidden style="flex: 0 1 430px; min-width: 0; width: 100%; box-sizing: border-box; background: #FFFFFF; color: #000000; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px">
+<div style="width: 44px; height: 44px; border-radius: 50%; background: #000000; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></div>
+<div style="font-size: 28px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 300">Registro listo. <b style="font-weight: 700">Tu clase ya está activa.</b></div>
+<a class="btn btn-dark" href="#clase" style="font-size: 18px; font-weight: 700; height: 56px; border-radius: 999px; width: 100%">Ver la clase ahora</a>
 </div>
 </div>
 </div>
+</div>
+
+<!-- LA CLASE (se activa al registrarse) -->
+<section id="clase" hidden aria-label="Tu clase" style="max-width: 1200px; margin: 0 auto; padding: 80px 40px 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 32px">
+<h2 data-reveal style="margin: 0; font-size: 48px; line-height: 1.05; letter-spacing: -0.04em; font-weight: 300">Listo, <b id="clase-nombre" style="font-weight: 700"></b>. <b style="font-weight: 700">Tu clase ya está activa.</b></h2>
+<div data-reveal data-delay="0.2" id="clase-frame" style="position: relative; width: 100%; max-width: 1000px; aspect-ratio: 16 / 9; background: #000000; border-radius: 28px; overflow: hidden">
+<div id="clase-placeholder" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 32px; color: #CFCFCF; font-size: 17px; font-weight: 300">Aquí va el video de tu clase. Pega la URL en CONFIG.CLASS_VIDEO_URL.</div>
+</div>
+<p id="clase-email" hidden style="margin: 0; font-size: 17px; color: #3A3A3A; font-weight: 300">Te enviaremos una copia a tu correo en unas 2 horas, por si quieres verla después.</p>
+</section>
 
 <!-- QUÉ VAS A VER -->
 <div style="max-width: 1200px; margin: 0 auto; padding: 104px 40px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
@@ -211,7 +226,86 @@ html.js [data-reveal]{opacity:0;transform:translateY(20px)}
 
 </div>
 <script>
+/* ============ CONFIGURACIÓN ============ */
+var CONFIG = {
+  // Video de la clase. Dos opciones:
+  //  - YouTube no listado:  'https://www.youtube.com/embed/ID_DEL_VIDEO?rel=0&modestbranding=1'
+  //  - Archivo propio:      'assets/clase.mp4'
+  CLASS_VIDEO_URL: '',
+  // Pon true cuando el envío de la copia por correo ya esté conectado (ver sendLead).
+  EMAIL_COPY_ENABLED: false
+};
+
+/* Aquí se conecta EmailJS (o lo que uses). Recibe {nombre, email, telefono}. */
+function sendLead(lead) {
+  // 1) Avisarte del lead (para que no se pierda):
+  //    emailjs.send('SERVICE_ID', 'TEMPLATE_AVISO', lead, 'PUBLIC_KEY');
+  // 2) Copia de la clase para la persona. OJO: EmailJS no programa envíos a futuro,
+  //    así que el "2 horas después" necesita un programador aparte (ver README).
+  //    emailjs.send('SERVICE_ID', 'TEMPLATE_COPIA', lead, 'PUBLIC_KEY');
+}
+
+/* ============ LÓGICA ============ */
 document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('registro');
+  var ok = document.getElementById('registro-ok');
+  var clase = document.getElementById('clase');
+  var frame = document.getElementById('clase-frame');
+
+  function mountVideo() {
+    if (!CONFIG.CLASS_VIDEO_URL || frame.querySelector('iframe,video')) return;
+    var el;
+    if (/\.mp4(\?|$)/i.test(CONFIG.CLASS_VIDEO_URL)) {
+      el = document.createElement('video');
+      el.controls = true; el.playsInline = true; el.preload = 'metadata';
+      el.src = CONFIG.CLASS_VIDEO_URL;
+    } else {
+      el = document.createElement('iframe');
+      el.src = CONFIG.CLASS_VIDEO_URL;
+      el.title = 'Clase Closwork';
+      el.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      el.allowFullscreen = true;
+      el.loading = 'lazy';
+    }
+    el.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;background:#000';
+    frame.appendChild(el);
+    var ph = document.getElementById('clase-placeholder');
+    if (ph) ph.hidden = true;
+  }
+
+  function activate(lead, scroll) {
+    document.getElementById('clase-nombre').textContent = (lead.nombre || '').split(' ')[0];
+    form.hidden = true;
+    ok.hidden = false;
+    clase.hidden = false;
+    document.getElementById('clase-email').hidden = !CONFIG.EMAIL_COPY_ENABLED;
+    mountVideo();
+    if (scroll) {
+      setTimeout(function () {
+        clase.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      }, 150);
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var lead = {
+      nombre: form.nombre.value.trim(),
+      email: form.email.value.trim(),
+      telefono: form.telefono.value.trim()
+    };
+    try { localStorage.setItem('closwork_lead', JSON.stringify(lead)); } catch (err) {}
+    try { sendLead(lead); } catch (err) {}
+    activate(lead, true);
+  });
+
+  // Si ya se registró en este navegador, la clase queda activa al volver
+  try {
+    var saved = JSON.parse(localStorage.getItem('closwork_lead') || 'null');
+    if (saved && saved.nombre) activate(saved, false);
+  } catch (err) {}
+
   // Video del hero
   var v = document.querySelector('[data-hero-video]');
   if (v) { v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
@@ -232,5 +326,6 @@ document.addEventListener('DOMContentLoaded', function () {
   els.forEach(function (el) { io.observe(el); });
 });
 </script>
+
 </body>
 </html>
