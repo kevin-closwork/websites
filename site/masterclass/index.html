@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/masterclass/">
+<title>Closwork | Clase gratuita</title>
+<meta name="description" content="Clase gratuita: por qué se pierden las ventas en la llamada de cierre y qué necesitas tener listo antes de delegar.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script>document.documentElement.className+=' js'</script>
+<style>
+body{margin:0}
+a{color:inherit}
+input::placeholder{color:#6B6B6B}
+.hero{background-color:#000;background-image:url(assets/hero.jpg);background-size:cover;background-position:center bottom;background-repeat:no-repeat}
+.btn{position:relative;overflow:hidden;z-index:0;cursor:pointer;text-decoration:none;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;transition:color .45s ease-in-out}
+.btn:after{content:"";position:absolute;inset:0;z-index:-1;transform:translateY(100%);transition:transform .45s ease-in-out}
+.btn:hover:after,.btn:focus-visible:after{transform:translateY(0)}
+.btn-dark{background:#000;color:#fff;border:1.5px solid #000}
+.btn-dark:after{background:#fff}
+.btn-dark:hover,.btn-dark:focus-visible{color:#000}
+.btn-light{background:#fff;color:#000;border:1.5px solid #fff}
+.btn-light:after{background:#000}
+.btn-light:hover,.btn-light:focus-visible{color:#fff}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid #fff}
+.btn-ghost:after{background:#fff}
+.btn-ghost:hover,.btn-ghost:focus-visible{color:#000}
+.flink{position:relative;display:inline-block;text-decoration:none;color:inherit}
+.flink:after{content:"";position:absolute;left:0;bottom:-4px;width:0;border-bottom:1.5px solid currentColor;transition:width .3s ease-in-out}
+.flink:hover:after,.flink:focus-visible:after{width:100%}
+.soc{display:inline-flex;opacity:.8;transition:opacity .3s ease-in-out,transform .3s ease-in-out}
+.soc:hover,.soc:focus-visible{opacity:1;transform:translateY(-3px)}
+/* Fuentes de la marca */
+@font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Light.otf) format('opentype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Regular.otf) format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Medium.otf) format('opentype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Neue Montreal';src:url(fonts/NeueMontreal-Bold.otf) format('opentype');font-weight:700;font-style:normal;font-display:swap}
+/* Reveal al hacer scroll (el JS lo activa; sin JS todo se ve normal) */
+html.js [data-reveal]{opacity:0;transform:translateY(20px)}
+@media (prefers-reduced-motion: reduce){html.js [data-reveal]{opacity:1;transform:none}}
+/* Móvil */
+@media (max-width:700px){
+  h1{font-size:42px!important}
+  h2{font-size:38px!important}
+  .rs-pill{font-size:26px!important;padding:12px 26px!important}
+  .rs-cta{font-size:26px!important}
+  [style*="max-width: 1200px"]{padding-left:20px!important;padding-right:20px!important}
+}
+</style>
+</head>
+<body>
+<div style="width: 100%; background: #ECECEC; color: #000000; font-family: 'Neue Montreal', 'Helvetica Neue', Arial, sans-serif; font-size: 18px; line-height: 1.5; font-weight: 400">
+
+<!-- HERO (con nav) -->
+<div class="hero" style="color: #FFFFFF; position: relative; overflow: hidden">
+<video data-hero-video poster="assets/hero.jpg" src="assets/banner.mp4" autoplay muted loop playsinline aria-hidden="true" tabindex="-1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0"></video>
+<div aria-hidden="true" style="position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.85) 100%)"></div>
+
+<div style="position: relative; z-index: 2">
+<div style="max-width: 1200px; margin: 0 auto; padding: 28px 40px 0; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+<img data-reveal src="assets/logo-white.svg" alt="Closwork" style="height: 34px; width: auto; display: block">
+<a class="btn btn-ghost" href="#registro" style="font-weight: 500; font-size: 16px; border-radius: 999px; padding: 0 26px; height: 46px">Ver la clase</a>
+</div>
+
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 40px 104px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div data-reveal data-delay="0" style="align-self: flex-start; border: 1.5px solid #FFFFFF; border-radius: 999px; padding: 6px 18px; font-size: 15px; font-weight: 500">Clase gratuita · empieza en cuanto te registras</div>
+<h1 data-reveal data-delay="0.15" style="margin: 0; font-size: 68px; line-height: 1.02; letter-spacing: -0.04em; font-weight: 300">Tienes leads. <b style="font-weight: 700">Lo que se te escapa es el cierre.</b></h1>
+<p data-reveal data-delay="0.3" style="margin: 0; font-size: 21px; line-height: 1.45; font-weight: 300; max-width: 560px; color: #F2F2F2">Una clase sobre por qué las llamadas de cierre se pierden y <b style="font-weight: 700">qué necesitas tener listo</b> antes de poner a alguien más a vender por ti.</p>
+</div>
+
+<form id="registro" action="TU_URL_DE_FORMULARIO" method="post" data-reveal data-delay="0.45" style="flex: 0 1 430px; min-width: 0; width: 100%; box-sizing: border-box; background: #FFFFFF; color: #000000; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px">
+<div style="font-size: 28px; line-height: 1.15; letter-spacing: -0.03em; font-weight: 300">Recibe la clase <b style="font-weight: 700">en tu correo</b></div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nombre" style="font-size: 14px; font-weight: 500">Nombre</label>
+<input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" style="font: inherit; font-size: 16px; height: 50px; padding: 0 20px; border: 1.5px solid #000000; border-radius: 999px; background: #FFFFFF; color: #000000; box-sizing: border-box; width: 100%">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="correo" style="font-size: 14px; font-weight: 500">Correo</label>
+<input id="correo" name="email" type="email" autocomplete="email" required placeholder="tu@correo.com" style="font: inherit; font-size: 16px; height: 50px; padding: 0 20px; border: 1.5px solid #000000; border-radius: 999px; background: #FFFFFF; color: #000000; box-sizing: border-box; width: 100%">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="whatsapp" style="font-size: 14px; font-weight: 500">WhatsApp</label>
+<input id="whatsapp" name="telefono" type="tel" autocomplete="tel" required placeholder="33 1234 5678" style="font: inherit; font-size: 16px; height: 50px; padding: 0 20px; border: 1.5px solid #000000; border-radius: 999px; background: #FFFFFF; color: #000000; box-sizing: border-box; width: 100%">
+</div>
+<button type="submit" class="btn btn-dark" style="font-size: 18px; font-weight: 700; height: 56px; border-radius: 999px; width: 100%">Quiero ver la clase</button>
+<div style="font-size: 14px; color: #4A4A4A; text-align: center">Acceso inmediato. Sin spam, te sales cuando quieras.</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- QUÉ VAS A VER -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 104px 40px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+<div data-reveal style="display: flex; align-items: center; gap: 0">
+<div class="rs-pill" style="background: #000000; color: #FFFFFF; border-radius: 999px; padding: 14px 44px; font-size: 40px; line-height: 1.1; letter-spacing: -0.04em; font-weight: 700">Lo que vas a ver</div>
+<div style="flex: 1 1 auto; height: 1.5px; background: #000000; min-width: 24px"></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
+<div data-reveal data-delay="0" style="flex: 0 1 360px; aspect-ratio: 1 / 1; background: #000000; color: #FFFFFF; border-radius: 50%; padding: 52px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; min-width: 280px">
+<div style="width: 34px; height: 34px; border-radius: 50%; background: #FFFFFF; color: #000000; font-size: 15px; display: flex; align-items: center; justify-content: center">1.</div>
+<div style="font-size: 22px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">Dónde se pierde la venta</div>
+<div style="font-size: 17px; line-height: 1.35; font-weight: 300">Por qué los leads tibios mueren en la llamada de cierre y cómo verlo en tu operación.</div>
+</div>
+<div data-reveal data-delay="0.2" style="flex: 0 1 360px; aspect-ratio: 1 / 1; background: #000000; color: #FFFFFF; border-radius: 50%; padding: 52px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; min-width: 280px">
+<div style="width: 34px; height: 34px; border-radius: 50%; background: #FFFFFF; color: #000000; font-size: 15px; display: flex; align-items: center; justify-content: center">2.</div>
+<div style="font-size: 22px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">Qué necesitas antes de delegar</div>
+<div style="font-size: 17px; line-height: 1.35; font-weight: 300">Leads tibios disponibles y una oferta que ya se venda: los dos requisitos antes de poner a alguien más a cerrar.</div>
+</div>
+<div data-reveal data-delay="0.4" style="flex: 0 1 360px; aspect-ratio: 1 / 1; background: #000000; color: #FFFFFF; border-radius: 50%; padding: 52px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; min-width: 280px">
+<div style="width: 34px; height: 34px; border-radius: 50%; background: #FFFFFF; color: #000000; font-size: 15px; display: flex; align-items: center; justify-content: center">3.</div>
+<div style="font-size: 22px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">Cómo evaluar a un closer</div>
+<div style="font-size: 17px; line-height: 1.35; font-weight: 300">Qué revisar antes de darle acceso a tus leads, para no repetir la historia del vendedor que desaparece.</div>
+</div>
+</div>
+</div>
+
+<!-- PARA QUIÉN -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 72px 40px 104px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div data-reveal style="flex: 0 1 420px; display: flex; align-items: center; gap: 0; min-width: 0">
+<div class="rs-pill" style="background: #000000; color: #FFFFFF; border-radius: 999px; padding: 14px 40px; font-size: 36px; line-height: 1.1; letter-spacing: -0.04em; font-weight: 700">Es para ti si…</div>
+<div style="flex: 1 1 auto; height: 1.5px; background: #000000; min-width: 24px"></div>
+</div>
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div data-reveal data-delay="0" style="border: 1.5px solid #000000; border-radius: 999px; padding: 22px 36px; font-size: 20px; line-height: 1.3; font-weight: 300">Generas demanda con contenido, pauta o recomendaciones, y <b style="font-weight: 700">tu calendario tiene llamadas agendadas.</b></div>
+<div data-reveal data-delay="0.15" style="border: 1.5px solid #000000; border-radius: 999px; padding: 22px 36px; font-size: 20px; line-height: 1.3; font-weight: 300">Hoy tú tomas las llamadas de cierre y <b style="font-weight: 700">tu negocio depende de que estés en cada una.</b></div>
+<div data-reveal data-delay="0.3" style="border: 1.5px solid #000000; border-radius: 999px; padding: 22px 36px; font-size: 20px; line-height: 1.3; font-weight: 300">Ya te quemaste con un vendedor y <b style="font-weight: 700">no quieres volver a apostar a ciegas.</b></div>
+</div>
+</div>
+
+<!-- QUIÉN LA IMPARTE -->
+<div style="background: #000000; color: #FFFFFF">
+<div style="max-width: 1200px; margin: 0 auto; padding: 104px 40px; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<img data-reveal src="assets/kevin.jpg" alt="Kevin De Alba, cofundador y CEO de Closwork" style="flex: 0 1 320px; width: 100%; max-width: 320px; aspect-ratio: 1 / 1; border-radius: 50%; object-fit: cover; object-position: center top; display: block">
+<div data-reveal data-delay="0.2" style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<div style="align-self: flex-start; border: 1.5px solid #FFFFFF; border-radius: 999px; padding: 6px 18px; font-size: 15px; font-weight: 500">Quién la imparte</div>
+<h2 style="margin: 0; font-size: 52px; line-height: 1.05; letter-spacing: -0.04em; font-weight: 700">Kevin De Alba</h2>
+<p style="margin: 0; font-size: 21px; line-height: 1.45; font-weight: 300; max-width: 620px">Cofundador y CEO de Closwork. Desde la plataforma ve a diario cómo trabajan juntos empresas y especialistas comerciales, y en esta clase te cuenta <b style="font-weight: 700">lo que observa:</b> qué hace que una venta se cierre y qué hace que se pierda.</p>
+</div>
+</div>
+</div>
+
+<!-- CTA FINAL -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 96px 40px 104px; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
+<img data-reveal src="assets/logo-black.svg" alt="Closwork" style="width: 100%; max-width: 1120px; height: auto; display: block">
+<div data-reveal data-delay="0.2" style="display: flex; flex-wrap: wrap; gap: 28px 48px; align-items: center; justify-content: space-between">
+<div class="rs-cta" style="flex: 1 1 420px; font-size: 34px; line-height: 1.1; letter-spacing: -0.035em; font-weight: 300">Antes de contratar a alguien que cierre por ti, <b style="font-weight: 700">mira esta clase.</b></div>
+<a class="btn btn-dark" href="#registro" style="font-weight: 700; font-size: 18px; border-radius: 999px; padding: 0 40px; height: 58px">Quiero ver la clase</a>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background: #080808; color: #BCBCBC; font-size: 15px; line-height: 1.6; font-weight: 400">
+<div style="max-width: 1200px; margin: 0 auto; padding: 88px 40px 28px; box-sizing: border-box">
+
+<div style="display: flex; flex-wrap: wrap; gap: 56px 64px; justify-content: space-between; align-items: flex-start">
+
+<div data-reveal data-delay="0" style="flex: 1 1 300px; max-width: 360px; display: flex; flex-direction: column; gap: 22px">
+<img src="assets/logo-white.svg" alt="Closwork" style="height: 34px; width: auto; align-self: flex-start; display: block">
+<p style="margin: 0">Closwork se especializa en ventas digitales: integramos especialistas comerciales, arquitectura comercial y seguimiento en un mismo equipo, para que cada lead que llega tenga a alguien que lo convierta en cliente.</p>
+</div>
+
+<div data-reveal data-delay="0.1" style="flex: 0 0 160px; display: flex; flex-direction: column">
+<h3 style="margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #484848; font-size: 17px; line-height: 1; letter-spacing: -0.025em; font-weight: 500; color: #FFFFFF">Menú</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px">
+<li><a class="flink" href="https://closwork.com/">Inicio</a></li>
+<li><a class="flink" href="https://closwork.com/para-empresas">Para Empresas</a></li>
+<li><a class="flink" href="https://closwork.com/para-especialistas">Para Especialistas</a></li>
+<li><a class="flink" href="https://closwork.com/sobre-nosotros">Nosotros</a></li>
+<li><a class="flink" href="https://closwork.com/contacto">Contacto</a></li>
+</ul>
+</div>
+
+<div data-reveal data-delay="0.2" style="flex: 0 0 200px; display: flex; flex-direction: column">
+<h3 style="margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #484848; font-size: 17px; line-height: 1; letter-spacing: -0.025em; font-weight: 500; color: #FFFFFF">Legal</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px">
+<li><a class="flink" href="https://closwork.com/terminos-y-condiciones">Términos y condiciones</a></li>
+<li><a class="flink" href="https://closwork.com/aviso-de-privacidad">Avisos de privacidad</a></li>
+</ul>
+</div>
+
+<div data-reveal data-delay="0.3" style="flex: 0 1 280px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column">
+<h3 style="margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #484848; font-size: 17px; line-height: 1; letter-spacing: -0.025em; font-weight: 500; color: #FFFFFF">Síguenos</h3>
+<div style="display: flex; gap: 28px; align-items: center">
+<a class="soc" href="https://www.facebook.com/people/Closwork/61577870785859/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="assets/icons/facebook.svg" alt="" style="width: 28px; height: 28px; display: block"></a>
+<a class="soc" href="https://www.instagram.com/closwork.app/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="" style="width: 28px; height: 28px; display: block"></a>
+<a class="soc" href="https://www.linkedin.com/company/closwork/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icons/linkedin.svg" alt="" style="width: 28px; height: 28px; display: block"></a>
+</div>
+</div>
+</div>
+
+</div>
+
+<div data-reveal style="display: flex; flex-wrap: wrap; gap: 20px 36px; align-items: center; justify-content: flex-end; margin-top: 64px; margin-bottom: 28px">
+<p style="margin: 0; color: #8A8A8A; letter-spacing: 0.3em; text-transform: uppercase; font-size: 13px; line-height: 1.6">Accelerated by</p>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 36px; align-items: center">
+<img src="assets/logos/reto-zapopan.webp" alt="Reto Zapopan" style="height: 40px; width: auto; display: block; object-fit: contain">
+<img src="assets/logos/emprelatam.webp" alt="Emprelatam" style="height: 36px; width: auto; display: block; object-fit: contain">
+<a href="https://fidelmindset.com/" target="_blank" rel="noopener noreferrer" style="display: block"><img src="assets/logos/fidel-mindset.svg" alt="Fidel Mindset" style="height: 36px; width: auto; display: block; filter: brightness(0) invert(0.55)"></a>
+</div>
+</div>
+
+<div style="border-top: 1px solid #484848; padding-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; font-size: 14px">
+<p style="margin: 0">© 2026, Closwork, All rights reserved</p>
+<a class="flink" href="https://closwork.com" style="font-size: 14px">closwork.com</a>
+</div>
+
+</div>
+</footer>
+
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Video del hero
+  var v = document.querySelector('[data-hero-video]');
+  if (v) { v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+  // Reveal: fade + subida de 20px (igual que el sitio: easeInOut, 1.5s desktop / 1s móvil)
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var dur = window.innerWidth < 750 ? 1 : 1.5;
+  var els = document.querySelectorAll('[data-reveal]');
+  function hide(el) { el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; }
+  function show(el) {
+    var d = parseFloat(el.getAttribute('data-delay') || '0');
+    el.style.transition = 'opacity ' + dur + 's ease-in-out ' + d + 's, transform ' + dur + 's ease-in-out ' + d + 's';
+    el.style.opacity = '1'; el.style.transform = 'none';
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.isIntersecting ? show(e.target) : hide(e.target); });
+  }, { rootMargin: '-50px' });
+  els.forEach(function (el) { io.observe(el); });
+});
+</script>
+</body>
+</html>
