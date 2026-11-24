@@ -1,6 +1,7 @@
 [build]
   publish = "site"
-  command = ""
+  # El HTML ya está en site/. Este comando solo abre el build para empaquetar la function.
+  command = "echo static"
 
 [build.environment]
   NODE_VERSION = "18"
