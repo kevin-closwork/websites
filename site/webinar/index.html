@@ -89,6 +89,7 @@ html.js [data-reveal]{opacity:0;transform:translateY(20px)}
 </div>
 <button id="form-submit" type="submit" class="btn btn-dark" style="font-size: 18px; font-weight: 700; height: 56px; border-radius: 999px; width: 100%">Apartar mi lugar</button>
 <div id="form-micro" style="font-size: 14px; color: #4A4A4A; text-align: center">Clase grabada · Regístrate y te mandamos el acceso el 14 de diciembre</div>
+<div id="form-error" hidden style="font-size: 14px; color: #9B1C1C; text-align: center">No pudimos guardar tu registro. Inténtalo de nuevo.</div>
 </form>
 <div id="registro-ok" hidden style="flex: 0 1 430px; min-width: 0; width: 100%; box-sizing: border-box; background: #FFFFFF; color: #000000; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px">
 <div style="width: 44px; height: 44px; border-radius: 50%; background: #000000; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></div>
@@ -253,7 +254,13 @@ var CONFIG = {
    TODO: desde el 14, correo con copia de la clase 2 horas después de registrarse.
    EmailJS no programa envíos; eso queda para un cron o MailerLite/Brevo/Systeme.io. */
 function sendLead(lead) {
-  // emailjs.send('SERVICE_ID', 'TEMPLATE_AVISO', lead, 'PUBLIC_KEY');
+  return fetch('/api/webinar-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(lead)
+  }).then(function (res) {
+    if (!res.ok) throw new Error('lead');
+  });
 }
 
 /* ============ LÓGICA ============ */
@@ -374,14 +381,25 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (form.getAttribute('data-sending') === '1') return;
     var lead = {
       nombre: form.nombre.value.trim(),
       email: form.email.value.trim(),
       telefono: form.telefono.value.trim()
     };
-    try { localStorage.setItem('closwork_lead', JSON.stringify(lead)); } catch (err) {}
-    try { sendLead(lead); } catch (err) {}
-    showRegistered(lead, true);
+    var submit = document.getElementById('form-submit');
+    var error = document.getElementById('form-error');
+    form.setAttribute('data-sending', '1');
+    submit.disabled = true;
+    if (error) error.hidden = true;
+    sendLead(lead).then(function () {
+      try { localStorage.setItem('closwork_lead', JSON.stringify(lead)); } catch (err) {}
+      showRegistered(lead, true);
+    }).catch(function () {
+      form.removeAttribute('data-sending');
+      submit.disabled = false;
+      if (error) error.hidden = false;
+    });
   });
 
   try {

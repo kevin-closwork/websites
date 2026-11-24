@@ -5,6 +5,9 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[functions]
+  directory = "netlify/functions"
+
 [[redirects]]
   from = "/masterclass"
   to = "/webinar/"
@@ -19,6 +22,12 @@
   from = "/webinar"
   to = "/webinar/"
   status = 301
+
+[[redirects]]
+  from = "/api/webinar-lead"
+  to = "/.netlify/functions/webinar-lead"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
