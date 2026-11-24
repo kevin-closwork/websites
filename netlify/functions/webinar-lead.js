@@ -109,7 +109,7 @@ function confirmationHtml(nombre, live) {
             &nbsp;&middot;&nbsp;
             <a href="${OUTLOOK_CALENDAR_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Outlook</a>
             &nbsp;&middot;&nbsp;
-            <a href="${ICS_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Apple</a>
+            <a href="${ICS_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Archivo</a>
           </td>
         </tr>
         <tr>
@@ -147,7 +147,7 @@ function confirmationText(nombre, live) {
     "Agregar al calendario",
     "Google: " + GOOGLE_CALENDAR_URL,
     "Outlook: " + OUTLOOK_CALENDAR_URL,
-    "Apple: " + ICS_URL,
+    "Archivo: " + ICS_URL,
     "",
     PAGE_URL,
     "",
