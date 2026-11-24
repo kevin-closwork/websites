@@ -7,7 +7,17 @@
 
 [[redirects]]
   from = "/masterclass"
-  to = "/masterclass/"
+  to = "/webinar/"
+  status = 301
+
+[[redirects]]
+  from = "/masterclass/*"
+  to = "/webinar/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/webinar"
+  to = "/webinar/"
   status = 301
 
 [[redirects]]
