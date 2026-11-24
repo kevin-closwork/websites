@@ -1,5 +1,8 @@
 const LAUNCH_DATE = new Date("2026-12-14T00:00:00-06:00");
 const PAGE_URL = "https://closwork.com/webinar/";
+const GOOGLE_CALENDAR_URL = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Webinar%20gratuito%20Closwork&dates=20261214/20261215&ctz=America%2FMexico_City&details=El%2014%20de%20diciembre%20te%20mandamos%20el%20acceso%20por%20correo%20y%20WhatsApp.%0Ahttps%3A%2F%2Fcloswork.com%2Fwebinar%2F&location=https%3A%2F%2Fcloswork.com%2Fwebinar%2F";
+const OUTLOOK_CALENDAR_URL = "https://outlook.office.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2026-12-14&enddt=2026-12-15&allday=true&subject=Webinar%20gratuito%20Closwork&location=https%3A%2F%2Fcloswork.com%2Fwebinar%2F&body=El%2014%20de%20diciembre%20te%20mandamos%20el%20acceso%20por%20correo%20y%20WhatsApp.%0Ahttps%3A%2F%2Fcloswork.com%2Fwebinar%2F";
+const ICS_URL = "https://closwork.com/webinar/webinar.ics";
 const LOGO_URL = "https://closwork.com/webinar/assets/logo-email-white.png";
 const FROM = "Closwork <notificaciones@support.closwork.com>";
 
@@ -100,7 +103,17 @@ function confirmationHtml(nombre, live) {
           </td>
         </tr>
         <tr>
-          <td class="pad" style="padding:28px 36px 8px;">
+          <td class="pad" style="padding:22px 36px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#000000;">
+            Agregar al calendario<br>
+            <a href="${GOOGLE_CALENDAR_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Google</a>
+            &nbsp;&middot;&nbsp;
+            <a href="${OUTLOOK_CALENDAR_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Outlook</a>
+            &nbsp;&middot;&nbsp;
+            <a href="${ICS_URL}" style="color:#000000;font-weight:700;text-decoration:underline;">Apple</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="pad" style="padding:22px 36px 8px;">
             <a href="${PAGE_URL}" style="display:inline-block;background:#000000;color:#ffffff;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;line-height:52px;padding:0 26px;border-radius:999px;">Ver la página del webinar</a>
           </td>
         </tr>
@@ -130,6 +143,11 @@ function confirmationText(nombre, live) {
     "",
     "14 de diciembre",
     "El link llega por correo y WhatsApp",
+    "",
+    "Agregar al calendario",
+    "Google: " + GOOGLE_CALENDAR_URL,
+    "Outlook: " + OUTLOOK_CALENDAR_URL,
+    "Apple: " + ICS_URL,
     "",
     PAGE_URL,
     "",

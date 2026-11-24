@@ -35,6 +35,11 @@
   to = "/index.html"
   status = 200
 
+[[headers]]
+  for = "/webinar/*.ics"
+  [headers.values]
+    Content-Type = "text/calendar; charset=utf-8"
+
 [dev]
   command = "npm run dev"
   port = 8080

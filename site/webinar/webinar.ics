@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Closwork//Webinar//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:webinar-2026-12-14@closwork.com
+DTSTAMP:20261124T230000Z
+DTSTART;VALUE=DATE:20261214
+DTEND;VALUE=DATE:20261215
+SUMMARY:Webinar gratuito Closwork
+DESCRIPTION:El 14 de diciembre te mandamos el acceso por correo y
+  WhatsApp.\nhttps://closwork.com/webinar/
+URL:https://closwork.com/webinar/
+LOCATION:https://closwork.com/webinar/
+END:VEVENT
+END:VCALENDAR
